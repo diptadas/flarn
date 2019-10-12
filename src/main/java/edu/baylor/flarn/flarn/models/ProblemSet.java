@@ -1,8 +1,11 @@
 package edu.baylor.flarn.flarn.models;
 
 import lombok.Data;
+import org.springframework.security.core.userdetails.User;
+
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,5 +27,15 @@ public class ProblemSet {
 
   
 
+  String description;
 
+  KnowledgeSource knowledgeSource;
+
+  List<Question> question;
+
+  Difficulty difficulty;
+
+  List<Review> reviews;
+
+  User moderator;
 }
