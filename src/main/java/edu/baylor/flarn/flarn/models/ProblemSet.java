@@ -7,31 +7,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-public class Session {
+@Entity
+public class ProblemSet {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
-  @NotNull
-  Date dateStarted;
+  String title;
 
-  @NotNull
-  Date dateSubmitted;
+  String description;
 
-  @NotNull
-  List<Integer> answers;
+  KnowledgeSource knowledgeSource;
 
-  @ManyToOne
-  User user;
+  List<Question> question;
 
-  @ManyToOne
-  ProblemSet problemSet;
+  Difficulty difficulty;
 
+  List<Review> reviews;
+
+  User moderator;
 }
