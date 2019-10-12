@@ -2,10 +2,7 @@ package edu.baylor.flarn.flarn.models;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -14,7 +11,18 @@ public class ProblemSet {
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
-  String title;
+  private String title;
+
+  private String description;
+
+  @ManyToOne
+  private Category category;
+
+  @OneToMany
+  private Question guestion;
+
+
+  
 
 
 }
