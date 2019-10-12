@@ -8,26 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.OneToOne;
 
-@Entity
 @Data
-public class Session {
+@Entity
+public class Review {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
-  Date dateStarted;
-
-  Date dateSubmitted;
-
-  List<Integer> answers;
-
-  @ManyToOne
+  @OneToOne
   User user;
 
   @ManyToOne
-  ProblemSet problemSet;
-
+  ReviewType reviewType;
 }

@@ -1,33 +1,23 @@
 package edu.baylor.flarn.flarn.models;
 
 import lombok.Data;
-import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.OneToOne;
 
-@Entity
 @Data
-public class Session {
+@Entity
+public class KnowledgeSource {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
-  Date dateStarted;
+  String contentLink;
 
-  Date dateSubmitted;
-
-  List<Integer> answers;
-
-  @ManyToOne
-  User user;
-
-  @ManyToOne
+  @OneToOne
   ProblemSet problemSet;
 
 }
