@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -18,10 +19,13 @@ public class Session {
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
+  @NotNull
   Date dateStarted;
 
+  @NotNull
   Date dateSubmitted;
 
+  @NotNull
   List<Integer> answers;
 
   @ManyToOne
