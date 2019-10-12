@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +26,7 @@ public class Session {
   @NotNull
   Date dateSubmitted;
 
-  @NotNull
-  List<Integer> answers;
+  List<Integer> answers = new ArrayList<>();
 
   @ManyToOne
   User user;

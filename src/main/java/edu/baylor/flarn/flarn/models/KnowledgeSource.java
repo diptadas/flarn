@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -15,6 +16,7 @@ public class KnowledgeSource {
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
+  @NotNull
   String contentLink;
 
   @OneToOne
