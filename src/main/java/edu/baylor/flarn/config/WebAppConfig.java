@@ -14,8 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class WebAppConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  JwtTokenProvider jwtTokenProvider;
+  private final JwtTokenProvider jwtTokenProvider;
+
+  public WebAppConfig(JwtTokenProvider jwtTokenProvider) {
+    this.jwtTokenProvider = jwtTokenProvider;
+  }
 
   @Bean
   @Override
@@ -31,6 +34,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       .and()
       .authorizeRequests()
+      .antMatchers("/").permitAll()
       .antMatchers("/auth/**").permitAll()
       .antMatchers("/resources/**").permitAll()
       .anyRequest().authenticated()
