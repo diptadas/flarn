@@ -7,25 +7,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class AddProblemSetService {
-  private final ProblemSetRepository problemSetRepository;
+    private final ProblemSetRepository problemSetRepository;
 
-  public AddProblemSetService(ProblemSetRepository problemSetRepository) {
-    this.problemSetRepository = problemSetRepository;
-  }
+    public AddProblemSetService(ProblemSetRepository problemSetRepository) {
+        this.problemSetRepository = problemSetRepository;
+    }
 
-  public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet) {
-    return problemSetRepository.save(problemSet);
-  }
+    public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet) {
+        return problemSetRepository.save(problemSet);
+    }
 
-  public List<ProblemSet> getAllProblemSets() {
-    return problemSetRepository.findAll();
-  }
+    public List<ProblemSet> getAllProblemSets() {
+        return problemSetRepository.findAll();
+    }
 
-  public ProblemSet getProblemSetById(long id) {
-    Optional<ProblemSet> problemSet = problemSetRepository.findById(id);
-    return problemSet.orElse(null);
-  }
+    // TODO: filter unsolved only
+    public ProblemSet getRandomProblemSet() {
+        List<ProblemSet> problemSets = problemSetRepository.findAll();
+        int randomNum = ThreadLocalRandom.current().nextInt(0, problemSets.size());
+        return problemSets.get(randomNum);
+    }
+
+    public ProblemSet getProblemSetById(long id) {
+        Optional<ProblemSet> problemSet = problemSetRepository.findById(id);
+        return problemSet.orElse(null);
+    }
 }
