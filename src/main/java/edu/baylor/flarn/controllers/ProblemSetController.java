@@ -2,9 +2,11 @@ package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.models.ProblemSet;
 import edu.baylor.flarn.models.ProblemSetSearchRequest;
+import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.services.AddProblemSetService;
 import edu.baylor.flarn.services.SearchProblemSetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,8 +41,8 @@ public class ProblemSetController {
   }
 
   @PostMapping
-  public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet) {
-    return addProblemSetService.createProblemSet(problemSet);
+  public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet, @AuthenticationPrincipal User user) {
+    return addProblemSetService.createProblemSet(problemSet, user);
   }
 
   @PostMapping("/search")
