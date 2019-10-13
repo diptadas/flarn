@@ -7,6 +7,7 @@ import edu.baylor.flarn.models.ProblemSet;
 import edu.baylor.flarn.models.Question;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemSetRepository;
+import edu.baylor.flarn.repositories.QuestionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +24,10 @@ public class FlarnApplication {
   }
 
   @Bean
-  public CommandLineRunner loadData(ProblemSetRepository problemSetRepository, KnowledgeSourceRepository knowledgeSourceRepository) {
+  public CommandLineRunner loadData(
+    ProblemSetRepository problemSetRepository,
+    KnowledgeSourceRepository knowledgeSourceRepository,
+    QuestionRepository questionRepository) {
     return (args) -> {
       System.out.println("Initializing data");
 
@@ -41,16 +45,19 @@ public class FlarnApplication {
       // create Questions
       Question question1 = new Question();
       question1.setContent("How are you doing?");
-      List<Option> options = new ArrayList<Option>() {
+
+      List<String> options = new ArrayList<String>() {
         {
-          new Option("fine");
-          new Option("tired");
-          new Option("hungry");
+          new String("fine");
+          new String("tired");
+          new String("hungry");
         }
       };
       question1.setOptions(options);
+      questionRepository.save(question1);
 
       problemSet1.setDifficulty(Difficulty.EASY);
+      problemSet1.getQuestion().add(question1);
       problemSetRepository.save(problemSet1);
     };
   }

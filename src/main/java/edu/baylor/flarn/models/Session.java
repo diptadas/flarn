@@ -2,6 +2,7 @@ package edu.baylor.flarn.models;
 
 import lombok.Data;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,8 +28,8 @@ public class Session {
   @NotNull
   Date dateSubmitted;
 
-  @OneToMany
-  List<SessionAnswer> answers = new ArrayList<>();
+  @ElementCollection
+  List<Integer> answers = new ArrayList<>();
 
   @ManyToOne
   User user;

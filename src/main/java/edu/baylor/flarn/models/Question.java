@@ -19,8 +19,8 @@ public class Question {
     @NotNull
     private String content;
 
-    @OneToMany
-    private List<Option> options = new ArrayList<>();
+    @ElementCollection
+    private List<String> options = new ArrayList<>();
 
     private int answer;
 
