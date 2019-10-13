@@ -1,5 +1,4 @@
 package edu.baylor.flarn.controllers;
-;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,19 +13,21 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.ok;
 
+;
+
 @RestController()
 public class UserinfoController {
 
-    @SuppressWarnings("rawtypes")
-	@GetMapping("/me")
-    public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
-        Map<Object, Object> model = new HashMap<>();
-        model.put("username", userDetails.getUsername());
-        model.put("roles", userDetails.getAuthorities()
-            .stream()
-            .map(a -> ((GrantedAuthority) a).getAuthority())
-            .collect(toList())
-        );
-        return ok(model);
-    }
+  @SuppressWarnings("rawtypes")
+  @GetMapping("/me")
+  public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails) {
+    Map<Object, Object> model = new HashMap<>();
+    model.put("username", userDetails.getUsername());
+    model.put("roles", userDetails.getAuthorities()
+      .stream()
+      .map(a -> ((GrantedAuthority) a).getAuthority())
+      .collect(toList())
+    );
+    return ok(model);
+  }
 }

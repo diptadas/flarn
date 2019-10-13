@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class Controller {
-    @GetMapping
-    public String handshake() {
-        return "Flarn Service is alive and eating potatoes!";
-    }
+  @GetMapping
+  public String handshake() {
+    return "Flarn Service is alive and eating potatoes!";
+  }
 }

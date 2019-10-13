@@ -53,6 +53,19 @@ public class User implements UserDetails {
   private String city;
   private String state;
   private String zip;
+  @ElementCollection(fetch = FetchType.EAGER)
+  @Builder.Default
+  private List<String> roles = new ArrayList<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  @OneToMany
+  @JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
+  @Builder.Default
+  private Set<ProblemSet> createdProblemSets = new HashSet<>();
 
   public User(@Email @NotNull String username, @NotNull String password, String fullname, String phoneNumber,
               String street, String city, String state, String zip, List<String> roles) {
@@ -66,22 +79,6 @@ public class User implements UserDetails {
     this.zip = zip;
     this.roles = roles;
   }
-
-  @ElementCollection(fetch = FetchType.EAGER)
-  @Builder.Default
-  private List<String> roles = new ArrayList<>();
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-
-  @OneToMany
-  @JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
-  @Builder.Default
-  private Set<ProblemSet> createdProblemSets = new HashSet<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -23,11 +23,6 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-  }
-
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -41,5 +36,10 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
       .anyRequest().authenticated()
       .and()
       .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 }
