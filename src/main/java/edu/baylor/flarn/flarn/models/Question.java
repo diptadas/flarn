@@ -3,6 +3,8 @@ package edu.baylor.flarn.flarn.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,11 +14,12 @@ public class Question {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String content;
 
-    private List<String> options;
+    private List<String> options = new ArrayList<>();
 
-    private List<Integer> answer;
+    private List<Integer> answer = new ArrayList<>();
 
     @ManyToOne
     private ProblemSet problemSet;
