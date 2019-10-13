@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,13 +20,14 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-  @Autowired
-  JwtProperties jwtProperties;
-
-  @Autowired
-  private UserDetailsService userDetailsService;
-
+  private final JwtProperties jwtProperties;
+  private final UserDetailsService userDetailsService;
   private String secretKey;
+
+  public JwtTokenProvider(JwtProperties jwtProperties, UserDetailsService userDetailsService) {
+    this.jwtProperties = jwtProperties;
+    this.userDetailsService = userDetailsService;
+  }
 
   @PostConstruct
   protected void init() {
@@ -40,7 +40,7 @@ public class JwtTokenProvider {
     claims.put("roles", roles);
 
     Date now = new Date();
-    Date validity = new Date(now.getTime() + jwtProperties.getValidityInMs());
+    Date validity = new Date(now.getTime() + jwtProperties.getValidity());
 
     return Jwts.builder()//
       .setClaims(claims)//
