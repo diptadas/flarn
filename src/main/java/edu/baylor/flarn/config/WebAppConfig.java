@@ -13,7 +13,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
+public class WebAppConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   JwtTokenProvider jwtTokenProvider;
 
