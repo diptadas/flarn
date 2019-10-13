@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface ProblemSetRepository extends JpaRepository<ProblemSet, Long> {
 
-    public List<ProblemSet> findByDifficultyAndCategoryAndTitleLike(@NotNull Difficulty difficulty, Category category, @NotNull String title);
+    public List<ProblemSet> findByDifficultyAndCategoryAndTitleContaining(@NotNull Difficulty difficulty, Category category, @NotNull String title);
 
-    public List<ProblemSet> findByDifficultyAndTitleLike(@NotNull Difficulty difficulty, @NotNull String title);
+    public List<ProblemSet> findByDifficultyAndTitleContaining(@NotNull Difficulty difficulty, @NotNull String title);
 
-    public List<ProblemSet> findByCategoryAndTitleLike(Category category, @NotNull String title);
+    public List<ProblemSet> findByCategoryAndTitleContaining(Category category, @NotNull String title);
 
-    public List<ProblemSet> findByTitleLike(@NotNull String title);
+    public List<ProblemSet> findByTitleContaining(@NotNull String title);
 }
