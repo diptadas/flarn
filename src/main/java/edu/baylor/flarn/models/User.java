@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
@@ -43,4 +44,8 @@ public class User extends org.springframework.security.core.userdetails.User {
     super(username, password, new ArrayList<>());
     this.userType = userType;
   }
+
+
+
+
 }
