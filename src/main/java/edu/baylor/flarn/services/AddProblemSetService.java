@@ -19,7 +19,7 @@ public class AddProblemSetService {
     this.problemSetRepository = problemSetRepository;
   }
 
-  public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet, User user) {
+  public ProblemSet createProblemSet(ProblemSet problemSet, User user) {
     problemSet.setModerator(user);
     return problemSetRepository.save(problemSet);
   }
