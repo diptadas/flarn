@@ -5,16 +5,13 @@ import edu.baylor.flarn.models.KnowledgeSource;
 import edu.baylor.flarn.models.Option;
 import edu.baylor.flarn.models.ProblemSet;
 import edu.baylor.flarn.models.Question;
-import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
-import edu.baylor.flarn.repositories.ProblemSetRepository;
-import edu.baylor.flarn.repositories.QuestionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.EntityManager;
 
 @SpringBootApplication
 public class FlarnApplication {
@@ -25,40 +22,46 @@ public class FlarnApplication {
 
   @Bean
   public CommandLineRunner loadData(
-    ProblemSetRepository problemSetRepository,
-    KnowledgeSourceRepository knowledgeSourceRepository,
-    QuestionRepository questionRepository) {
-    return (args) -> {
-      System.out.println("Initializing data");
+    EntityManager entityManager) {
+    return new CommandLineRunner() {
+      @Override
+      @Transactional
+      public void run(String... args) {
+        System.out.println("Initializing data");
 
-      // save some knowledge sources
-      KnowledgeSource knowledgeSource = new KnowledgeSource();
-      knowledgeSource.setContentLink("http://google.com");
-      knowledgeSourceRepository.save(knowledgeSource);
+        // save some knowledge sources
+        KnowledgeSource knowledgeSource = new KnowledgeSource();
+        knowledgeSource.setContentLink("http://google.com");
+        entityManager.persist(knowledgeSource);
 
-      // save a couple of problem sets
-      ProblemSet problemSet1 = new ProblemSet();
-      problemSet1.setKnowledgeSource(knowledgeSource);
-      problemSet1.setTitle("Problem Set 1");
-      problemSet1.setDescription("Here we are eating potatoes!");
+        // save a couple of problem sets
+        ProblemSet problemSet1 = new ProblemSet();
+        problemSet1.setKnowledgeSource(knowledgeSource);
+        problemSet1.setTitle("Problem Set 1");
+        problemSet1.setDescription("Here we are eating potatoes!");
 
-      // create Questions
-      Question question1 = new Question();
-      question1.setContent("How are you doing?");
+        // create Questions
+        Question question1 = new Question();
+        question1.setContent("How are you doing?");
 
-      List<String> options = new ArrayList<String>() {
-        {
-          new String("fine");
-          new String("tired");
-          new String("hungry");
-        }
-      };
-      question1.setOptions(options);
-      questionRepository.save(question1);
+        Option option1 = new Option("fine");
+        entityManager.persist(option1);
+        question1.getOptions().add(option1);
 
-      problemSet1.setDifficulty(Difficulty.EASY);
-      problemSet1.getQuestion().add(question1);
-      problemSetRepository.save(problemSet1);
+        Option option2 = new Option("tired");
+        entityManager.persist(option2);
+        question1.getOptions().add(option2);
+
+        Option option3 = new Option("hungry");
+        entityManager.persist(option3);
+        question1.getOptions().add(option3);
+
+        entityManager.persist(question1);
+
+        problemSet1.setDifficulty(Difficulty.EASY);
+        problemSet1.getQuestion().add(question1);
+        entityManager.persist(problemSet1);
+      }
     };
   }
 
