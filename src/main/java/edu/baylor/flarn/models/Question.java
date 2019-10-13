@@ -19,8 +19,7 @@ public class Question {
     @NotNull
     private String content;
 
-    @ElementCollection
-    private List<String> options = new ArrayList<>();
+    private List<Option> options = new ArrayList<>();
 
     private int answer;
 

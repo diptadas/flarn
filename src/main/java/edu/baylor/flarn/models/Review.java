@@ -16,8 +16,10 @@ public class Review {
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
+  ReviewType reviewType;
+
+  String commentContent;
+
   @OneToOne
   User user;
-
-  ReviewType reviewType;
 }

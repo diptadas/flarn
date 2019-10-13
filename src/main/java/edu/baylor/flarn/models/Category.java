@@ -17,7 +17,6 @@ public class Category {
     private Long id;
 
     @NotNull
-    @NotNull
     private String name;
 
     @OneToMany

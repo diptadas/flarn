@@ -28,13 +28,11 @@ public class Session {
   @NotNull
   Date dateSubmitted;
 
-  @ElementCollection
-  List<Integer> answers = new ArrayList<>();
+  List<SessionAnswer> answers = new ArrayList<>();
 
   @ManyToOne
   User user;
 
   @ManyToOne
   ProblemSet problemSet;
-
 }
