@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
@@ -12,6 +13,9 @@ import java.util.Collection;
 public class User extends org.springframework.security.core.userdetails.User {
     @NotNull
     private UserType userType;
+
+    @OneToMany
+    private ProblemSet createdProblemSets;
 
     public User(UserType userType, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
