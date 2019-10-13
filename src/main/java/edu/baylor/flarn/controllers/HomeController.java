@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
-public class Controller {
-  @GetMapping
+
+public class HomeController {
+
+  @GetMapping("/")
   public String handshake() {
-    return "Flarn Service is alive and eating potatoes!";
+    return "Welcome to Flarn!";
   }
 }
