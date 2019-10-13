@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -19,6 +20,11 @@ public class User extends org.springframework.security.core.userdetails.User {
 
     public User(UserType userType, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+        this.userType = userType;
+    }
+
+    public User(UserType userType, String username, String password) {
+        super(username, password, new ArrayList<>());
         this.userType = userType;
     }
 }
