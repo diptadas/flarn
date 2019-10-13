@@ -1,4 +1,4 @@
-package edu.baylor.flarn.flarn;
+package edu.baylor.flarn;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
