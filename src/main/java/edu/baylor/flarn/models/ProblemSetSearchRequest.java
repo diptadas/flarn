@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ProblemSetSearchRequest {
-    private String title; // substring matching
+  private String title; // substring matching
 
-    private String category;
+  private String category;
 
-    private String difficulty;
+  private String difficulty;
 }

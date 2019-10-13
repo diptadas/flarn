@@ -4,6 +4,9 @@ import edu.baylor.flarn.models.User;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class UserRegistration {
   private final String username;
@@ -16,6 +19,8 @@ public class UserRegistration {
   private final String zip;
 
   public User toUser(PasswordEncoder passwordEncoder) {
-    return new User(username, passwordEncoder.encode(password), fullname, phoneNumber, street, city, state, zip);
+    List<String> roles = new ArrayList<>();
+    roles.add("ROLE_USER");
+    return new User(username, passwordEncoder.encode(password), fullname, phoneNumber, street, city, state, zip, roles);
   }
 }

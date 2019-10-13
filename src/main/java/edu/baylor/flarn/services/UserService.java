@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-//  private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
-  public UserService(UserRepository userRepository) {
-//    this.passwordEncoder = passwordEncoder;
+  public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    this.passwordEncoder = passwordEncoder;
     this.userRepository = userRepository;
   }
 
   public User registerUser(UserRegistration userRegistration) {
-    return null; // userRepository.save(userRegistration.toUser(passwordEncoder));
+    return userRepository.save(userRegistration.toUser(passwordEncoder));
   }
 }
