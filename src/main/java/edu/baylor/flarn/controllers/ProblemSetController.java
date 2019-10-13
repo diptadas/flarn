@@ -41,4 +41,9 @@ public class ProblemSetController {
     public List<ProblemSet> searchProblemSets(@RequestBody ProblemSetSearchRequest problemSetSearchRequest) {
         return searchProblemSetService.searchProblemSet(problemSetSearchRequest);
     }
+
+    @GetMapping("/random")
+    public ProblemSet getRandomProblemSet() {
+        return addProblemSetService.getRandomProblemSet();
+    }
 }
