@@ -1,6 +1,7 @@
 package edu.baylor.flarn.models;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,9 +18,9 @@ public class KnowledgeSource {
   private Long id;
 
   @NotNull
+  @URL
   String contentLink;
 
   @OneToOne
   ProblemSet problemSet;
-
 }

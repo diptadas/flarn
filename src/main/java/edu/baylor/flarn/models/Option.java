@@ -1,5 +1,6 @@
 package edu.baylor.flarn.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -15,4 +16,8 @@ public class Option {
   private Long id;
 
   String content;
+
+  public Option(String content) {
+    this.content = content;
+  }
 }
