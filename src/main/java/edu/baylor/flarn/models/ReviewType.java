@@ -1,4 +1,4 @@
-package edu.baylor.flarn.flarn.models;
+package edu.baylor.flarn.models;
 
 public enum ReviewType {
   LIKE,

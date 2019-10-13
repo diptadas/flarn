@@ -1,9 +1,13 @@
-package edu.baylor.flarn.flarn.models;
+package edu.baylor.flarn.models;
 
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,5 +21,5 @@ public class Category {
     private String name;
 
     @OneToMany
-    private ProblemSet problemSet;
+    private Set<ProblemSet> problemSets = new HashSet<>();
 }

@@ -1,11 +1,13 @@
-package edu.baylor.flarn.flarn.models;
+package edu.baylor.flarn.models;
 
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,12 +19,11 @@ public class Question {
     @NotNull
     private String content;
 
-    private List<String> options = new ArrayList<>();
+    @OneToMany
+    private List<Option> options = new ArrayList<>();
 
-    private List<Integer> answer = new ArrayList<>();
+    private int answer;
 
     @ManyToOne
     private ProblemSet problemSet;
-
-
 }

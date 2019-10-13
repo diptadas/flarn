@@ -1,4 +1,4 @@
-package edu.baylor.flarn.flarn.models;
+package edu.baylor.flarn.models;
 
 import lombok.Data;
 
@@ -10,32 +10,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-@Data
 @Entity
-public class ProblemSet {
+@Data
+public class Session {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
 
   @NotNull
-  String title;
+  Date dateStarted;
 
   @NotNull
-  String description;
-
-  @NotNull
-  KnowledgeSource knowledgeSource;
-
-  List<Question> question = new ArrayList<>();
-
-  @NotNull
-  Difficulty difficulty;
+  Date dateSubmitted;
 
   @OneToMany
-  List<Review> reviews = new ArrayList<>();
+  List<SessionAnswer> answers = new ArrayList<>();
 
   @ManyToOne
-  User moderator;
+  User user;
+
+  @ManyToOne
+  ProblemSet problemSet;
+
 }
