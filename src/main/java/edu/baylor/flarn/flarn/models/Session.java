@@ -1,7 +1,6 @@
 package edu.baylor.flarn.flarn.models;
 
 import lombok.Data;
-import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
