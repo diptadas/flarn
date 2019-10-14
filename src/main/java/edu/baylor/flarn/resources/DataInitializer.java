@@ -8,6 +8,7 @@ import edu.baylor.flarn.models.ProblemSet;
 import edu.baylor.flarn.models.Question;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("!prod")
 @Component
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
