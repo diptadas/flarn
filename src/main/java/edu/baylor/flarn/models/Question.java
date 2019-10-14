@@ -6,12 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,26 +15,22 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Question {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-  @NotNull
-  private String content;
+    @NotNull
+    private String content;
 
-  @OneToMany
-  //    @JsonIdentityInfo(
-  //      generator = ObjectIdGenerators.PropertyGenerator.class,
-  //      property = "id")
-  //    @JsonIdentityReference(alwaysAsId=true)
-  private List<Option> options = new ArrayList<>();
+    @ElementCollection
+    private List<String> options = new ArrayList<>();
 
-  private int answer;
+    private int answer;
 
-  @ManyToOne
-  @JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
-  @JsonIdentityReference(alwaysAsId = true)
-  private ProblemSet problemSet;
+    @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private ProblemSet problemSet;
 }

@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@SequenceGenerator(name="sequence", initialValue=1, allocationSize=1)
+@SequenceGenerator(name = "sequence", initialValue = 1, allocationSize = 1)
 public class ProblemSet {
     @NotNull
     String title;
@@ -52,7 +52,7 @@ public class ProblemSet {
     User moderator;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     private Long id;
 
     @ManyToOne

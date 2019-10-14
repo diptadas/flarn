@@ -1,9 +1,9 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.models.ProblemSet;
+import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.ProblemSetRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,8 @@ public class AddProblemSetService {
         this.problemSetRepository = problemSetRepository;
     }
 
-    public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet) {
+    public ProblemSet createProblemSet(ProblemSet problemSet, User user) {
+        problemSet.setModerator(user);
         return problemSetRepository.save(problemSet);
     }
 

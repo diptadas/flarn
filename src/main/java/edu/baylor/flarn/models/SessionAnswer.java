@@ -12,8 +12,8 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 public class SessionAnswer {
-  int option;
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+    int option;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 }
