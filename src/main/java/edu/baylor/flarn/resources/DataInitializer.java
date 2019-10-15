@@ -113,7 +113,7 @@ public class DataInitializer implements CommandLineRunner {
             ProblemSet problemSet = new ProblemSet();
             problemSet.setDifficulty(Difficulty.EASY);
             problemSet.setCategory(categories.get(i % 3)); // add category in cyclic order
-            // TODO: add moderator
+            problemSet.setModerator(moderators.get(i % 3)); // add moderator in cyclic order
 
             // add knowledge source
             KnowledgeSource knowledgeSource = new KnowledgeSource();
