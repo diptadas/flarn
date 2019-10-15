@@ -4,6 +4,7 @@ import edu.baylor.flarn.models.ProblemSet;
 import edu.baylor.flarn.models.ProblemSetSearchRequest;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.services.AddProblemSetService;
+import edu.baylor.flarn.services.RandomProblemSetService;
 import edu.baylor.flarn.services.SearchProblemSetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,12 +18,15 @@ public class ProblemSetController {
 
     private final AddProblemSetService addProblemSetService;
     private final SearchProblemSetService searchProblemSetService;
+    private final RandomProblemSetService randomProblemSetService;
 
     @Autowired
     public ProblemSetController(AddProblemSetService addProblemSetService,
-                                SearchProblemSetService searchProblemSetService) {
+                                SearchProblemSetService searchProblemSetService,
+                                RandomProblemSetService randomProblemSetService) {
         this.addProblemSetService = addProblemSetService;
         this.searchProblemSetService = searchProblemSetService;
+        this.randomProblemSetService = randomProblemSetService;
     }
 
     @GetMapping
@@ -47,6 +51,6 @@ public class ProblemSetController {
 
     @GetMapping("/random")
     public ProblemSet getRandomProblemSet() {
-        return addProblemSetService.getRandomProblemSet();
+        return randomProblemSetService.getRandomProblemSet();
     }
 }

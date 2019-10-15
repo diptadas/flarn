@@ -26,13 +26,6 @@ public class AddProblemSetService {
         return problemSetRepository.findAll();
     }
 
-    // TODO: filter unsolved only
-    public ProblemSet getRandomProblemSet() {
-        List<ProblemSet> problemSets = problemSetRepository.findAll();
-        int randomNum = ThreadLocalRandom.current().nextInt(0, problemSets.size());
-        return problemSets.get(randomNum);
-    }
-
     public ProblemSet getProblemSetById(long id) {
         Optional<ProblemSet> problemSet = problemSetRepository.findById(id);
         return problemSet.orElse(null);
