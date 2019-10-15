@@ -3,15 +3,17 @@ package edu.baylor.flarn.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @SequenceGenerator(name = "sequence", initialValue = 1, allocationSize = 1)
@@ -37,7 +39,7 @@ public class ProblemSet {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    //  @NotNull // TODO: Add this later
+    @NotNull
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
