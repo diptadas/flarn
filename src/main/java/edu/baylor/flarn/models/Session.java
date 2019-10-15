@@ -18,26 +18,27 @@ import java.util.List;
 public class Session {
     @NotNull
     Date dateStarted;
+
     @NotNull
     Date dateSubmitted;
-    @OneToMany
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    List<SessionAnswer> answers = new ArrayList<>();
+
+    @ElementCollection
+    private List<Integer> answers = new ArrayList<>();
+
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     User user;
+
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     ProblemSet problemSet;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
