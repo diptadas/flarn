@@ -1,10 +1,10 @@
 package edu.baylor.flarn.models;
 
-import com.fasterxml.jackson.annotation.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,8 @@ import java.util.*;
 import static java.util.stream.Collectors.toList;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,6 +41,7 @@ public class User implements UserDetails {
     private String city;
     private String state;
     private String zip;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
@@ -52,14 +54,21 @@ public class User implements UserDetails {
     private UserType userType;
 
     @ManyToMany
-    @JsonIgnore
     @JoinTable(
+            name = "user_subscription",
             joinColumns = @JoinColumn(name = "subscription_ID"),
             inverseJoinColumns = @JoinColumn(name = "subscriber_ID"))
-    private Set<User> subscriptions = new HashSet();
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Set<User> subscriptions = new HashSet<>();
 
     @ManyToMany(mappedBy = "subscriptions")
-    @JsonIgnore
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Set<User> subscribedUsers = new HashSet<>();
 
 
@@ -118,6 +127,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
 }
