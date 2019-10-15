@@ -13,14 +13,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Review {
     ReviewType reviewType;
+
     String commentContent;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     User user;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "problemSet_id")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private ProblemSet problemSet;
 }

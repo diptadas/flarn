@@ -28,6 +28,7 @@ public class Question {
     private int answer;
 
     @ManyToOne
+    @JoinColumn(name = "problemSet_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")

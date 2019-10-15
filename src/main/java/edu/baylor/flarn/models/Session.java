@@ -26,6 +26,7 @@ public class Session {
     private List<Integer> answers = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
@@ -33,6 +34,7 @@ public class Session {
     User user;
 
     @ManyToOne
+    @JoinColumn(name = "problemSet_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")

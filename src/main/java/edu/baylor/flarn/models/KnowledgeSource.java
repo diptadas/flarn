@@ -17,12 +17,14 @@ public class KnowledgeSource {
     @NotNull
     @URL
     String contentLink;
+
     @OneToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     ProblemSet problemSet;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

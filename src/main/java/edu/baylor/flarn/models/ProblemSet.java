@@ -24,37 +24,38 @@ public class ProblemSet {
 
     @NotNull
     @OneToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
     KnowledgeSource knowledgeSource;
 
-    @OneToMany
-    Set<Question> question = new HashSet<>();
+    @OneToMany(mappedBy = "problemSet")
+    Set<Question> questions = new HashSet<>();
 
     @NotNull
     Difficulty difficulty;
 
-    @OneToMany
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
+    @OneToMany(mappedBy = "problemSet")
     Set<Review> reviews = new HashSet<>();
 
     @ManyToOne
-    //  @NotNull TODO: Add this later
+    @JoinColumn(name = "user_id")
+    //  @NotNull // TODO: Add this later
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     User moderator;
 
+    @OneToMany(mappedBy = "problemSet")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    Set<Session> sessions = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 }

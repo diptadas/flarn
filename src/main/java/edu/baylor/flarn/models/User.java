@@ -71,14 +71,26 @@ public class User implements UserDetails {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<User> subscribedUsers = new HashSet<>();
 
-
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @Builder.Default
+    private Set<Review> createdReviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "moderator")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Set<ProblemSet> createdProblemSets = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Set<Session> participatedSessions = new HashSet<>();
 
     public User(@Email @NotNull String username, @NotNull String password, String fullname, String phoneNumber,
                 String street, String city, String state, String zip, List<String> roles) {
@@ -126,5 +138,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void subscribe(User user) { // helper to ensures bidirectional insert
+        this.getSubscriptions().add(user);
+        user.getSubscribedUsers().add(this);
     }
 }

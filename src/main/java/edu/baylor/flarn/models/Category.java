@@ -22,7 +22,7 @@ public class Category {
     @NotNull
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "category")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
