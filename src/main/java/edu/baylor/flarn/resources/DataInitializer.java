@@ -46,10 +46,11 @@ public class DataInitializer implements CommandLineRunner {
             Category category = new Category();
             category.setName("category-" + i);
             entityManager.persist(category);
-            entityManager.flush();
 
             categories.add(category);
         }
+
+        entityManager.flush(); // flush everything
     }
 
     private void createModerators() {
@@ -59,10 +60,10 @@ public class DataInitializer implements CommandLineRunner {
                     "temple", "AZ", "0000", new ArrayList<>());
             moderator.setUserType(UserType.MODERATOR);
             entityManager.persist(moderator);
-            entityManager.flush();
 
             moderators.add(moderator);
         }
+        entityManager.flush(); // flush everything
     }
 
     private void createLearners() {
@@ -72,10 +73,10 @@ public class DataInitializer implements CommandLineRunner {
                     "temple", "AZ", "0000", new ArrayList<>());
             learner.setUserType(UserType.LEARNER);
             entityManager.persist(learner);
-            entityManager.flush();
 
             learners.add(learner);
         }
+        entityManager.flush(); // flush everything
     }
 
     private void createAdmin() {
@@ -84,28 +85,27 @@ public class DataInitializer implements CommandLineRunner {
                 "temple", "AZ", "0000", new ArrayList<>());
         admin.setUserType(UserType.ADMIN);
         entityManager.persist(admin);
-        entityManager.flush();
+
+        entityManager.flush(); // flush everything
     }
 
     private void createSubscriptions() {
         moderators.get(1).subscribe(moderators.get(0));
         entityManager.persist(moderators.get(1)); // don't need to persist both
-        entityManager.flush();
 
         learners.get(0).subscribe(moderators.get(1));
         learners.get(0).subscribe(admin);
         entityManager.persist(learners.get(0)); // don't need to persist both
-        entityManager.flush();
 
         learners.get(1).subscribe(learners.get(0));
         learners.get(1).subscribe(moderators.get(1));
         entityManager.persist(learners.get(1)); // don't need to persist both
-        entityManager.flush();
 
         learners.get(2).subscribe(learners.get(0));
         learners.get(2).subscribe(learners.get(1));
         entityManager.persist(learners.get(1)); // don't need to persist both
-        entityManager.flush();
+
+        entityManager.flush(); // flush everything
     }
 
     private void createProblemSets() {
@@ -119,7 +119,6 @@ public class DataInitializer implements CommandLineRunner {
             KnowledgeSource knowledgeSource = new KnowledgeSource();
             knowledgeSource.setContentLink("http://google.com");
             entityManager.persist(knowledgeSource);
-            entityManager.flush();
 
             problemSet.setKnowledgeSource(knowledgeSource);
             problemSet.setTitle("ProblemSet-" + i);
@@ -137,15 +136,15 @@ public class DataInitializer implements CommandLineRunner {
                 }
 
                 entityManager.persist(question);
-                // entityManager.flush(); // problem set is not saved, don't flush here
 
                 problemSet.addQuestion(question);
             }
 
             entityManager.persist(problemSet);
-            entityManager.flush();
 
             problemSets.add(problemSet);
         }
+
+        entityManager.flush(); // flush everything
     }
 }
