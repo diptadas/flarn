@@ -54,7 +54,7 @@ public class User implements UserDetails {
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            joinColumns = @JoinColumn(name = "subuser_ID"),
+            joinColumns = @JoinColumn(name = "subscription_ID"),
             inverseJoinColumns = @JoinColumn(name = "subscriber_ID"))
     private Set<User> subscriptions = new HashSet();
 

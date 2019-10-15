@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @Slf4j
@@ -24,7 +22,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        System.out.println("Initializing data");
+        log.info("Initializing data");
 
         // creating some category
         List<Category> categories = new ArrayList<>();
@@ -119,10 +117,5 @@ public class DataInitializer implements CommandLineRunner {
         learner3.getSubscriptions().add(moderator1);
         learner3.getSubscriptions().add(learner1);
         entityManager.persist(learner3);
-
-
-
-
-
     }
 }

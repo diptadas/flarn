@@ -3,7 +3,7 @@ package edu.baylor.flarn.services;
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.models.Difficulty;
 import edu.baylor.flarn.models.ProblemSet;
-import edu.baylor.flarn.models.ProblemSetSearchRequest;
+import edu.baylor.flarn.resources.ProblemSetSearchRequest;
 import edu.baylor.flarn.repositories.CategoryRepository;
 import edu.baylor.flarn.repositories.ProblemSetRepository;
 import lombok.extern.slf4j.Slf4j;

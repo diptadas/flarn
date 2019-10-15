@@ -1,7 +1,7 @@
 package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.models.ProblemSet;
-import edu.baylor.flarn.models.ProblemSetSearchRequest;
+import edu.baylor.flarn.resources.ProblemSetSearchRequest;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.services.AddProblemSetService;
 import edu.baylor.flarn.services.RandomProblemSetService;

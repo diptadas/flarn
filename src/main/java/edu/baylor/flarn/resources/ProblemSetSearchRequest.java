@@ -1,4 +1,4 @@
-package edu.baylor.flarn.models;
+package edu.baylor.flarn.resources;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

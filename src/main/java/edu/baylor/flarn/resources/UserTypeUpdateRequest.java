@@ -4,8 +4,7 @@ import edu.baylor.flarn.models.UserType;
 import lombok.Data;
 
 @Data
-public class UserUpdate {
-
+public class UserTypeUpdateRequest {
     long id;
     UserType userType;
 }

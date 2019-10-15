@@ -4,7 +4,7 @@ import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.UserRegistration;
-import edu.baylor.flarn.resources.UserUpdate;
+import edu.baylor.flarn.resources.UserTypeUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,23 +39,23 @@ public class UserService {
         return userRepository.findByUserType(userType);
     }
 
-    public Optional<User> getUser(long Id) {
-        return userRepository.findById(Id);
+    public User getUser(long Id) {
+        return userRepository.findById(Id).orElse(null);
     }
 
     /**
      * Method to promote/demote or change usertype.
      *
      * @param
-     * @param userUpdate
+     * @param userTypeUpdateRequest
      */
-    public int changeUserType(UserUpdate userUpdate) {
+    public int changeUserType(UserTypeUpdateRequest userTypeUpdateRequest) {
         AtomicInteger status = new AtomicInteger();
-        Optional<User> optional = userRepository.findById(userUpdate.getId());
+        Optional<User> optional = userRepository.findById(userTypeUpdateRequest.getId());
         optional.ifPresent(user -> {
-            if (!user.getUserType().equals(userUpdate.getUserType())) {
-                user.setUserType(userUpdate.getUserType());
-                status.set(userRepository.setUserTypeId(user.getId(), userUpdate.getUserType()));
+            if (!user.getUserType().equals(userTypeUpdateRequest.getUserType())) {
+                user.setUserType(userTypeUpdateRequest.getUserType());
+                status.set(userRepository.setUserTypeId(user.getId(), userTypeUpdateRequest.getUserType()));
             }
 
         });
