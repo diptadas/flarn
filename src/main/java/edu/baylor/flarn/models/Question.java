@@ -27,6 +27,7 @@ public class Question {
     @ElementCollection
     private List<String> options = new ArrayList<>();
 
+    @NotNull
     private int answer;
 
     @ManyToOne

@@ -60,4 +60,9 @@ public class ProblemSet {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public void addQuestion(Question question) { // helper to ensure bidirectional insert
+        this.getQuestions().add(question);
+        question.setProblemSet(this);
+    }
 }

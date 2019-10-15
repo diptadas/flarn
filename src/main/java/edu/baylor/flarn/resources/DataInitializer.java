@@ -137,9 +137,9 @@ public class DataInitializer implements CommandLineRunner {
                 }
 
                 entityManager.persist(question);
-                entityManager.flush();
+                // entityManager.flush(); // problem set is not saved, don't flush here
 
-                problemSet.getQuestions().add(question);
+                problemSet.addQuestion(question);
             }
 
             entityManager.persist(problemSet);
