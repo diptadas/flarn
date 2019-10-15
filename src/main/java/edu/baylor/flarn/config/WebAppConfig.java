@@ -2,7 +2,6 @@ package edu.baylor.flarn.config;
 
 import edu.baylor.flarn.security.JwtSecurityConfigurer;
 import edu.baylor.flarn.security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,36 +13,37 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class WebAppConfig extends WebSecurityConfigurerAdapter {
-  private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
-  public WebAppConfig(JwtTokenProvider jwtTokenProvider) {
-    this.jwtTokenProvider = jwtTokenProvider;
-  }
+    public WebAppConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-      .httpBasic().disable()
-      .csrf().disable()
-      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      .and()
-      .authorizeRequests()
-      .antMatchers("/").permitAll()
-      .antMatchers("/auth/**").permitAll()
-      .antMatchers("/resources/**").permitAll()
-      .anyRequest().authenticated()
-      .and()
-      .apply(new JwtSecurityConfigurer(jwtTokenProvider));
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                // Typically permit all during development
+                .antMatchers("/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 }

@@ -89,6 +89,11 @@
             <artifactId>json-path</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>benchmarks</artifactId>
+            <version>4.1.0-RC2</version>
+        </dependency>
     </dependencies>
 
     <build>

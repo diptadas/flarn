@@ -9,18 +9,18 @@ import java.util.List;
 
 @Data
 public class UserRegistration {
-  private final String username;
-  private final String password;
-  private final String fullname;
-  private final String phoneNumber;
-  private final String street;
-  private final String city;
-  private final String state;
-  private final String zip;
+    private final String username;
+    private final String password;
+    private final String fullname;
+    private final String phoneNumber;
+    private final String street;
+    private final String city;
+    private final String state;
+    private final String zip;
 
-  public User toUser(PasswordEncoder passwordEncoder) {
-    List<String> roles = new ArrayList<>();
-    roles.add("ROLE_USER");
-    return new User(username, passwordEncoder.encode(password), fullname, phoneNumber, street, city, state, zip, roles);
-  }
+    public User toUser(PasswordEncoder passwordEncoder) {
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_USER");
+        return new User(username, passwordEncoder.encode(password), fullname, phoneNumber, street, city, state, zip, roles);
+    }
 }

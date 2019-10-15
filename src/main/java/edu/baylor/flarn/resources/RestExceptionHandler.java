@@ -14,15 +14,15 @@ import static org.springframework.http.ResponseEntity.status;
 @RestControllerAdvice
 @Slf4j
 public class RestExceptionHandler {
-  @ExceptionHandler(value = {InvalidJwtAuthenticationException.class})
-  public ResponseEntity invalidJwtAuthentication(InvalidJwtAuthenticationException ex, WebRequest request) {
-    log.debug("handling InvalidJwtAuthenticationException...");
-    return status(UNAUTHORIZED).build();
-  }
+    @ExceptionHandler(value = {InvalidJwtAuthenticationException.class})
+    public ResponseEntity invalidJwtAuthentication(InvalidJwtAuthenticationException ex, WebRequest request) {
+        log.debug("handling InvalidJwtAuthenticationException...");
+        return status(UNAUTHORIZED).build();
+    }
 
-  @ExceptionHandler(value = {BadCredentialsException.class})
-  public ResponseEntity invalidCredentials(String mess) {
-    log.debug("handling Invalid Login...");
-    return status(UNAUTHORIZED).build();
-  }
+    @ExceptionHandler(value = {BadCredentialsException.class})
+    public ResponseEntity invalidCredentials(String mess) {
+        log.debug("handling Invalid Login...");
+        return status(UNAUTHORIZED).build();
+    }
 }

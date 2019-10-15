@@ -15,12 +15,12 @@ import java.util.Optional;
 @EnableJpaAuditing
 class DataJpaConfig {
 
-  @Bean
-  public AuditorAware<User> auditor() {
-    return () -> Optional.ofNullable(SecurityContextHolder.getContext())
-      .map(SecurityContext::getAuthentication)
-      .filter(Authentication::isAuthenticated)
-      .map(Authentication::getPrincipal)
-      .map(User.class::cast);
-  }
+    @Bean
+    public AuditorAware<User> auditor() {
+        return () -> Optional.ofNullable(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .filter(Authentication::isAuthenticated)
+                .map(Authentication::getPrincipal)
+                .map(User.class::cast);
+    }
 }

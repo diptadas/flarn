@@ -28,50 +28,50 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-  private final AuthenticationManager authenticationManager;
-  private final JwtTokenProvider jwtTokenProvider;
-  private final UserRepository users;
-  private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository users;
+    private final UserService userService;
 
-  public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
-                                  UserRepository users, UserService userService) {
-    this.authenticationManager = authenticationManager;
-    this.jwtTokenProvider = jwtTokenProvider;
-    this.users = users;
-    this.userService = userService;
-  }
-
-  @PostMapping("/login")
-  public ResponseEntity login(@RequestBody AuthenticationRequest data) {
-    try {
-      String username = data.getUsername();
-      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-      String token = jwtTokenProvider.createToken(username,
-        this.users.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username +
-          "not found")).getRoles());
-
-      Map<Object, Object> model = new HashMap<>();
-      model.put("username", username);
-      model.put("token", token);
-      return ok(model);
-    } catch (AuthenticationException e) {
-      InvalidLogin invalidLogin = new InvalidLogin(data.getUsername(), data.getPassword(), "Invalid username and " +
-        "password");
-      return new ResponseEntity<>(invalidLogin, HttpStatus.UNAUTHORIZED);
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+                                    UserRepository users, UserService userService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.users = users;
+        this.userService = userService;
     }
-  }
 
-  @PostMapping("/register")
-  public User register(@RequestBody UserRegistration data) {
-    return userService.registerUser(data);
-  }
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthenticationRequest data) {
+        try {
+            String username = data.getUsername();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
+            String token = jwtTokenProvider.createToken(username,
+                    this.users.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username +
+                            "not found")).getRoles());
 
-  @AllArgsConstructor
-  @Data
-  private static class InvalidLogin {
-    private String username;
-    private String password;
-    private String error;
-  }
+            Map<Object, Object> model = new HashMap<>();
+            model.put("username", username);
+            model.put("token", token);
+            return ok(model);
+        } catch (AuthenticationException e) {
+            InvalidLogin invalidLogin = new InvalidLogin(data.getUsername(), data.getPassword(), "Invalid username and " +
+                    "password");
+            return new ResponseEntity<>(invalidLogin, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/register")
+    public User register(@RequestBody UserRegistration data) {
+        return userService.registerUser(data);
+    }
+
+    @AllArgsConstructor
+    @Data
+    private static class InvalidLogin {
+        private String username;
+        private String password;
+        private String error;
+    }
 
 }

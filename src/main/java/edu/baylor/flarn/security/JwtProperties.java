@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "jwt")
 @Data
 public class JwtProperties {
-  @Value("${jwt.secret_key}")
-  private String secretKey;
+    @Value("${jwt.secret_key}")
+    private String secretKey;
 
-  @Value("${jwt.validity_ms}")
-  private long validity; // 1h
+    @Value("${jwt.validity_ms}")
+    private long validity; // 1h
 }
