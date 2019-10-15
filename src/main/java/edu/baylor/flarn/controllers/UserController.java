@@ -58,12 +58,12 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @GetMapping("/subscribers/{id}")
+    @GetMapping("/{id}/subscribers")
     public List<User> getSubscribers(@PathVariable long id) {
         return userService.getSubscribedUsers(id);
     }
 
-    @GetMapping("/subscription/{id}")
+    @GetMapping("/{id}/subscriptions")
     public List<User> getSubscriptions(@PathVariable long id) {
         return userService.getUserSubscriptions(id);
     }
