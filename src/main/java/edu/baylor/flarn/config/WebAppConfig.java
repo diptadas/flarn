@@ -39,7 +39,9 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+                .apply(new JwtSecurityConfigurer(jwtTokenProvider))
+                .and()
+                .headers().frameOptions().disable();
     }
 
     @Bean
