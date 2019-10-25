@@ -50,8 +50,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    private UserType userType;
+    // @NotNull
+    private UserType userType = UserType.LEARNER;
 
     @ManyToMany
     @JoinTable(

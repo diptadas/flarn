@@ -50,6 +50,7 @@ public class UserController {
 
     @PutMapping("/usertype")
     public int updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) {
+        // TODO: check admin
         return userService.changeUserType(userTypeUpdateRequest);
     }
 
@@ -67,8 +68,4 @@ public class UserController {
     public List<User> getSubscriptions(@PathVariable long id) {
         return userService.getUserSubscriptions(id);
     }
-
-    // TODO: adding subscription repository
-
-
 }

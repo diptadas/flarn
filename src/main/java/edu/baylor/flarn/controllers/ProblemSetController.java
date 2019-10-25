@@ -41,6 +41,7 @@ public class ProblemSetController {
 
     @PostMapping
     public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet, @AuthenticationPrincipal User user) {
+        // TODO: check moderator
         return addProblemSetService.createProblemSet(problemSet, user);
     }
 
