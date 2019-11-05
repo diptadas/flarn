@@ -1,4 +1,5 @@
-# Flarn Backend
+# Flarn
 
-## TODO
-1. API Versioning
+- Dipta Das
+- Clinton Yeboah
+- Frimpong Boadu
