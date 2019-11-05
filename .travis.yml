@@ -1,7 +1,9 @@
 language: java
 jdk: openjdk12
 
-before_script: cd backend
+before_install: 
+  - cd backend
+  - chmod +x mvnw
 
 script:
   - ./mvnw clean install
