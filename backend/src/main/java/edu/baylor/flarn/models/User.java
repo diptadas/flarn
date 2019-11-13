@@ -28,6 +28,7 @@ public class User implements UserDetails {
     @Email
     @NotNull
     @Column(unique = true)
+    // username must be a valid email
     private String username;
 
 
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    private String fullname;
+    private String fullName;
     private String phoneNumber;
     private String street;
     private String city;
@@ -92,11 +93,11 @@ public class User implements UserDetails {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Session> participatedSessions = new HashSet<>();
 
-    public User(@Email @NotNull String username, @NotNull String password, String fullname, String phoneNumber,
+    public User(@Email @NotNull String username, @NotNull String password, String fullName, String phoneNumber,
                 String street, String city, String state, String zip, List<String> roles) {
         this.username = username;
         this.password = password;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.street = street;
         this.city = city;

@@ -5,7 +5,6 @@ import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.UserRegistration;
 import edu.baylor.flarn.resources.UserTypeUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
-
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
@@ -69,7 +66,4 @@ public class UserService {
     public List<User> getUserSubscriptions(long Id) {
         return userRepository.findUserSubscriptions(Id);
     }
-
-
-    // TODO: adding subscription repository
 }
