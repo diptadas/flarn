@@ -4,6 +4,7 @@ import edu.baylor.flarn.models.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +17,11 @@ import java.util.List;
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
     private final EntityManager entityManager;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(EntityManager entityManager) {
+    public DataInitializer(EntityManager entityManager, PasswordEncoder passwordEncoder) {
         this.entityManager = entityManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private List<Category> categories = new ArrayList<>();
@@ -56,7 +59,7 @@ public class DataInitializer implements CommandLineRunner {
     private void createModerators() {
         for (int i = 0; i < 3; i++) {
             User moderator = new User("moderator" + i + "@gm.com",
-                    "moderator" + i, "Moderator" + i, "254567908", "part",
+                    passwordEncoder.encode("moderator" + i), "Moderator" + i, "254567908", "part",
                     "temple", "AZ", "0000", new ArrayList<>());
             moderator.setUserType(UserType.MODERATOR);
             entityManager.persist(moderator);
@@ -69,7 +72,7 @@ public class DataInitializer implements CommandLineRunner {
     private void createLearners() {
         for (int i = 0; i < 3; i++) {
             User learner = new User("learner" + i + "@gm.com",
-                    "learner" + i, "Learner" + i, "254567908", "part",
+                    passwordEncoder.encode("learner" + i), "Learner" + i, "254567908", "part",
                     "temple", "AZ", "0000", new ArrayList<>());
             learner.setUserType(UserType.LEARNER);
             entityManager.persist(learner);
@@ -81,7 +84,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void createAdmin() {
         admin = new User("admin@gm.com",
-                "admin", "Admin Mock", "254567908", "part",
+                passwordEncoder.encode("admin"), "Admin Mock", "254567908", "part",
                 "temple", "AZ", "0000", new ArrayList<>());
         admin.setUserType(UserType.ADMIN);
         entityManager.persist(admin);
