@@ -11,7 +11,7 @@ import java.util.List;
 public class UserRegistration {
     private final String username;
     private final String password;
-    private final String fullname;
+    private final String fullName;
     private final String phoneNumber;
     private final String street;
     private final String city;
@@ -21,6 +21,6 @@ public class UserRegistration {
     public User toUser(PasswordEncoder passwordEncoder) {
         List<String> roles = new ArrayList<>();
         roles.add("ROLE_USER");
-        return new User(username, passwordEncoder.encode(password), fullname, phoneNumber, street, city, state, zip, roles);
+        return new User(username, passwordEncoder.encode(password), fullName, phoneNumber, street, city, state, zip, roles);
     }
 }
