@@ -1,5 +1,6 @@
 package edu.baylor.flarn.controllers;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.resources.UserTypeUpdateRequest;
@@ -48,8 +49,8 @@ public class UserController {
     }
 
 
-    @PutMapping("/usertype")
-    public int updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) {
+    @PostMapping("/usertype")
+    public User updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
         // TODO: check admin
         return userService.changeUserType(userTypeUpdateRequest);
     }
