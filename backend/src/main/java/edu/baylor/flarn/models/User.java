@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import edu.baylor.flarn.resources.UserRoles;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,8 +52,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // @NotNull
-    private UserType userType = UserType.LEARNER;
+    @NotNull
+    private UserType userType;
 
     @ManyToMany
     @JoinTable(
@@ -94,7 +95,11 @@ public class User implements UserDetails {
     private Set<Session> participatedSessions = new HashSet<>();
 
     public User(@Email @NotNull String username, @NotNull String password, String fullName, String phoneNumber,
-                String street, String city, String state, String zip, List<String> roles) {
+                String street, String city, String state, String zip, UserType userType) {
+        if (userType == null) {
+            userType = UserType.LEARNER;
+        }
+
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -103,7 +108,8 @@ public class User implements UserDetails {
         this.city = city;
         this.state = state;
         this.zip = zip;
-        this.roles = roles;
+        this.userType = userType;
+        this.roles = UserRoles.rolesForUserType(userType);
     }
 
     @Override
