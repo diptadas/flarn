@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    public List<User> findByUserType(@NotNull UserType userType);
+    List<User> findByUserType(@NotNull UserType userType);
 
     Optional<User> findByUsername(String username);
 
@@ -23,15 +23,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE User u SET u.userType =:userType WHERE u.id =:userId")
-    public int setUserTypeId(@Param("userId") long userId, @Param("userType") UserType userType);
+    int setUserTypeId(@Param("userId") long userId, @Param("userType") UserType userType);
 
     @Query(value = "select subscribedUsers from User u where u.id =:userId")
-    public List<User> findSubscribedUsers(@Param("userId") long userId);
+    List<User> findSubscribedUsers(@Param("userId") long userId);
 
     @Query(value = "select subscriptions from User u where u.id =:userId")
-    public List<User> findUserSubscriptions(@Param("userId") long userId);
-
-
-    // TODO: adding subscription repository
+    List<User> findUserSubscriptions(@Param("userId") long userId);
 
 }
