@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     globalButton: "login",
     username: "",
-    token: ""
+    token: "",
+    currentHomePahe: "Timeline"
   },
   mutations: {
     SET_GLOBAL_BUTTON(state, newState) {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.username = "";
       state.token = "";
+    },
+    SET_HOMEPAGE(state, name) {
+      state.currentHomePahe = name;
     }
   },
   actions: {},
