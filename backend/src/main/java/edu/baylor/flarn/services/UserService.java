@@ -1,16 +1,16 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.UserRegistration;
+import edu.baylor.flarn.resources.UserRoles;
 import edu.baylor.flarn.resources.UserTypeUpdateRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class UserService {
@@ -41,22 +41,26 @@ public class UserService {
     }
 
     /**
-     * Method to promote/demote or change usertype.
+     * Method to promote/demote or change userType.
      *
      * @param
      * @param userTypeUpdateRequest
      */
-    public int changeUserType(UserTypeUpdateRequest userTypeUpdateRequest) {
-        AtomicInteger status = new AtomicInteger();
-        Optional<User> optional = userRepository.findById(userTypeUpdateRequest.getId());
-        optional.ifPresent(user -> {
-            if (!user.getUserType().equals(userTypeUpdateRequest.getUserType())) {
-                user.setUserType(userTypeUpdateRequest.getUserType());
-                status.set(userRepository.setUserTypeId(user.getId(), userTypeUpdateRequest.getUserType()));
-            }
+    public User changeUserType(UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
+        User user = userRepository.findById(userTypeUpdateRequest.getId()).orElse(null);
 
-        });
-        return status.get();
+        if (user == null) {
+            throw new RecordNotFoundException("user not found with id " + userTypeUpdateRequest.getId());
+        }
+
+        // update only if userType changed
+        if (!user.getUserType().equals(userTypeUpdateRequest.getUserType())) {
+            user.setUserType(userTypeUpdateRequest.getUserType());
+            // also update the roles
+            user.setRoles(UserRoles.rolesForUserType(userTypeUpdateRequest.getUserType()));
+            userRepository.save(user);
+        }
+        return user;
     }
 
     public List<User> getSubscribedUsers(long Id) {

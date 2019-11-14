@@ -1,7 +1,8 @@
 package edu.baylor.flarn.resources;
 
-import java.util.Arrays;
-import java.util.Collections;
+import com.google.common.collect.Lists;
+import edu.baylor.flarn.models.UserType;
+
 import java.util.List;
 
 public class UserRoles {
@@ -10,7 +11,16 @@ public class UserRoles {
     public static final String roleModerator = "ROLE_MODERATOR";
     public static final String roleAdmin = "ROLE_ADMIN";
 
-    public static List<String> adminRoles = Arrays.asList(roleUser, roleModerator, roleAdmin);
-    public static List<String> moderatorRoles = Arrays.asList(roleUser, roleModerator);
-    public static List<String> learnerRoles = Collections.singletonList(roleUser);
+    public static List<String> rolesForUserType(UserType userType) {
+        // don't use Arrays.asList
+        // we need mutable list to work with JPA
+        // use google's collection API
+        if (userType == UserType.ADMIN) {
+            return Lists.newArrayList(roleUser, roleModerator, roleAdmin);
+        } else if (userType == UserType.MODERATOR) {
+            return Lists.newArrayList(roleUser, roleModerator);
+        } else {
+            return Lists.newArrayList(roleUser);
+        }
+    }
 }

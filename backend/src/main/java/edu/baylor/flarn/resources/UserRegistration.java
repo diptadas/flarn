@@ -15,7 +15,10 @@ public class UserRegistration {
     private final String state;
     private final String zip;
 
+    // don't give option to specify userType
+    // it will be set to LEARNER by default
+    // ADMIN and MODERATOR first need to register as LEARNER, then promote
     public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(username, passwordEncoder.encode(password), fullName, phoneNumber, street, city, state, zip, UserRoles.learnerRoles);
+        return new User(username, passwordEncoder.encode(password), fullName, phoneNumber, street, city, state, zip, null);
     }
 }
