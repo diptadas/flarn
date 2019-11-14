@@ -1,14 +1,30 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store";
 
 Vue.use(VueRouter);
+
+function authenticated() {
+  const token = localStorage.getItem("auth_token");
+  if (!token) return false;
+
+  store.state.token = token;
+  return true;
+}
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (!authenticated()) {
+        return next({ name: "login" });
+      }
+
+      next();
+    }
   },
   {
     path: "/register",
@@ -20,7 +36,8 @@ const routes = [
     path: "/login",
     name: "login",
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Login.vue")
+      import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+    props: true
   },
   {
     path: "/about",
