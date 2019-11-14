@@ -45,6 +45,30 @@
                   <div class="text-center text-muted mb-4">
                     <small>Or sign up with credentials</small>
                   </div>
+
+                  <div
+                    class="alert alert-dismissible fade show"
+                    role="alert"
+                    v-if="error.state"
+                    :class="
+                      error.type === 'error' ? 'alert-danger' : 'alert-default'
+                    "
+                  >
+                    <span class="alert-inner--icon"
+                      ><i class="ni ni-like-2"></i
+                    ></span>
+                    <span class="alert-inner--text">{{ error.text }}</span>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="alert"
+                      aria-label="Close"
+                      @click="error.state = false"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
                   <form>
                     <div class="form-group">
                       <div class="input-group input-group-alternative mb-3">
@@ -57,6 +81,7 @@
                           class="form-control"
                           placeholder="Name"
                           type="text"
+                          v-model="name"
                         />
                       </div>
                     </div>
@@ -71,6 +96,7 @@
                           class="form-control"
                           placeholder="Email"
                           type="email"
+                          v-model="email"
                         />
                       </div>
                     </div>
@@ -85,6 +111,22 @@
                           class="form-control"
                           placeholder="Password"
                           type="password"
+                          v-model="password"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"
+                            ><i class="ni ni-lock-circle-open"></i
+                          ></span>
+                        </div>
+                        <input
+                          class="form-control"
+                          placeholder="Confirm Password"
+                          type="password"
+                          v-model="cpassword"
                         />
                       </div>
                     </div>
@@ -105,6 +147,7 @@
                             class="custom-control-input"
                             id="customCheckRegister"
                             type="checkbox"
+                            v-model="terms"
                           />
                           <label
                             class="custom-control-label"
@@ -118,7 +161,11 @@
                       </div>
                     </div>
                     <div class="text-center">
-                      <button type="button" class="btn btn-primary mt-4">
+                      <button
+                        type="button"
+                        class="btn btn-primary mt-4"
+                        @click="registerUser"
+                      >
                         Create account
                       </button>
                     </div>
@@ -233,10 +280,54 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Register",
+  data() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      cpassword: "",
+      terms: false,
+      error: {
+        state: false,
+        text: "",
+        type: false
+      }
+    };
+  },
   created() {
     this.$store.commit("SET_GLOBAL_BUTTON", "register");
+  },
+  methods: {
+    registerUser() {
+      // validate data
+
+      const url = "auth/register";
+      const data = {
+        username: this.email,
+        fullName: this.name,
+        password: this.password
+      };
+
+      axios
+        .post(this.getServerURL(url), data)
+        .then(res => {
+          this.$router.push({
+            name: "login",
+            params: { message: "Account registration success" }
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          const mess = err.response.data.message || "Unknown error occured";
+          this.error.text = mess;
+          this.error.type = "error";
+          this.error.state = true;
+        });
+    }
   }
 };
 </script>

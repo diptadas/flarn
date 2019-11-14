@@ -45,6 +45,30 @@
                   <div class="text-center text-muted mb-4">
                     <small>Or login in with credentials</small>
                   </div>
+
+                  <div
+                    class="alert alert-dismissible fade show"
+                    role="alert"
+                    v-if="error.state"
+                    :class="
+                      error.type === 'error' ? 'alert-danger' : 'alert-default'
+                    "
+                  >
+                    <span class="alert-inner--icon"
+                      ><i class="ni ni-like-2"></i
+                    ></span>
+                    <span class="alert-inner--text">{{ error.text }}</span>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="alert"
+                      aria-label="Close"
+                      @click="error.state = false"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
                   <form>
                     <div class="form-group">
                       <div class="input-group input-group-alternative mb-3">
@@ -57,6 +81,7 @@
                           class="form-control"
                           placeholder="Email"
                           type="email"
+                          v-model="email"
                         />
                       </div>
                     </div>
@@ -71,11 +96,16 @@
                           class="form-control"
                           placeholder="Password"
                           type="password"
+                          v-model="password"
                         />
                       </div>
                     </div>
                     <div class="text-center">
-                      <button type="button" class="btn btn-primary mt-4">
+                      <button
+                        type="button"
+                        class="btn btn-primary mt-4"
+                        @click="loginUser"
+                      >
                         Login To Account
                       </button>
                     </div>
@@ -190,10 +220,76 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Login",
+  props: {
+    message: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      error: {
+        state: false,
+        text: "",
+        type: false
+      }
+    };
+  },
   created() {
     this.$store.commit("SET_GLOBAL_BUTTON", "login");
+
+    if (this.message) {
+      this.error.text = this.message;
+      this.error.type = "";
+      this.error.state = true;
+    }
+
+    this.$store.commit("LOGOUT");
+    localStorage.removeItem("auth_token");
+
+    // if router before was home, show logout message
+  },
+  methods: {
+    loginUser() {
+      // validate data
+
+      const url = "auth/login";
+      const data = {
+        username: this.email,
+        password: this.password
+      };
+
+      console.log(data);
+
+      axios
+        .post(this.getServerURL(url), data)
+        .then(res => {
+          const data = res.data;
+          this.$store.commit("SET_AUTH", {
+            username: this.email,
+            token: data.token
+          });
+
+          localStorage.setItem("auth_token", data.token);
+
+          this.$router.push({
+            name: "home"
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          const mess = err.response.data.error || "Unknown error occured";
+          this.error.text = mess;
+          this.error.type = "error";
+          this.error.state = true;
+        });
+    }
   }
 };
 </script>
