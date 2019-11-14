@@ -18,13 +18,13 @@
               <div class="card bg-secondary shadow border-0">
                 <div class="card-header bg-white pb-5">
                   <div class="text-muted text-center mb-3">
-                    <small>Sign up with</small>
+                    <small>Login with:</small>
                   </div>
                   <div class="text-center">
                     <a href="#" class="btn btn-neutral btn-icon mr-4">
                       <span class="btn-inner--icon">
                         <img
-                          src="../assets/img/icons/common/github.svg"
+                          src="../../assets/img/icons/common/github.svg"
                           alt="image"
                         />
                       </span>
@@ -33,7 +33,7 @@
                     <a href="#" class="btn btn-neutral btn-icon">
                       <span class="btn-inner--icon">
                         <img
-                          src="../assets/img/icons/common/google.svg"
+                          src="../../assets/img/icons/common/google.svg"
                           alt="image"
                         />
                       </span>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="card-body px-lg-5 py-lg-5">
                   <div class="text-center text-muted mb-4">
-                    <small>Or sign up with credentials</small>
+                    <small>Or login in with credentials</small>
                   </div>
 
                   <div
@@ -74,21 +74,6 @@
                       <div class="input-group input-group-alternative mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text"
-                            ><i class="ni ni-hat-3"></i
-                          ></span>
-                        </div>
-                        <input
-                          class="form-control"
-                          placeholder="Name"
-                          type="text"
-                          v-model="name"
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-alternative mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
                             ><i class="ni ni-email-83"></i
                           ></span>
                         </div>
@@ -115,58 +100,13 @@
                         />
                       </div>
                     </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
-                            ><i class="ni ni-lock-circle-open"></i
-                          ></span>
-                        </div>
-                        <input
-                          class="form-control"
-                          placeholder="Confirm Password"
-                          type="password"
-                          v-model="cpassword"
-                        />
-                      </div>
-                    </div>
-                    <div class="text-muted font-italic">
-                      <small
-                        >password strength:
-                        <span class="text-success font-weight-700"
-                          >strong</span
-                        ></small
-                      >
-                    </div>
-                    <div class="row my-4">
-                      <div class="col-12">
-                        <div
-                          class="custom-control custom-control-alternative custom-checkbox"
-                        >
-                          <input
-                            class="custom-control-input"
-                            id="customCheckRegister"
-                            type="checkbox"
-                            v-model="terms"
-                          />
-                          <label
-                            class="custom-control-label"
-                            for="customCheckRegister"
-                            ><span
-                              >I agree with the
-                              <a href="#">Privacy Policy</a></span
-                            ></label
-                          >
-                        </div>
-                      </div>
-                    </div>
                     <div class="text-center">
                       <button
                         type="button"
                         class="btn btn-primary mt-4"
-                        @click="registerUser"
+                        @click="loginUser"
                       >
-                        Create account
+                        Login To Account
                       </button>
                     </div>
                   </form>
@@ -283,14 +223,17 @@
 import axios from "axios";
 
 export default {
-  name: "Register",
+  name: "Login",
+  props: {
+    message: {
+      type: String,
+      required: false
+    }
+  },
   data() {
     return {
-      name: "",
       email: "",
       password: "",
-      cpassword: "",
-      terms: false,
       error: {
         state: false,
         text: "",
@@ -299,30 +242,46 @@ export default {
     };
   },
   created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "register");
+    this.$store.commit("SET_GLOBAL_BUTTON", "login");
+
+    if (this.message) {
+      this.error.text = this.message;
+      this.error.type = "";
+      this.error.state = true;
+    }
+
+    // if router before was home, show logout message
   },
   methods: {
-    registerUser() {
+    loginUser() {
       // validate data
 
-      const url = "auth/register";
+      const url = "auth/login";
       const data = {
         username: this.email,
-        fullName: this.name,
         password: this.password
       };
+
+      console.log(data);
 
       axios
         .post(this.getServerURL(url), data)
         .then(res => {
+          const data = res.data;
+          this.$store.commit("SET_AUTH", {
+            username: this.email,
+            token: data.token
+          });
+
+          localStorage.setItem("auth_token", data.token);
+
           this.$router.push({
-            name: "login",
-            params: { message: "Account registration success" }
+            name: "home"
           });
         })
         .catch(err => {
           console.log(err);
-          const mess = err.response.data.message || "Unknown error occured";
+          const mess = err.response.data.error || "Unknown error occured";
           this.error.text = mess;
           this.error.type = "error";
           this.error.state = true;
