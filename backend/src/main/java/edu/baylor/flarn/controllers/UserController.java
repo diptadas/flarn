@@ -3,6 +3,7 @@ package edu.baylor.flarn.controllers;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.resources.UserRoles;
 import edu.baylor.flarn.resources.UserTypeUpdateRequest;
 import edu.baylor.flarn.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,7 @@ public class UserController {
 
 
     @PostMapping("/usertype")
+    @RolesAllowed(UserRoles.roleAdmin)
     public User updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
         // TODO: check admin
         return userService.changeUserType(userTypeUpdateRequest);
