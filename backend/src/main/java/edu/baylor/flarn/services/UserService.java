@@ -27,6 +27,25 @@ public class UserService {
         return userRepository.save(userRegistration.toUser(passwordEncoder));
     }
 
+    // user is current user
+    // user details represents updated fields
+    public User updateUser(UserRegistration userDetails, User user) {
+        // copy the fields that are allowed to update
+        // username/email and associations are not allowed to update
+        user.setFullName(userDetails.getFullName());
+        user.setPhoneNumber(userDetails.getPhoneNumber());
+        user.setState(userDetails.getState());
+        user.setCity(userDetails.getCity());
+        user.setStreet(userDetails.getStreet());
+        user.setZip(userDetails.getZip());
+
+        // TODO: update password more elegantly
+        if (userDetails.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+        }
+
+        return userRepository.save(user);
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
