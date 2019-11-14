@@ -4,11 +4,12 @@
       <nav
         id="navbar-main"
         class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom"
+        :class="currentPage === 'home' ? ' bg-default p-0' : ''"
       >
         <div class="container">
-          <a class="navbar-brand mr-lg-5" href="../index.html">
+          <router-link class="navbar-brand mr-lg-5" :to="{ name: 'home' }">
             <img src="./assets/img/brand/white.png" alt="brand" />
-          </a>
+          </router-link>
           <button
             class="navbar-toggler"
             type="button"
@@ -191,11 +192,9 @@
               <li class="nav-item d-none d-lg-block ml-lg-4">
                 <router-link
                   :to="{ name: button.value }"
-                  class="btn btn-neutral btn-icon"
+                  class="nav-link nav-link-icon"
                 >
-                  <span class="btn-inner--icon">
-                    <i class="fa fa-cloud-download mr-2"></i>
-                  </span>
+                  <i class="fa fa-cloud-download mr-2"></i>
                   <span class="nav-link-inner--text">{{ button.text }}</span>
                 </router-link>
               </li>
@@ -212,9 +211,11 @@
 export default {
   name: "App",
   computed: {
+    currentPage() {
+      return this.$store.state.globalButton;
+    },
     button() {
-      const type = this.$store.state.globalButton;
-      switch (type) {
+      switch (this.currentPage) {
         case "register":
           return {
             text: "Login",
@@ -223,7 +224,7 @@ export default {
         case "home":
           return {
             text: "Logout",
-            value: "logout"
+            value: "login"
           };
         case "login":
         default:

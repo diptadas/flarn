@@ -1,22 +1,30 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 // Boostrap JS Files
 import jQuery from "jquery";
-window.jQuery = window.$ = jQuery
-import Popper from 'popper.js'
-window.Popper = Popper
-import 'bootstrap'
+window.jQuery = window.$ = jQuery;
+import Popper from "popper.js";
+window.Popper = Popper;
+import "bootstrap";
 import Headroom from "headroom.js";
 window.Headroom = Headroom;
-require('./assets/js/argon.js')
+require("./assets/js/argon.js");
+
+Vue.mixin({
+  methods: {
+    getServerURL(url) {
+      return `http://localhost:8085/${url}`;
+    }
+  }
+});
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");
