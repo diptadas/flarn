@@ -29,14 +29,16 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/current")
-    public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity currentUser(@AuthenticationPrincipal User user) {
+        assert (user != null);
         Map<Object, Object> model = new HashMap<>();
-        model.put("username", userDetails.getUsername());
-        model.put("roles", userDetails.getAuthorities()
+        model.put("username", user.getUsername());
+        model.put("roles", user.getAuthorities()
                 .stream()
                 .map(a -> ((GrantedAuthority) a).getAuthority())
                 .collect(toList())
         );
+        model.put("fullName", user.getFullName());
         return ok(model);
     }
 
