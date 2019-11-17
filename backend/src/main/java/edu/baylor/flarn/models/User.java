@@ -32,6 +32,12 @@ public class User implements UserDetails {
     // username must be a valid email
     private String username;
 
+    @NotNull
+    @Column(unique = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String confirmationToken;
+
+    private boolean enabled;
 
     @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -96,6 +102,7 @@ public class User implements UserDetails {
 
     public User(@Email @NotNull String username, @NotNull String password, String fullName, String phoneNumber,
                 String street, String city, String state, String zip, UserType userType) {
+
         if (userType == null) {
             userType = UserType.LEARNER;
         }
@@ -110,6 +117,9 @@ public class User implements UserDetails {
         this.zip = zip;
         this.userType = userType;
         this.roles = UserRoles.rolesForUserType(userType);
+
+        this.confirmationToken = UUID.randomUUID().toString();
+        this.setEnabled(false); // disable user until email verification
     }
 
     @Override
@@ -144,7 +154,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
     public void subscribe(User user) { // helper to ensures bidirectional insert

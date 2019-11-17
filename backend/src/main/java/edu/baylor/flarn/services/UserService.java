@@ -47,6 +47,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // enable user after email verification
+    // TODO: one time token
+    public User confirmUser(String confirmationToken) throws RecordNotFoundException {
+        User user = userRepository.findByConfirmationToken(confirmationToken).orElse(null);
+
+        if (user == null) {
+            throw new RecordNotFoundException("Invalid confirmation token");
+        } else {
+            user.setEnabled(true);
+            return userRepository.save(user);
+        }
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

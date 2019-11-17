@@ -23,4 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select subscriptions from User u where u.id =:userId")
     List<User> findUserSubscriptions(@Param("userId") long userId);
 
+    Optional<User> findByConfirmationToken(String confirmationToken);
 }

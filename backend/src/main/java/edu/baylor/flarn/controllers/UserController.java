@@ -58,6 +58,11 @@ public class UserController {
         return userService.updateUser(userDetails, user);
     }
 
+    @GetMapping("/confirm")
+    public User confirmAccount(@RequestParam("token") String confirmationToken) throws RecordNotFoundException {
+        return userService.confirmUser(confirmationToken);
+    }
+
     @PostMapping("/usertype")
     @RolesAllowed(UserRoles.roleAdmin)
     public User updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
