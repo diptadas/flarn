@@ -62,8 +62,8 @@ public class DataInitializer implements CommandLineRunner {
                     passwordEncoder.encode("moderator" + i), "Moderator" + i, "254567908", "part",
                     "temple", "AZ", "0000", UserType.MODERATOR);
 
+            moderator.setEnabled(true);
             entityManager.persist(moderator);
-
             moderators.add(moderator);
         }
         entityManager.flush(); // flush everything
@@ -75,8 +75,8 @@ public class DataInitializer implements CommandLineRunner {
                     passwordEncoder.encode("learner" + i), "Learner" + i, "254567908", "part",
                     "temple", "AZ", "0000", UserType.LEARNER);
 
+            learner.setEnabled(true);
             entityManager.persist(learner);
-
             learners.add(learner);
         }
         entityManager.flush(); // flush everything
@@ -87,6 +87,7 @@ public class DataInitializer implements CommandLineRunner {
                 passwordEncoder.encode("admin"), "Admin Mock", "254567908", "part",
                 "temple", "AZ", "0000", UserType.ADMIN);
 
+        admin.setEnabled(true);
         entityManager.persist(admin);
         entityManager.flush(); // flush everything
     }
