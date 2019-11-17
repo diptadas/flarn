@@ -1,5 +1,7 @@
 package edu.baylor.flarn.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -36,9 +38,12 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
                 }
             }
         } catch (InvalidJwtAuthenticationException e) {
+            ResponseEntity responseEntity = ResponseEntity.status(UNAUTHORIZED).body(e.toString());
+
             HttpServletResponse response = (HttpServletResponse) res;
             response.setStatus(UNAUTHORIZED.value());
-            response.getWriter().write(e.toString());
+            response.setContentType("application/json");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(responseEntity));
             return;
         }
         filterChain.doFilter(req, res);
