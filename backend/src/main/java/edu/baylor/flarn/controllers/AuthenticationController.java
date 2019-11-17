@@ -5,7 +5,6 @@ import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.AuthenticationRequest;
 import edu.baylor.flarn.resources.UserRegistration;
 import edu.baylor.flarn.security.JwtTokenProvider;
-import edu.baylor.flarn.services.EmailService;
 import edu.baylor.flarn.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,15 +32,13 @@ public class AuthenticationController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository users;
     private final UserService userService;
-    private final EmailService emailService;
 
     public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
-                                    UserRepository users, UserService userService, EmailService emailService) {
+                                    UserRepository users, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.users = users;
         this.userService = userService;
-        this.emailService = emailService;
     }
 
     @PostMapping("/login")
@@ -67,7 +64,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public User register(@RequestBody UserRegistration data) {
         User user = userService.registerUser(data);
-        emailService.sendVerificationEmail(user.getUsername(), user.getConfirmationToken()); // username is email
+        userService.sendConfirmationCode(user);
         return user;
     }
 

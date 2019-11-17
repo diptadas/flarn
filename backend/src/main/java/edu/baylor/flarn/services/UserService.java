@@ -1,26 +1,28 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.repositories.UserRepository;
-import edu.baylor.flarn.resources.UserRegistration;
-import edu.baylor.flarn.resources.UserRoles;
-import edu.baylor.flarn.resources.UserTypeUpdateRequest;
+import edu.baylor.flarn.resources.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     public User registerUser(UserRegistration userRegistration) {
@@ -47,17 +49,38 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // enable user after email verification
-    // TODO: one time token
-    public User confirmUser(String confirmationToken) throws RecordNotFoundException {
-        User user = userRepository.findByConfirmationToken(confirmationToken).orElse(null);
+    // associate a confirmation code and send it to email
+    public void sendConfirmationCode(User user) {
+        int code = new Random().nextInt(9000) + 1000; // 4 digit code
+        user.setConfirmationCode(code);
+        userRepository.save(user);
 
-        if (user == null) {
-            throw new RecordNotFoundException("Invalid confirmation token");
-        } else {
-            user.setEnabled(true);
-            return userRepository.save(user);
+        emailService.sendVerificationEmail(user.getUsername(), code); // username is email
+    }
+
+    // enable user after email verification
+    public User confirmUser(ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+        User user = getUserByUsername(confirmUserRequest.getUsername());
+
+        if (user.getConfirmationCode() == null || !user.getConfirmationCode().equals(confirmUserRequest.getConfirmationCode())) {
+            throw new InvalidConfirmationCodeException();
         }
+
+        user.setConfirmationCode(null); // reset confirmation code
+        user.setEnabled(true);
+        return userRepository.save(user);
+    }
+
+    public User updatePassword(UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+        User user = getUserByUsername(updatePasswordRequest.getUsername());
+
+        if (user.getConfirmationCode() == null || !user.getConfirmationCode().equals(updatePasswordRequest.getConfirmationCode())) {
+            throw new InvalidConfirmationCodeException();
+        }
+
+        user.setConfirmationCode(null); // reset confirmation code
+        user.setPassword(updatePasswordRequest.getNewPassword());
+        return userRepository.save(user);
     }
 
     public List<User> getAllUsers() {
@@ -72,12 +95,14 @@ public class UserService {
         return userRepository.findById(Id).orElse(null);
     }
 
-    /**
-     * Method to promote/demote or change userType.
-     *
-     * @param
-     * @param userTypeUpdateRequest
-     */
+    public User getUserByUsername(String username) throws RecordNotFoundException {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            throw new RecordNotFoundException("User not found with username " + username);
+        }
+        return user;
+    }
+
     public User changeUserType(UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
         User user = userRepository.findById(userTypeUpdateRequest.getId()).orElse(null);
 

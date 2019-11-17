@@ -32,10 +32,11 @@ public class User implements UserDetails {
     // username must be a valid email
     private String username;
 
-    @NotNull
-    @Column(unique = true)
+    // by default null
+    // users/sendConfirmationCode generates new code
+    // after match set to null
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String confirmationToken;
+    private Integer confirmationCode;
 
     private boolean enabled;
 
@@ -118,7 +119,6 @@ public class User implements UserDetails {
         this.userType = userType;
         this.roles = UserRoles.rolesForUserType(userType);
 
-        this.confirmationToken = UUID.randomUUID().toString();
         this.setEnabled(false); // disable user until email verification
     }
 

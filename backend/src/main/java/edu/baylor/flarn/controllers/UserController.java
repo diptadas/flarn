@@ -1,11 +1,10 @@
 package edu.baylor.flarn.controllers;
 
+import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
-import edu.baylor.flarn.resources.UserRegistration;
-import edu.baylor.flarn.resources.UserRoles;
-import edu.baylor.flarn.resources.UserTypeUpdateRequest;
+import edu.baylor.flarn.resources.*;
 import edu.baylor.flarn.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,9 +57,14 @@ public class UserController {
         return userService.updateUser(userDetails, user);
     }
 
-    @GetMapping("/confirm")
-    public User confirmAccount(@RequestParam("token") String confirmationToken) throws RecordNotFoundException {
-        return userService.confirmUser(confirmationToken);
+    @PostMapping("/confirm")
+    public User confirmAccount(@RequestBody ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+        return userService.confirmUser(confirmUserRequest);
+    }
+
+    @PostMapping("/updatePassword")
+    public User updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+        return userService.updatePassword(updatePasswordRequest);
     }
 
     @PostMapping("/usertype")
