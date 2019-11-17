@@ -79,7 +79,7 @@ public class UserService {
         }
 
         user.setConfirmationCode(null); // reset confirmation code
-        user.setPassword(updatePasswordRequest.getNewPassword());
+        user.setPassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
         return userRepository.save(user);
     }
 

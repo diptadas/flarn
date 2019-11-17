@@ -57,6 +57,12 @@ public class UserController {
         return userService.updateUser(userDetails, user);
     }
 
+    @GetMapping("/sendConfirmationCode")
+    public void sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException {
+        User user = userService.getUserByUsername(username);
+        userService.sendConfirmationCode(user);
+    }
+
     @PostMapping("/confirm")
     public User confirmAccount(@RequestBody ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
         return userService.confirmUser(confirmUserRequest);
