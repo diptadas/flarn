@@ -9,7 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 public class JwtTokenAuthenticationFilter extends GenericFilterBean {
 
@@ -24,12 +27,19 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
             throws IOException, ServletException {
 
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication auth = jwtTokenProvider.getAuthentication(token);
 
-            if (auth != null) {
-                SecurityContextHolder.getContext().setAuthentication(auth);
+        try {
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                Authentication auth = jwtTokenProvider.getAuthentication(token);
+                if (auth != null) {
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
+        } catch (InvalidJwtAuthenticationException e) {
+            HttpServletResponse response = (HttpServletResponse) res;
+            response.setStatus(UNAUTHORIZED.value());
+            response.getWriter().write(e.toString());
+            return;
         }
         filterChain.doFilter(req, res);
     }
