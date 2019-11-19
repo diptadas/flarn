@@ -220,8 +220,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Login",
   props: {
@@ -264,16 +262,19 @@ export default {
 
       console.log(data);
 
-      axios
-        .post(this.getServerURL(url), data)
+      this.$http
+        .post(url, data)
         .then(res => {
           const data = res.data;
           this.$store.commit("SET_AUTH", {
             username: this.email,
-            token: data.token
+            token: data.token,
+            userId: data.userId
           });
 
           localStorage.setItem("auth_token", data.token);
+          localStorage.setItem("username", data.email);
+          localStorage.setItem("user_id", data.userId);
 
           this.$router.push({
             name: "home"
