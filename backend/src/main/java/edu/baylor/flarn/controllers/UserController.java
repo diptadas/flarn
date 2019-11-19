@@ -8,6 +8,7 @@ import edu.baylor.flarn.resources.*;
 import edu.baylor.flarn.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +62,14 @@ public class UserController {
     public void sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException {
         User user = userService.getUserByUsername(username);
         userService.sendConfirmationCode(user);
+    }
+
+
+    @PostMapping("/delete")
+    //@PreAuthorize("hasRole('ADMIN') or #user.id == authentication.name")
+    public String deleteUser(@RequestBody User user) {
+        userService.deleteUser(user);
+        return ("deleted");
     }
 
     @PostMapping("/confirm")
