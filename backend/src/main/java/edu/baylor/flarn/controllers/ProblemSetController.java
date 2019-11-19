@@ -4,8 +4,7 @@ import edu.baylor.flarn.models.ProblemSet;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.resources.ProblemSetSearchRequest;
 import edu.baylor.flarn.resources.UserRoles;
-import edu.baylor.flarn.services.AddProblemSetService;
-import edu.baylor.flarn.services.RandomProblemSetService;
+import edu.baylor.flarn.services.ProblemSetService;
 import edu.baylor.flarn.services.SearchProblemSetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,35 +19,30 @@ import java.util.List;
 @Slf4j
 public class ProblemSetController {
 
-    private final AddProblemSetService addProblemSetService;
+    private final ProblemSetService problemSetService;
     private final SearchProblemSetService searchProblemSetService;
-    private final RandomProblemSetService randomProblemSetService;
 
     @Autowired
-    public ProblemSetController(AddProblemSetService addProblemSetService,
-                                SearchProblemSetService searchProblemSetService,
-                                RandomProblemSetService randomProblemSetService) {
-        this.addProblemSetService = addProblemSetService;
+    public ProblemSetController(ProblemSetService problemSetService, SearchProblemSetService searchProblemSetService) {
+        this.problemSetService = problemSetService;
         this.searchProblemSetService = searchProblemSetService;
-        this.randomProblemSetService = randomProblemSetService;
     }
 
     @GetMapping
     public List<ProblemSet> getProblemSets() {
-        return addProblemSetService.getAllProblemSets();
+        return problemSetService.getAllProblemSets();
     }
 
     @GetMapping("{id}")
     public ProblemSet getProblemSetById(@PathVariable long id) {
-        return addProblemSetService.getProblemSetById(id);
+        return problemSetService.getProblemSetById(id);
     }
 
     @PostMapping
     @RolesAllowed(UserRoles.roleModerator)
     public ProblemSet createProblemSet(@RequestBody ProblemSet problemSet, @AuthenticationPrincipal User user) {
-        // TODO: fix roles allowed restriction not working
         log.info(user.getRoles().toString());
-        return addProblemSetService.createProblemSet(problemSet, user);
+        return problemSetService.createProblemSet(problemSet, user);
     }
 
     @PostMapping("/search")
@@ -57,7 +51,7 @@ public class ProblemSetController {
     }
 
     @GetMapping("/random")
-    public ProblemSet getRandomProblemSet() {
-        return randomProblemSetService.getRandomProblemSet();
+    public ProblemSet getRandomProblemSet(@AuthenticationPrincipal User user) {
+        return problemSetService.getRandomProblemSet(user);
     }
 }

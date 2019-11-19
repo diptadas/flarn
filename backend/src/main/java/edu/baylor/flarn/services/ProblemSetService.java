@@ -1,20 +1,22 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.models.ProblemSet;
+import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemSetRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AddProblemSetService {
+public class ProblemSetService {
     private final ProblemSetRepository problemSetRepository;
     private final KnowledgeSourceRepository knowledgeSourceRepository;
 
-    public AddProblemSetService(ProblemSetRepository problemSetRepository, KnowledgeSourceRepository knowledgeSourceRepository) {
+    public ProblemSetService(ProblemSetRepository problemSetRepository, KnowledgeSourceRepository knowledgeSourceRepository) {
         this.problemSetRepository = problemSetRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
     }
@@ -35,6 +37,22 @@ public class AddProblemSetService {
 
     public ProblemSet getProblemSetById(long id) {
         Optional<ProblemSet> problemSet = problemSetRepository.findById(id);
+        return problemSet.orElse(null);
+    }
+
+    public List<ProblemSet> getSolvedProblemsForUser(User user) {
+        List<ProblemSet> problemSets = new ArrayList<>();
+        for (Session session : user.getParticipatedSessions()) {
+            problemSets.add(session.getProblemSet());
+        }
+        return problemSets;
+    }
+
+    public ProblemSet getRandomProblemSet(User user) {
+        long least = 1L;
+        long highest = problemSetRepository.count();
+        Long random = least + (long) (Math.random() * (highest - least));
+        Optional<ProblemSet> problemSet = problemSetRepository.findById(random);
         return problemSet.orElse(null);
     }
 }
