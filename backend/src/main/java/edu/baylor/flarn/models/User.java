@@ -94,7 +94,7 @@ public class User implements UserDetails {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<ProblemSet> createdProblemSets = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")

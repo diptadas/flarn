@@ -48,11 +48,18 @@ public class ProblemSetService {
         return problemSets;
     }
 
+    public List<Long> getSolvedProblemsIdsForUser(User user) {
+        List<Long> problemSetIds = new ArrayList<>();
+        for (Session session : user.getParticipatedSessions()) {
+            problemSetIds.add(session.getProblemSet().getId());
+        }
+        return problemSetIds;
+    }
+
+    // TODO: throw an error if no problem to solve?
+    // returns null if all problems are solved by the user
     public ProblemSet getRandomProblemSet(User user) {
-        long least = 1L;
-        long highest = problemSetRepository.count();
-        Long random = least + (long) (Math.random() * (highest - least));
-        Optional<ProblemSet> problemSet = problemSetRepository.findById(random);
-        return problemSet.orElse(null);
+        List<Long> problemSetIds = getSolvedProblemsIdsForUser(user);
+        return problemSetRepository.findUnsolved(problemSetIds);
     }
 }
