@@ -9,7 +9,13 @@ function authenticated() {
   const token = localStorage.getItem("auth_token");
   if (!token) return false;
 
+  const name = localStorage.getItem("username");
+  const id = localStorage.getItem("user_id");
+
   store.state.token = token;
+  store.state.userId = id;
+  store.state.username = name;
+
   return true;
 }
 
@@ -27,44 +33,38 @@ const routes = [
       {
         path: "timeline",
         name: "timeline",
-        component: () =>
-          import(
-            /* webpackChunkName: "timeline" */ "../views/home/Timeline.vue"
-          )
+        component: () => import("../views/home/Timeline.vue")
       },
       {
         path: "my-account",
         name: "my-account",
-        component: () =>
-          import(
-            /* webpackChunkName: "my-account" */ "../views/home/MyAccount.vue"
-          )
-      },
-      {
-        path: "my-problems",
-        name: "my-problems",
-        component: () =>
-          import(
-            /* webpackChunkName: "my-problems" */ "../views/home/MyProblems.vue"
-          )
+        component: () => import("../views/home/MyAccount.vue")
       },
       {
         path: "people",
         name: "people",
-        component: () =>
-          import(/* webpackChunkName: "people" */ "../views/home/People.vue")
+        component: () => import("../views/home/People.vue")
       },
       {
-        path: "problem",
-        name: "problem",
-        component: () =>
-          import(/* webpackChunkName: "problem" */ "../views/home/Problem.vue")
+        path: "problems",
+        name: "problems",
+        component: () => import("../views/home/Problem.vue")
+      },
+      {
+        path: "problems/:id",
+        name: "problem-detail",
+        component: () => import("../views/home/ProblemDetail.vue"),
+        props: true
       },
       {
         path: "ranks",
         name: "ranks",
-        component: () =>
-          import(/* webpackChunkName: "ranks" */ "../views/home/Ranks.vue")
+        component: () => import("../views/home/Ranks.vue")
+      },
+      {
+        path: "profile/:id?",
+        name: "user-profile",
+        component: () => import("../views/home/Profile.vue")
       },
       {
         path: "",
@@ -76,23 +76,18 @@ const routes = [
   {
     path: "/account",
     name: "account",
-    component: () =>
-      import(/* webpackChunkName: "account" */ "../views/Account.vue"),
+    component: () => import("../views/Account.vue"),
     children: [
       {
         path: "/login",
         name: "login",
-        component: () =>
-          import(/* webpackChunkName: "login" */ "../views/account/Login.vue"),
+        component: () => import("../views/account/Login.vue"),
         props: true
       },
       {
         path: "/register",
         name: "register",
-        component: () =>
-          import(
-            /* webpackChunkName: "register" */ "../views/account/Register.vue"
-          )
+        component: () => import("../views/account/Register.vue")
       }
     ]
   }

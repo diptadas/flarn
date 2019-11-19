@@ -1,5 +1,6 @@
 package edu.baylor.flarn.controllers;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.AuthenticationRequest;
@@ -50,11 +51,14 @@ public class AuthenticationController {
                     this.users.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username +
                             "not found")).getRoles());
 
+            User user = userService.getUserByUsername(username);
+
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
             model.put("token", token);
+            model.put("userId", user.getId());
             return ok(model);
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException | RecordNotFoundException e) {
             InvalidLogin invalidLogin = new InvalidLogin(data.getUsername(), data.getPassword(), "Invalid username and " +
                     "password");
             return new ResponseEntity<>(invalidLogin, HttpStatus.UNAUTHORIZED);

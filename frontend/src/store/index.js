@@ -8,6 +8,7 @@ export default new Vuex.Store({
     globalButton: "login",
     username: "",
     token: "",
+    userId: "",
     currentHomePahe: "Timeline"
   },
   mutations: {
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     SET_AUTH(state, auth) {
       state.username = auth.username;
       state.token = auth.token;
+      state.userId = auth.userId;
     },
     LOGOUT(state) {
       state.username = "";
