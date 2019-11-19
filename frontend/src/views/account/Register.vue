@@ -280,8 +280,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Register",
   data() {
@@ -312,8 +310,8 @@ export default {
         password: this.password
       };
 
-      axios
-        .post(this.getServerURL(url), data)
+      this.$http
+        .post(url, data)
         .then(res => {
           this.$router.push({
             name: "login",

@@ -1,4 +1,7 @@
 import Vue from "vue";
+import axios from "axios";
+import Hashids from "hashids";
+import AsyncComputed from "vue-async-computed";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -15,11 +18,67 @@ import Headroom from "headroom.js";
 window.Headroom = Headroom;
 require("./assets/js/argon.js");
 
-Vue.mixin({
-  methods: {
-    getServerURL(url) {
-      return `http://localhost:8085/${url}`;
+// create http request handler
+const _axios = axios.create({
+  baseURL: "http://localhost:8085/",
+  timeout: 1000
+});
+
+_axios.interceptors.request.use(
+  function(config) {
+    let token = localStorage.getItem("auth_token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+
+_axios.interceptors.response.use(
+  function(response) {
+    return response;
+  },
+  function(error) {
+    if (error.status === 401) {
+      return router.replace({ name: "login" });
+    }
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+
+    console.log(error.config);
+    return Promise.reject(error);
+  }
+);
+
+Vue.prototype.$http = _axios;
+
+// Hashing URLS for display
+Vue.prototype.$hash = new Hashids();
+
+Vue.use(AsyncComputed);
+
+Vue.mixin({
+  data() {
+    return {
+      publicPath: process.env.BASE_URL
+    };
   }
 });
 
