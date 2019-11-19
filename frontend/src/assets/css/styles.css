@@ -1,3 +1,16 @@
 .h-screen {
   min-height: 100vh;
 }
+
+.pointed {
+  cursor: pointer;
+}
+
+.header-nav {
+  display: block;
+  height: 1.5rem;
+}
+
+.hover-grey:hover {
+  background-color: #f4f5f7;
+}

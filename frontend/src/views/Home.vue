@@ -121,7 +121,7 @@
             </div>
           </div>
           <!-- Form -->
-          <form class="mt-4 mb-3 d-md-none">
+          <!-- <form class="mt-4 mb-3 d-md-none">
             <div class="input-group input-group-rounded input-group-merge">
               <input
                 type="search"
@@ -135,7 +135,7 @@
                 </div>
               </div>
             </div>
-          </form>
+          </form> -->
           <!-- Navigation -->
           <ul class="navbar-nav">
             <li class="nav-item" v-for="nav in navs" :key="nav.id">
@@ -209,7 +209,7 @@
     <div class="main-content">
       <!-- Navbar -->
       <nav
-        class="navbar navbar-top navbar-expand-md navbar-dark"
+        class="navbar navbar-top navbar-expand-md navbar-dark pt-0 pb-0"
         id="navbar-main"
       >
         <div class="container-fluid">
@@ -220,7 +220,7 @@
             >{{ activeHomePage }}</a
           >
           <!-- Form -->
-          <form
+          <!-- <form
             class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto"
           >
             <div class="form-group mb-0">
@@ -233,7 +233,7 @@
                 <input class="form-control" placeholder="Search" type="text" />
               </div>
             </div>
-          </form>
+          </form> -->
           <!-- User -->
           <ul class="navbar-nav align-items-center d-none d-md-flex">
             <li class="nav-item dropdown">
@@ -298,24 +298,24 @@
       </nav>
       <!-- End Navbar -->
       <!-- Header -->
-      <div class="header bg-gradient-primary" style="padding: 2.5rem;"></div>
+      <div
+        class="header bg-gradient-primary d-block"
+        style="height: 4.5rem;"
+      ></div>
 
       <div class="container-fluid mt-2">
         <router-view />
-      </div>
 
-      <div class="container-fluid mt--7">
-        <!-- Footer -->
-        <!-- <footer class="footer">
+        <footer class="footer">
           <div class="row align-items-center justify-content-xl-between">
             <div class="col-xl-6">
               <div class="copyright text-center text-xl-left text-muted">
-                &copy; 2018
+                &copy; 2019
                 <a
                   href="https://www.creative-tim.com"
                   class="font-weight-bold ml-1"
                   target="_blank"
-                  >Creative Tim</a
+                  >Flarn Project</a
                 >
               </div>
             </div>
@@ -328,7 +328,7 @@
                     href="https://www.creative-tim.com"
                     class="nav-link"
                     target="_blank"
-                    >Creative Tim</a
+                    >Flarn Project</a
                   >
                 </li>
                 <li class="nav-item">
@@ -344,7 +344,7 @@
                     href="http://blog.creative-tim.com"
                     class="nav-link"
                     target="_blank"
-                    >Blog</a
+                    >Baylor</a
                   >
                 </li>
                 <li class="nav-item">
@@ -358,7 +358,7 @@
               </ul>
             </div>
           </div>
-        </footer> -->
+        </footer>
       </div>
     </div>
   </div>
@@ -367,7 +367,6 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-import axios from "axios";
 
 export default {
   name: "home",
@@ -382,8 +381,8 @@ export default {
         },
         {
           id: 2,
-          text: "Problem",
-          value: "problem"
+          text: "Problems",
+          value: "problems"
         },
         {
           id: 3,
@@ -399,13 +398,8 @@ export default {
       subNavs: [
         {
           id: 5,
-          text: "My Problems",
-          value: "my-problems"
-        },
-        {
-          id: 6,
-          text: "My Account",
-          value: "my-account"
+          text: "My Profile",
+          value: "user-profile"
         }
       ],
       profileNavs: [
@@ -441,20 +435,14 @@ export default {
     authenticate() {
       const url = "users/current";
 
-      var config = {
-        headers: { Authorization: "Bearer " + this.$store.state.token }
-      };
-
-      axios
-        .get(this.getServerURL(url), config)
+      this.$http
+        .get(url)
         .then(res => {
           const data = res.data;
-
           this.fullName = data.fullName;
         })
         .catch(err => {
-          console.log(err);
-          // if status is 404 go to login
+          this.$router.replace({ name: "login" });
         });
     }
   },
@@ -473,8 +461,7 @@ export default {
 };
 </script>
 
-<style scoped src="../assets/css/argon-dashboard.css"></style>
-<style
-  scoped
-  src="../assets/css/fortawesome/fontawesome-free/css/all.min.css"
-></style>
+<style lang="scss">
+@import "../assets/css/argon-dashboard.css";
+@import "../assets/css/fortawesome/fontawesome-free/css/all.min.css";
+</style>
