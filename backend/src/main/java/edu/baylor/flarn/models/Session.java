@@ -31,7 +31,8 @@ public class Session {
     @JoinColumn(name = "user_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+            property = "id",
+            scope = User.class)
     @JsonIdentityReference(alwaysAsId = true)
     User user;
 
@@ -39,7 +40,8 @@ public class Session {
     @JoinColumn(name = "problemSet_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+            property = "id",
+            scope = ProblemSet.class)
     @JsonIdentityReference(alwaysAsId = true)
     ProblemSet problemSet;
 
