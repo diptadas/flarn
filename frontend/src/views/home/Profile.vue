@@ -262,11 +262,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.header-back {
-  min-height: 600px;
-  background-size: cover;
-  background-position: center top;
-  background-image: url("../../assets/img/theme/profile-cover.jpg");
-}
-</style>
+<style lang="scss" scoped></style>
