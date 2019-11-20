@@ -3,6 +3,7 @@ package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Category;
+import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.resources.UpdateRequest;
 import edu.baylor.flarn.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
