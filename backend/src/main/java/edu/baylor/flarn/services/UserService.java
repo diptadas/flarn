@@ -120,6 +120,16 @@ public class UserService {
         return user;
     }
 
+    public ResponseBody deleteUser(User user){
+        try {
+            userRepository.delete(user);
+            return  new ResponseBody(200,"Successful");
+        }
+        catch (Exception e){
+            return  new ResponseBody(500,e.getMessage());
+        }
+    }
+
     public List<User> getSubscribedUsers(long Id) {
         return userRepository.findSubscribedUsers(Id);
     }

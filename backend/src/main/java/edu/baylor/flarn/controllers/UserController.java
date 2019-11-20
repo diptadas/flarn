@@ -5,6 +5,7 @@ import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.resources.*;
+import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -65,11 +66,10 @@ public class UserController {
     }
 
 
-    @PostMapping("/delete")
-    //@PreAuthorize("hasRole('ADMIN') or #user.id == authentication.name")
-    public String deleteUser(@RequestBody User user) {
-        userService.deleteUser(user);
-        return ("deleted");
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('ADMIN') or #user.username == authentication.name")
+    public ResponseBody deleteUser(@RequestBody User user, @AuthenticationPrincipal User authUser) {
+        return userService.deleteUser(user);
     }
 
     @PostMapping("/confirm")
