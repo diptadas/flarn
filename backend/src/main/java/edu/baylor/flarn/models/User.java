@@ -92,7 +92,7 @@ public class User implements UserDetails {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private Set<ProblemSet> createdProblemSets = new HashSet<>();
+    private Set<Problem> createdProblemSets = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIdentityInfo(

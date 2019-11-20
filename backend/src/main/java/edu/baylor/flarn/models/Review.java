@@ -36,5 +36,5 @@ public class Review {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private ProblemSet problemSet;
+    private Problem problemSet;
 }

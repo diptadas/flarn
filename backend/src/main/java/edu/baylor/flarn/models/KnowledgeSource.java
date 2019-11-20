@@ -25,7 +25,7 @@ public class KnowledgeSource {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    ProblemSet problemSet;
+    Problem problemSet;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

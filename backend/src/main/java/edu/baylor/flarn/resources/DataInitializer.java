@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private List<Category> categories = new ArrayList<>();
-    private List<ProblemSet> problemSets = new ArrayList<>();
+    private List<Problem> problemSets = new ArrayList<>();
     private List<User> moderators = new ArrayList<>();
     private List<User> learners = new ArrayList<>();
     private User admin;
@@ -113,7 +113,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void createProblemSets() {
         for (int i = 0; i < 10; i++) {
-            ProblemSet problemSet = new ProblemSet();
+            Problem problemSet = new Problem();
             problemSet.setDifficulty(Difficulty.EASY);
             problemSet.setCategory(categories.get(i % 3)); // add category in cyclic order
             problemSet.setModerator(moderators.get(i % 3)); // add moderator in cyclic order

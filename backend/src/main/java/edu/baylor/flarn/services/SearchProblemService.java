@@ -2,10 +2,10 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.models.Difficulty;
-import edu.baylor.flarn.models.ProblemSet;
+import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.resources.ProblemSetSearchRequest;
 import edu.baylor.flarn.repositories.CategoryRepository;
-import edu.baylor.flarn.repositories.ProblemSetRepository;
+import edu.baylor.flarn.repositories.ProblemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +14,16 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class SearchProblemSetService {
-    private final ProblemSetRepository problemSetRepository;
+public class SearchProblemService {
+    private final ProblemRepository problemSetRepository;
     private final CategoryRepository categoryRepository;
 
-    public SearchProblemSetService(ProblemSetRepository problemSetRepository, CategoryRepository categoryRepository) {
+    public SearchProblemService(ProblemRepository problemSetRepository, CategoryRepository categoryRepository) {
         this.problemSetRepository = problemSetRepository;
         this.categoryRepository = categoryRepository;
     }
 
-    public List<ProblemSet> searchProblemSet(ProblemSetSearchRequest problemSetSearchRequest) {
+    public List<Problem> searchProblemSet(ProblemSetSearchRequest problemSetSearchRequest) {
         // get category
         Category category = null;
         if (problemSetSearchRequest.getCategory() != null) {

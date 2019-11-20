@@ -68,6 +68,7 @@ public class UserController {
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ADMIN') or #user.username == authentication.name")
+    //Authentication principal not needed here
     public ResponseBody deleteUser(@RequestBody User user, @AuthenticationPrincipal User authUser) {
         return userService.deleteUser(user);
     }

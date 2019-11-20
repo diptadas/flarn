@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @SequenceGenerator(name = "sequence", initialValue = 1, allocationSize = 1)
-public class ProblemSet {
+public class Problem {
     @NotNull
     String title;
 
