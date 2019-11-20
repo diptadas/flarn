@@ -62,9 +62,15 @@ const routes = [
         component: () => import("../views/home/Ranks.vue")
       },
       {
-        path: "profile/:id?",
-        name: "user-profile",
+        path: "profile",
+        name: "profile",
         component: () => import("../views/home/Profile.vue")
+      },
+      {
+        path: "people/profile/:id",
+        name: "user-profile",
+        props: true,
+        component: () => import("../views/home/UserProfile.vue")
       },
       {
         path: "",

@@ -365,9 +365,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
   name: "home",
   data() {
@@ -399,7 +396,7 @@ export default {
         {
           id: 5,
           text: "My Profile",
-          value: "user-profile"
+          value: "profile"
         }
       ],
       profileNavs: [
@@ -444,24 +441,19 @@ export default {
         .catch(err => {
           this.$router.replace({ name: "login" });
         });
+    },
+    formatNavText(string) {
+      return string.split("-").join(" ");
     }
   },
   created() {
     this.$store.commit("SET_GLOBAL_BUTTON", "home");
     this.authenticate();
   },
-  components: {
-    HelloWorld
-  },
   computed: {
     activeHomePage() {
-      return this.$route.name;
+      return this.formatNavText(this.$route.name);
     }
   }
 };
 </script>
-
-<style lang="scss">
-@import "../assets/css/argon-dashboard.css";
-@import "../assets/css/fortawesome/fontawesome-free/css/all.min.css";
-</style>

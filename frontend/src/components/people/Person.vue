@@ -108,7 +108,10 @@ export default {
   name: "Person",
   methods: {
     goToProfile() {
-      this.$router.push({ name: "user-profile", params: { id: this.user.id } });
+      this.$router.push({
+        name: "user-profile",
+        params: { id: this.$hash.encode(this.user.id) }
+      });
     }
   }
 };
