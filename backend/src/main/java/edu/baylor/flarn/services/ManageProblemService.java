@@ -1,10 +1,13 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.resources.ResponseBody;
+import edu.baylor.flarn.resources.UpdateRequest;
+import edu.baylor.flarn.resources.UserRoles;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,5 +55,22 @@ public class ManageProblemService {
         catch (Exception e){
             return  new ResponseBody(500,e.getMessage());
         }
+    }
+
+
+    public Problem updateProblem(UpdateRequest<Problem> updateRequest) throws RecordNotFoundException {
+        Problem problem = problemSetRepository.findById(updateRequest.getId()).orElse(null);
+
+        if (problem == null) {
+            throw new RecordNotFoundException("user not found with id " + updateRequest.getId());
+        }
+        /**
+         * Which fields to update ../
+         */
+        problem.setModerator(updateRequest.getObj().getModerator());
+        problem.setCategory(updateRequest.getObj().getCategory());
+        problem.setDescription(updateRequest.getObj().getTitle());
+
+        return problemSetRepository.save(problem);
     }
 }
