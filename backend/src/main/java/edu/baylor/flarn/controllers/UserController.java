@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,11 +67,10 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/delete")
-    @PreAuthorize("hasRole('ADMIN') or #user.username == authentication.name")
-    //Authentication principal not needed here
-    public ResponseBody deleteUser(@RequestBody User user, @AuthenticationPrincipal User authUser) {
-        return userService.deleteUser(user);
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or #id == #authUser.id")
+    public ResponseBody deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User authUser) {
+        return userService.deleteUser(id);
     }
 
     @PostMapping("/confirm")

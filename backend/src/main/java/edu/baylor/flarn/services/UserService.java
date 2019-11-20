@@ -120,9 +120,9 @@ public class UserService {
         return user;
     }
 
-    public ResponseBody deleteUser(User user){
+    public ResponseBody deleteUser(Long id ){
         try {
-            userRepository.delete(user);
+            userRepository.deleteById(id);
             return  new ResponseBody(200,"Successful");
         }
         catch (Exception e){

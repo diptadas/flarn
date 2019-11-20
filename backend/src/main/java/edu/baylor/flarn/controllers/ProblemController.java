@@ -53,16 +53,22 @@ public class ProblemController {
         return manageProblemService.createProblemSet(problemSet, user);
     }
 
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('ADMIN') or #problem.moderator.username == authentication.name")
+    public String upDateProblem(@RequestBody Problem problem){
+        return "okay";
+    }
+
     @PostMapping("/search")
     public List<Problem> searchProblemSets(@RequestBody ProblemSetSearchRequest problemSetSearchRequest) {
         return searchProblemSetService.searchProblemSet(problemSetSearchRequest);
     }
 
-    @DeleteMapping("/delete")
-    @PreAuthorize("hasRole('ADMIN') or #problem.moderator.username == authentication.name")
-    //Authentication principal not needed here
-    public ResponseBody deleteProblem(@RequestBody Problem problem, @AuthenticationPrincipal User authUser) {
-        return manageProblemService.deleteProblem(problem);
+    //Todo: Check moderator also
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseBody deleteProblem(@PathVariable("id") Long id) {
+        return manageProblemService.deleteProblem(id);
     }
 
     @GetMapping("/random")

@@ -44,9 +44,9 @@ public class ManageProblemService {
         return problemSet.orElse(null);
     }
 
-    public ResponseBody deleteProblem(Problem problem){
+    public ResponseBody deleteProblem(Long problem){
         try {
-            problemSetRepository.delete(problem);
+            problemSetRepository.deleteById(problem);
             return  new ResponseBody(200,"Successful");
         }
         catch (Exception e){
