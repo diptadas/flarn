@@ -69,7 +69,10 @@ public class ManageProblemService {
          */
         problem.setModerator(updateRequest.getObj().getModerator());
         problem.setCategory(updateRequest.getObj().getCategory());
-        problem.setDescription(updateRequest.getObj().getTitle());
+        problem.setDescription(updateRequest.getObj().getDescription());
+        problem.setTitle(updateRequest.getObj().getTitle());
+        problem.setKnowledgeSource(updateRequest.getObj().getKnowledgeSource());
+        problem.setDifficulty(updateRequest.getObj().getDifficulty());
 
         return problemSetRepository.save(problem);
     }
