@@ -48,7 +48,7 @@ const routes = [
       {
         path: "problems",
         name: "problems",
-        component: () => import("../views/home/Problem.vue")
+        component: () => import("../views/home/UserProblem.vue")
       },
       {
         path: "problems/:id",
@@ -71,6 +71,26 @@ const routes = [
         name: "user-profile",
         props: true,
         component: () => import("../views/home/UserProfile.vue")
+      },
+      {
+        path: "support",
+        name: "support",
+        component: () => import("../views/utils/Support.vue")
+      },
+      {
+        path: "manage/problems",
+        name: "manage-problems",
+        component: () => import("../views/home/ManageProblem.vue")
+      },
+      {
+        path: "manage/users",
+        name: "manage-users",
+        component: () => import("../views/home/ManageUser.vue")
+      },
+      {
+        path: "manage/create/problem",
+        name: "create-problem",
+        component: () => import("../views/home/CreateProblem.vue")
       },
       {
         path: "",
