@@ -118,22 +118,16 @@ export default {
     subscribeToUser() {
       const url = `users/${userId}`;
 
-      this.$http
-        .get(url)
-        .then(res => {
-          this.user = res.data;
-        })
-        .catch(err => {});
+      this.$http.get(url).then(res => {
+        this.user = res.data;
+      });
     },
     getUserProfile(userId) {
       const url = `users/${userId}`;
 
-      this.$http
-        .get(url)
-        .then(res => {
-          this.user = res.data;
-        })
-        .catch(err => {});
+      this.$http.get(url).then(res => {
+        this.user = res.data;
+      });
     }
   },
   created() {

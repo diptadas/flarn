@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center header-back">
+    <div
+      class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center header-back rounded mt--7"
+      style="z-index: -1;"
+    >
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
