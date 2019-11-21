@@ -175,34 +175,34 @@
               </a>
             </li> -->
           </ul>
-          <!-- Divider -->
-          <hr class="my-3" />
-          <!-- Heading -->
-          <h6 class="navbar-heading text-muted">Personal</h6>
-          <!-- Navigation -->
-          <ul class="navbar-nav mb-md-3">
-            <li class="nav-item" v-for="nav in subNavs" :key="nav.id">
-              <router-link class=" nav-link" :to="{ name: nav.value }">
-                <i class="ni ni-tv-2 text-primary"></i> {{ nav.text }}
-              </router-link>
-            </li>
-            <!-- <li class="nav-item">
-              <a
-                class="nav-link"
-                href="https://demos.creative-tim.com/argon-dashboard/docs/foundation/colors.html"
-              >
-                <i class="ni ni-palette"></i> Foundation
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html"
-              >
-                <i class="ni ni-ui-04"></i> Components
-              </a>
-            </li> -->
-          </ul>
+          <template v-if="moderatorNavs.length">
+            <!-- Divider -->
+            <hr class="my-3" />
+            <!-- Heading -->
+            <h6 class="navbar-heading text-muted">Moderator</h6>
+            <!-- Navigation -->
+            <ul class="navbar-nav mb-md-3">
+              <li class="nav-item" v-for="nav in moderatorNavs" :key="nav.id">
+                <router-link class=" nav-link" :to="{ name: nav.value }">
+                  <i class="ni ni-tv-2 text-primary"></i> {{ nav.text }}
+                </router-link>
+              </li>
+            </ul>
+          </template>
+          <template v-if="adminNavs.length">
+            <!-- Divider -->
+            <hr class="my-3" />
+            <!-- Heading -->
+            <h6 class="navbar-heading text-muted">Admin</h6>
+            <!-- Navigation -->
+            <ul class="navbar-nav mb-md-3">
+              <li class="nav-item" v-for="nav in adminNavs" :key="nav.id">
+                <router-link class=" nav-link" :to="{ name: nav.value }">
+                  <i class="ni ni-tv-2 text-primary"></i> {{ nav.text }}
+                </router-link>
+              </li>
+            </ul>
+          </template>
         </div>
       </div>
     </nav>
@@ -254,7 +254,7 @@
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
                     <span class="mb-0 text-sm  font-weight-bold">{{
-                      fullName
+                      user.fullName
                     }}</span>
                   </div>
                 </div>
@@ -274,23 +274,6 @@
                   <i class="ni ni-single-02"></i>
                   <span>{{ nav.text }}</span>
                 </router-link>
-                <!-- <a href="./examples/profile.html" class="dropdown-item">
-                  <i class="ni ni-settings-gear-65"></i>
-                  <span></span>
-                </a>
-                <a href="./examples/profile.html" class="dropdown-item">
-                  <i class="ni ni-calendar-grid-58"></i>
-                  <span></span>
-                </a>
-                <a href="./examples/profile.html" class="dropdown-item">
-                  <i class="ni ni-support-16"></i>
-                  <span></span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#!" class="dropdown-item">
-                  <i class="ni ni-user-run"></i>
-                  <span>Logout</span>
-                </a> -->
               </div>
             </li>
           </ul>
@@ -369,7 +352,10 @@ export default {
   name: "home",
   data() {
     return {
-      fullName: "Test User",
+      user: {
+        fullName: "Test User",
+        roles: []
+      },
       navs: [
         {
           id: 1,
@@ -390,36 +376,21 @@ export default {
           id: 4,
           text: "Ranks",
           value: "ranks"
-        }
-      ],
-      subNavs: [
+        },
         {
           id: 5,
           text: "My Profile",
           value: "profile"
         }
       ],
+      moderatorNavs: [],
+      adminNavs: [],
       profileNavs: [
-        // {
-        //   id: 1,
-        //   text: "My Profile",
-        //   value: "profile"
-        // },
-        // {
-        //   id: 2,
-        //   text: "Settings",
-        //   value: "settings"
-        // },
-        // {
-        //   id: 3,
-        //   text: "Activity",
-        //   value: "activity"
-        // },
-        // {
-        //   id: 4,
-        //   text: "Support",
-        //   value: "support"
-        // },
+        {
+          id: 4,
+          text: "Support",
+          value: "support"
+        },
         {
           id: 5,
           text: "Logout",
@@ -435,8 +406,8 @@ export default {
       this.$http
         .get(url)
         .then(res => {
-          const data = res.data;
-          this.fullName = data.fullName;
+          this.user = res.data;
+          this.setNavs();
         })
         .catch(err => {
           this.$router.replace({ name: "login" });
@@ -444,6 +415,23 @@ export default {
     },
     formatNavText(string) {
       return string.split("-").join(" ");
+    },
+    setNavs() {
+      if (this.user.roles.indexOf("ROLE_MODERATOR") !== -1) {
+        this.moderatorNavs.push({
+          id: 6,
+          text: "Manage Problems",
+          value: "manage-problems"
+        });
+      }
+
+      if (this.user.roles.indexOf("ROLE_ADMIN") !== -1) {
+        this.adminNavs.push({
+          id: 7,
+          text: "Manage Users",
+          value: "manage-users"
+        });
+      }
     }
   },
   created() {
