@@ -126,7 +126,6 @@ export default {
         .then(res => {
           this.users = res.data;
         })
-        .catch(err => {});
     },
     getSubscribedUsers() {
       const url = `users/${this.$store.state.userId}/subscribers`;
@@ -136,7 +135,6 @@ export default {
         .then(res => {
           this.users = res.data;
         })
-        .catch(err => {});
     },
     getUsers() {
       const url = "users";
@@ -146,7 +144,6 @@ export default {
         .then(res => {
           this.users = res.data;
         })
-        .catch(err => {});
     }
   },
   created() {
