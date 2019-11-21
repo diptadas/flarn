@@ -86,12 +86,9 @@ export default {
     getProblem(id) {
       const url = `problemsets/${id}`;
 
-      this.$http
-        .get(url)
-        .then(res => {
-          this.problem = res.data;
-        })
-        .catch(err => {});
+      this.$http.get(url).then(res => {
+        this.problem = res.data;
+      });
     }
   },
   created() {
