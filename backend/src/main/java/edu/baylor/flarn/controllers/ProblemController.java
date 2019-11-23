@@ -66,14 +66,14 @@ public class ProblemController {
         return searchProblemService.searchproblem(problemSearchRequest);
     }
 
-    //Todo: Check moderator also
+    //Todo: Check moderator is owner or admin
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
     public ResponseBody deleteProblem(@PathVariable("id") Long id) {
         return manageProblemService.deleteProblem(id);
     }
 
-    //Todo: Check moderator also
+    //Todo: Check moderator sole owner or Admin
     @DeleteMapping("/batch/{ids}")
     @PreAuthorize("hasRole('MODERATOR')")
     public ResponseBody deleteBatchProblem(@PathVariable("ids") List<Long> ids) {
