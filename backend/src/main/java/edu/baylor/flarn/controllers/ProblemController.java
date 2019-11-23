@@ -7,7 +7,6 @@ import edu.baylor.flarn.resources.ProblemSearchRequest;
 import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.resources.UserRoles;
 import edu.baylor.flarn.services.ProblemService;
-import edu.baylor.flarn.services.RandomProblemService;
 import edu.baylor.flarn.services.SearchProblemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
