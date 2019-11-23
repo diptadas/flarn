@@ -1,6 +1,7 @@
 package edu.baylor.flarn.controllers;
 
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.resources.ProblemSearchRequest;
@@ -8,6 +9,7 @@ import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.resources.UserRoles;
 import edu.baylor.flarn.services.ProblemService;
 import edu.baylor.flarn.services.SearchProblemService;
+import edu.baylor.flarn.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,12 +27,15 @@ public class ProblemController {
 
     private final ProblemService problemService;
     private final SearchProblemService searchProblemService;
+    private final UserService userService;
 
     @Autowired
     public ProblemController(ProblemService problemService,
-                             SearchProblemService searchproblemService) {
+                             SearchProblemService searchproblemService,
+                             UserService userService) {
         this.problemService = problemService;
         this.searchProblemService = searchproblemService;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -77,7 +82,10 @@ public class ProblemController {
     }
 
     @GetMapping("/random")
-    public Problem getRandomProblem(@AuthenticationPrincipal User user) {
+    public Problem getRandomProblem(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
         return problemService.getRandomProblem(user);
     }
 }

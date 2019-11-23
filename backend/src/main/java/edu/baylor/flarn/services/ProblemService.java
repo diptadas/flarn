@@ -92,8 +92,8 @@ public class ProblemService {
     // TODO: throw an error if no problem to solve?
     // returns null if all problems are solved by the user
     public Problem getRandomProblem(User user) {
-        List<Long> problemSetIds = getSolvedProblemsIdsForUser(user);
-        return problemRepository.findUnsolved(problemSetIds);
+        List<Long> problemIds = getSolvedProblemsIdsForUser(user);
+        return problemRepository.findUnsolved(problemIds);
     }
 
 }

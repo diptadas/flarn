@@ -23,7 +23,7 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     void deleteByIdIn(List<Long> ids);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Problem_Set as e WHERE e.id NOT IN (:ids) ORDER BY RAND() LIMIT 1")
+    @Query(nativeQuery = true, value = "SELECT * FROM Problem as e WHERE e.id NOT IN (:ids) ORDER BY RAND() LIMIT 1")
     Problem findUnsolved(@Param("ids") List<Long> ids);
 
 }
