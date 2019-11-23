@@ -25,6 +25,14 @@ public class UserService {
         this.emailService = emailService;
     }
 
+    public User findById(Long id) throws RecordNotFoundException {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new RecordNotFoundException("can not fetch current user");
+        }
+        return user;
+    }
+
     public User registerUser(UserRegistration userRegistration) {
         return userRepository.save(userRegistration.toUser(passwordEncoder));
     }
@@ -46,6 +54,24 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
         }
 
+        return userRepository.save(user);
+    }
+
+    // user will follow other user specified by id
+    public User follow(User user, Long id) throws RecordNotFoundException {
+        User toBeFollowed = userRepository.findById(id).orElse(null);
+        if (toBeFollowed == null) {
+            throw new RecordNotFoundException("can not find user with id " + id);
+        }
+
+        // also re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userRepository.findById(user.getId()).orElse(null);
+        if (user == null) {
+            throw new RecordNotFoundException("can not fetch current user");
+        }
+
+        user.subscribe(toBeFollowed);
         return userRepository.save(user);
     }
 

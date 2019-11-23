@@ -104,4 +104,13 @@ public class UserController {
     public List<User> getSubscriptions(@PathVariable long id) {
         return userService.getUserSubscriptions(id);
     }
+
+    // current user will follow user specified by {id}
+    @PostMapping("follow/{id}")
+    public User follow(@PathVariable Long id, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.follow(user, id);
+    }
 }
