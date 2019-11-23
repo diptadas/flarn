@@ -47,13 +47,13 @@ public class SearchProblemService {
         }
 
         if (difficulty != null && category != null) {
-            return problemRepository.findByDifficultyAndCategoryAndTitleContaining(difficulty, category, title);
+            return problemRepository.findByDifficultyAndCategoryAndTitleContainingIgnoreCase(difficulty, category, title);
         } else if (difficulty != null) {
-            return problemRepository.findByDifficultyAndTitleContaining(difficulty, title);
+            return problemRepository.findByDifficultyAndTitleContainingIgnoreCase(difficulty, title);
         } else if (category != null) {
-            return problemRepository.findByCategoryAndTitleContaining(category, title);
+            return problemRepository.findByCategoryAndTitleContainingIgnoreCase(category, title);
         } else {
-            return problemRepository.findByTitleContaining(title);
+            return problemRepository.findByTitleContainingIgnoreCase(title);
         }
     }
 }

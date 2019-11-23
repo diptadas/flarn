@@ -13,13 +13,13 @@ import java.util.List;
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
-    List<Problem> findByDifficultyAndCategoryAndTitleContaining(@NotNull Difficulty difficulty, Category category, @NotNull String title);
+    List<Problem> findByDifficultyAndCategoryAndTitleContainingIgnoreCase(@NotNull Difficulty difficulty, Category category, @NotNull String title);
 
-    List<Problem> findByDifficultyAndTitleContaining(@NotNull Difficulty difficulty, @NotNull String title);
+    List<Problem> findByDifficultyAndTitleContainingIgnoreCase(@NotNull Difficulty difficulty, @NotNull String title);
 
-    List<Problem> findByCategoryAndTitleContaining(Category category, @NotNull String title);
+    List<Problem> findByCategoryAndTitleContainingIgnoreCase(Category category, @NotNull String title);
 
-    List<Problem> findByTitleContaining(@NotNull String title);
+    List<Problem> findByTitleContainingIgnoreCase(@NotNull String title);
 
     void deleteByIdIn(List<Long> ids);
 
