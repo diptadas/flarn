@@ -120,7 +120,7 @@ public class DataInitializer implements CommandLineRunner {
 
             // add knowledge source
             KnowledgeSource knowledgeSource = new KnowledgeSource();
-            knowledgeSource.setContentLink("http://google.com");
+            knowledgeSource.setContent("http://google.com");
             entityManager.persist(knowledgeSource);
 
             problem.setKnowledgeSource(knowledgeSource);
