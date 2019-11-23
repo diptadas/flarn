@@ -1,10 +1,9 @@
 package edu.baylor.flarn.services;
 
-import edu.baylor.flarn.exceptions.RecordNotFoundException;
+
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.repositories.CategoryRepository;
 import edu.baylor.flarn.resources.ResponseBody;
-import edu.baylor.flarn.resources.UpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,14 +35,7 @@ public class CategoryService {
         }
     }
 
-    public Category updateProblem(UpdateRequest<Category> updateRequest) throws RecordNotFoundException {
-        Category category = categoryRepository.findById(updateRequest.getId()).orElse(null);
-
-        if (category == null) {
-            throw new RecordNotFoundException("user not found with id " + updateRequest.getId());
-        }
-        category.setName(updateRequest.getObj().getName());
-
+    public Category updateProblem(Category category) {
         return categoryRepository.save(category);
     }
 

@@ -1,11 +1,10 @@
 package edu.baylor.flarn.controllers;
 
-import edu.baylor.flarn.exceptions.RecordNotFoundException;
+
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.resources.ProblemSetSearchRequest;
 import edu.baylor.flarn.resources.ResponseBody;
-import edu.baylor.flarn.resources.UpdateRequest;
 import edu.baylor.flarn.resources.UserRoles;
 import edu.baylor.flarn.services.ManageProblemService;
 import edu.baylor.flarn.services.RandomProblemService;

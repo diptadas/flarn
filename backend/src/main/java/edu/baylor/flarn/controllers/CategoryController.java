@@ -44,8 +44,8 @@ public class CategoryController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public Category upDateCategory(@RequestBody UpdateRequest<Category> updateRequest) throws RecordNotFoundException {
-        return categoryService.updateProblem(updateRequest);
+    public Category upDateCategory(@RequestBody Category category)  {
+        return categoryService.updateProblem(category);
     }
 
     //Todo: Check moderator also

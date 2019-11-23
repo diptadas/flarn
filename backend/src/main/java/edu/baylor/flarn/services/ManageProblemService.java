@@ -1,13 +1,10 @@
 package edu.baylor.flarn.services;
 
-import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.resources.ResponseBody;
-import edu.baylor.flarn.resources.UpdateRequest;
-import edu.baylor.flarn.resources.UserRoles;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
