@@ -6,6 +6,7 @@ import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.resources.ResponseBody;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class ManageProblemService {
         return problemRepository.save(problem);
     }
 
+    @Transactional
     public ResponseBody deleteBatchProblem(List<Long> ids){
         try {
             problemRepository.deleteByIdIn(ids);
