@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProblemSetSearchRequest {
+public class ProblemSearchRequest {
     private String title; // substring matching
 
     private String category;
 
     private String difficulty;
 }
+

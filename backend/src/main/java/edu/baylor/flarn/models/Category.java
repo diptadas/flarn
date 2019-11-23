@@ -29,5 +29,5 @@ public class Category {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private Set<ProblemSet> problemSets = new HashSet<>();
+    private Set<Problem> problems = new HashSet<>();
 }

@@ -31,10 +31,10 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "problemSet_id")
+    @JoinColumn(name = "problem_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private ProblemSet problemSet;
+    private Problem problem;
 }
