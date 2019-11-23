@@ -2,6 +2,7 @@ package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.resources.ResponseBody;
@@ -117,5 +118,13 @@ public class UserController {
     @GetMapping("/search")
     public List<User> searchUser(@RequestParam String name) {
         return userService.searchUserByName(name);
+    }
+
+    @GetMapping("/attemptedProblems")
+    public List<Problem> attemptedProblems(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.getSolvedProblemsForUser(user);
     }
 }

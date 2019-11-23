@@ -2,6 +2,8 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.repositories.UserRepository;
@@ -9,6 +11,7 @@ import edu.baylor.flarn.resources.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -165,5 +168,14 @@ public class UserService {
 
     public List<User> searchUserByName(String name) {
         return userRepository.findByFullNameContainingIgnoreCase(name);
+    }
+
+
+    public List<Problem> getSolvedProblemsForUser(User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Session session : user.getParticipatedSessions()) {
+            problems.add(session.getProblem());
+        }
+        return problems;
     }
 }

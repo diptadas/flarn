@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *
  * Manage problem service includes service for to add problems, delete problems etc.
  */
 
@@ -47,13 +46,12 @@ public class ProblemService {
         return problem.orElse(null);
     }
 
-    public ResponseBody deleteProblem(Long problem){
+    public ResponseBody deleteProblem(Long problem) {
         try {
             problemRepository.deleteById(problem);
-            return  new ResponseBody(200,"Successful");
-        }
-        catch (Exception e){
-            return  new ResponseBody(500,e.getMessage());
+            return new ResponseBody(200, "Successful");
+        } catch (Exception e) {
+            return new ResponseBody(500, e.getMessage());
         }
     }
 
@@ -63,22 +61,13 @@ public class ProblemService {
     }
 
     @Transactional
-    public ResponseBody deleteBatchProblem(List<Long> ids){
+    public ResponseBody deleteBatchProblem(List<Long> ids) {
         try {
             problemRepository.deleteByIdIn(ids);
-            return  new ResponseBody(200,"Successful");
+            return new ResponseBody(200, "Successful");
+        } catch (Exception e) {
+            return new ResponseBody(500, e.getMessage());
         }
-        catch (Exception e){
-            return  new ResponseBody(500,e.getMessage());
-        }
-    }
-
-    public List<Problem> getSolvedProblemsForUser(User user) {
-        List<Problem> problem = new ArrayList<>();
-        for (Session session : user.getParticipatedSessions()) {
-            problem.add(session.getProblem());
-        }
-        return problem;
     }
 
     public List<Long> getSolvedProblemsIdsForUser(User user) {
