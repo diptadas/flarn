@@ -12,7 +12,6 @@ import java.util.Optional;
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     private final UserRepository userRepository;
 
-
     public UserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

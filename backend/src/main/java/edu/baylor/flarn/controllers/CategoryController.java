@@ -1,12 +1,10 @@
 package edu.baylor.flarn.controllers;
 
 
-
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +16,11 @@ import java.util.List;
 @Slf4j
 public class CategoryController {
 
-    @Autowired
-    CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
 
     @PostMapping("")
@@ -43,7 +44,7 @@ public class CategoryController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public Category upDateCategory(@RequestBody Category category)  {
+    public Category upDateCategory(@RequestBody Category category) {
         return categoryService.updateProblem(category);
     }
 

@@ -25,6 +25,7 @@ public class ProblemController {
 
     private final ProblemService problemService;
     private final SearchProblemService searchProblemService;
+
     @Autowired
     public ProblemController(ProblemService problemService,
                              SearchProblemService searchproblemService) {
@@ -52,7 +53,7 @@ public class ProblemController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN') or #problem.moderator.username == authentication.name")
-    public Problem updateProblem(@RequestBody Problem problem){
+    public Problem updateProblem(@RequestBody Problem problem) {
         return problemService.updateProblem(problem);
     }
 

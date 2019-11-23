@@ -3,9 +3,9 @@ package edu.baylor.flarn.services;
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.models.Difficulty;
 import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.resources.ProblemSearchRequest;
 import edu.baylor.flarn.repositories.CategoryRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
+import edu.baylor.flarn.resources.ProblemSearchRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
