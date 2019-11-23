@@ -3,7 +3,7 @@ package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.resources.ProblemSetSearchRequest;
+import edu.baylor.flarn.resources.ProblemSearchRequest;
 import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.resources.UserRoles;
 import edu.baylor.flarn.services.ManageProblemService;
@@ -19,39 +19,39 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping("/problemsets")
+@RequestMapping("/problems")
 @Slf4j
 public class ProblemController {
 
     private final ManageProblemService manageProblemService;
-    private final SearchProblemService searchProblemSetService;
-    private final RandomProblemService randomProblemSetService;
+    private final SearchProblemService searchproblemService;
+    private final RandomProblemService randomproblemService;
 
     @Autowired
     public ProblemController(ManageProblemService manageProblemService,
-                             SearchProblemService searchProblemSetService,
-                             RandomProblemService randomProblemSetService) {
+                             SearchProblemService searchproblemService,
+                             RandomProblemService randomproblemService) {
         this.manageProblemService = manageProblemService;
-        this.searchProblemSetService = searchProblemSetService;
-        this.randomProblemSetService = randomProblemSetService;
+        this.searchproblemService = searchproblemService;
+        this.randomproblemService = randomproblemService;
     }
 
     @GetMapping
-    public List<Problem> getProblemSets() {
-        return manageProblemService.getAllProblemSets();
+    public List<Problem> getproblems() {
+        return manageProblemService.getAllproblems();
     }
 
     @GetMapping("{id}")
-    public Problem getProblemSetById(@PathVariable long id) {
-        return manageProblemService.getProblemSetById(id);
+    public Problem getproblemById(@PathVariable long id) {
+        return manageProblemService.getproblemById(id);
     }
 
     @PostMapping
     @RolesAllowed(UserRoles.roleModerator)
-    public Problem createProblemSet(@RequestBody Problem problemSet, @AuthenticationPrincipal User user) {
+    public Problem createproblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
         // TODO: fix roles allowed restriction not working
         log.info(user.getRoles().toString());
-        return manageProblemService.createProblemSet(problemSet, user);
+        return manageProblemService.createproblem(problem, user);
     }
 
     @PostMapping("/update")
@@ -61,8 +61,8 @@ public class ProblemController {
     }
 
     @PostMapping("/search")
-    public List<Problem> searchProblemSets(@RequestBody ProblemSetSearchRequest problemSetSearchRequest) {
-        return searchProblemSetService.searchProblemSet(problemSetSearchRequest);
+    public List<Problem> searchproblems(@RequestBody ProblemSearchRequest problemSearchRequest) {
+        return searchproblemService.searchproblem(problemSearchRequest);
     }
 
     //Todo: Check moderator also
@@ -80,7 +80,7 @@ public class ProblemController {
     }
 
     @GetMapping("/random")
-    public Problem getRandomProblemSet() {
-        return randomProblemSetService.getRandomProblemSet();
+    public Problem getRandomproblem() {
+        return randomproblemService.getRandomproblem();
     }
 }

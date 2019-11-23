@@ -17,36 +17,36 @@ import java.util.Optional;
 
 @Service
 public class ManageProblemService {
-    private final ProblemRepository problemSetRepository;
+    private final ProblemRepository problemRepository;
     private final KnowledgeSourceRepository knowledgeSourceRepository;
 
-    public ManageProblemService(ProblemRepository problemSetRepository, KnowledgeSourceRepository knowledgeSourceRepository) {
-        this.problemSetRepository = problemSetRepository;
+    public ManageProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository) {
+        this.problemRepository = problemRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
     }
 
-    public Problem createProblemSet(Problem problemSet, User user) {
-        problemSet.setModerator(user);
+    public Problem createproblem(Problem problem, User user) {
+        problem.setModerator(user);
 
         // save the knowledge source first
         // solved: Not-null property references a transient value - transient instance must be saved before current operation
-        knowledgeSourceRepository.save(problemSet.getKnowledgeSource());
+        knowledgeSourceRepository.save(problem.getKnowledgeSource());
 
-        return problemSetRepository.save(problemSet);
+        return problemRepository.save(problem);
     }
 
-    public List<Problem> getAllProblemSets() {
-        return problemSetRepository.findAll();
+    public List<Problem> getAllproblems() {
+        return problemRepository.findAll();
     }
 
-    public Problem getProblemSetById(long id) {
-        Optional<Problem> problemSet = problemSetRepository.findById(id);
-        return problemSet.orElse(null);
+    public Problem getproblemById(long id) {
+        Optional<Problem> problem = problemRepository.findById(id);
+        return problem.orElse(null);
     }
 
     public ResponseBody deleteProblem(Long problem){
         try {
-            problemSetRepository.deleteById(problem);
+            problemRepository.deleteById(problem);
             return  new ResponseBody(200,"Successful");
         }
         catch (Exception e){
@@ -56,12 +56,12 @@ public class ManageProblemService {
 
 
     public Problem updateProblem(Problem problem) {
-        return problemSetRepository.save(problem);
+        return problemRepository.save(problem);
     }
 
     public ResponseBody deleteBatchProblem(List<Long> ids){
         try {
-            problemSetRepository.deleteByIdIn(ids);
+            problemRepository.deleteByIdIn(ids);
             return  new ResponseBody(200,"Successful");
         }
         catch (Exception e){

@@ -36,12 +36,12 @@ public class Session {
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "problemSet_id")
+    @JoinColumn(name = "problem_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    Problem problemSet;
+    Problem problem;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

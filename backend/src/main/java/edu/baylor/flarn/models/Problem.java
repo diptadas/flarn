@@ -28,13 +28,13 @@ public class Problem {
     @OneToOne
     KnowledgeSource knowledgeSource;
 
-    @OneToMany(mappedBy = "problemSet")
+    @OneToMany(mappedBy = "problem")
     Set<Question> questions = new HashSet<>();
 
     @NotNull
     Difficulty difficulty;
 
-    @OneToMany(mappedBy = "problemSet")
+    @OneToMany(mappedBy = "problem")
     Set<Review> reviews = new HashSet<>();
 
     @ManyToOne
@@ -46,7 +46,7 @@ public class Problem {
     @JsonIdentityReference(alwaysAsId = true)
     User moderator;
 
-    @OneToMany(mappedBy = "problemSet")
+    @OneToMany(mappedBy = "problem")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
@@ -63,6 +63,6 @@ public class Problem {
 
     public void addQuestion(Question question) { // helper to ensure bidirectional insert
         this.getQuestions().add(question);
-        question.setProblemSet(this);
+        question.setProblem(this);
     }
 }

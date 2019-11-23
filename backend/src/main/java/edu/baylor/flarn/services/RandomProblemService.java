@@ -9,19 +9,19 @@ import java.util.Optional;
 @Service
 public class RandomProblemService {
 
-    private final ProblemRepository problemSetRepository;
+    private final ProblemRepository problemRepository;
 
-    public RandomProblemService(ProblemRepository problemSetRepository) {
-        this.problemSetRepository = problemSetRepository;
+    public RandomProblemService(ProblemRepository problemRepository) {
+        this.problemRepository = problemRepository;
     }
 
     // TODO: filter unsolved only
-    public Problem getRandomProblemSet() {
+    public Problem getRandomproblem() {
         long least = 1L;
-        long highest = problemSetRepository.count();
+        long highest = problemRepository.count();
         Long random = least + (long) (Math.random() * (highest - least));
-        Optional<Problem> problemSet = problemSetRepository.findById(random);
-        return problemSet.orElse(null);
+        Optional<Problem> problem = problemRepository.findById(random);
+        return problem.orElse(null);
     }
 
 }

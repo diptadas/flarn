@@ -31,10 +31,10 @@ public class Question {
     private int answer;
 
     @ManyToOne
-    @JoinColumn(name = "problemSet_id")
+    @JoinColumn(name = "problem_id")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private Problem problemSet;
+    private Problem problem;
 }

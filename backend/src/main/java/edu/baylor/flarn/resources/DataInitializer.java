@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private List<Category> categories = new ArrayList<>();
-    private List<Problem> problemSets = new ArrayList<>();
+    private List<Problem> problems = new ArrayList<>();
     private List<User> moderators = new ArrayList<>();
     private List<User> learners = new ArrayList<>();
     private User admin;
@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
         createSubscriptions();
 
         createCategories();
-        createProblemSets();
+        createproblems();
     }
 
     private void createCategories() {
@@ -111,21 +111,21 @@ public class DataInitializer implements CommandLineRunner {
         entityManager.flush(); // flush everything
     }
 
-    private void createProblemSets() {
+    private void createproblems() {
         for (int i = 0; i < 10; i++) {
-            Problem problemSet = new Problem();
-            problemSet.setDifficulty(Difficulty.EASY);
-            problemSet.setCategory(categories.get(i % 3)); // add category in cyclic order
-            problemSet.setModerator(moderators.get(i % 3)); // add moderator in cyclic order
+            Problem problem = new Problem();
+            problem.setDifficulty(Difficulty.EASY);
+            problem.setCategory(categories.get(i % 3)); // add category in cyclic order
+            problem.setModerator(moderators.get(i % 3)); // add moderator in cyclic order
 
             // add knowledge source
             KnowledgeSource knowledgeSource = new KnowledgeSource();
             knowledgeSource.setContentLink("http://google.com");
             entityManager.persist(knowledgeSource);
 
-            problemSet.setKnowledgeSource(knowledgeSource);
-            problemSet.setTitle("ProblemSet-" + i);
-            problemSet.setDescription("This is problem-" + i);
+            problem.setKnowledgeSource(knowledgeSource);
+            problem.setTitle("problem-" + i);
+            problem.setDescription("This is problem-" + i);
 
             // add questions
             for (int j = 0; j < 3; j++) {
@@ -140,12 +140,12 @@ public class DataInitializer implements CommandLineRunner {
 
                 entityManager.persist(question);
 
-                problemSet.addQuestion(question);
+                problem.addQuestion(question);
             }
 
-            entityManager.persist(problemSet);
+            entityManager.persist(problem);
 
-            problemSets.add(problemSet);
+            problems.add(problem);
         }
 
         entityManager.flush(); // flush everything
