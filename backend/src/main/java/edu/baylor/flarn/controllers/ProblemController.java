@@ -44,7 +44,7 @@ public class ProblemController {
 
     @GetMapping("{id}")
     public Problem getproblemById(@PathVariable long id) {
-        return manageProblemService.getproblemById(id);
+        return manageProblemService.getProblemById(id);
     }
 
     @PostMapping
@@ -52,7 +52,7 @@ public class ProblemController {
     public Problem createproblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
         // TODO: fix roles allowed restriction not working
         log.info(user.getRoles().toString());
-        return manageProblemService.createproblem(problem, user);
+        return manageProblemService.createProblem(problem, user);
     }
 
     @PostMapping("/update")
@@ -62,8 +62,8 @@ public class ProblemController {
     }
 
     @PostMapping("/search")
-    public List<Problem> searchproblems(@RequestBody ProblemSearchRequest problemSearchRequest) {
-        return searchProblemService.searchproblem(problemSearchRequest);
+    public List<Problem> searchProblems(@RequestBody ProblemSearchRequest problemSearchRequest) {
+        return searchProblemService.searchProblem(problemSearchRequest);
     }
 
     //Todo: Check moderator is owner or admin
@@ -81,7 +81,7 @@ public class ProblemController {
     }
 
     @GetMapping("/random")
-    public Problem getRandomproblem() {
-        return randomProblemService.getRandomproblem();
+    public Problem getRandomProblem() {
+        return randomProblemService.getRandomProblem();
     }
 }
