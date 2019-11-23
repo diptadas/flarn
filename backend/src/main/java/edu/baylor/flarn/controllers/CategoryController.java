@@ -22,7 +22,7 @@ public class CategoryController {
     CategoryService categoryService;
 
 
-    @PostMapping
+    @PostMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public Category createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);

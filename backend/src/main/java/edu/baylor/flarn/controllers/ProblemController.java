@@ -21,19 +21,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/problems")
 @Slf4j
+
 public class ProblemController {
 
     private final ManageProblemService manageProblemService;
-    private final SearchProblemService searchproblemService;
-    private final RandomProblemService randomproblemService;
+    private final SearchProblemService searchProblemService;
+    private final RandomProblemService randomProblemService;
 
     @Autowired
     public ProblemController(ManageProblemService manageProblemService,
                              SearchProblemService searchproblemService,
-                             RandomProblemService randomproblemService) {
+                             RandomProblemService randomProblemService) {
         this.manageProblemService = manageProblemService;
-        this.searchproblemService = searchproblemService;
-        this.randomproblemService = randomproblemService;
+        this.searchProblemService = searchproblemService;
+        this.randomProblemService = randomProblemService;
     }
 
     @GetMapping
@@ -62,7 +63,7 @@ public class ProblemController {
 
     @PostMapping("/search")
     public List<Problem> searchproblems(@RequestBody ProblemSearchRequest problemSearchRequest) {
-        return searchproblemService.searchproblem(problemSearchRequest);
+        return searchProblemService.searchproblem(problemSearchRequest);
     }
 
     //Todo: Check moderator also
@@ -73,14 +74,14 @@ public class ProblemController {
     }
 
     //Todo: Check moderator also
-    @DeleteMapping("/{ids}")
+    @DeleteMapping("/batch/{ids}")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseBody deleteBatchProblem(@PathVariable("id") List<Long> ids) {
+    public ResponseBody deleteBatchProblem(@PathVariable("ids") List<Long> ids) {
         return manageProblemService.deleteBatchProblem(ids);
     }
 
     @GetMapping("/random")
     public Problem getRandomproblem() {
-        return randomproblemService.getRandomproblem();
+        return randomProblemService.getRandomproblem();
     }
 }
