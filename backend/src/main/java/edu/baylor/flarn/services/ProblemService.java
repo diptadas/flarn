@@ -38,7 +38,7 @@ public class ProblemService {
         return problemRepository.save(problem);
     }
 
-    public List<Problem> getAllproblems() {
+    public List<Problem> getAllProblems() {
         return problemRepository.findAll();
     }
 

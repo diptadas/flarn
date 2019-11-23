@@ -33,18 +33,18 @@ public class ProblemController {
     }
 
     @GetMapping("")
-    public List<Problem> getproblems() {
-        return problemService.getAllproblems();
+    public List<Problem> getProblems() {
+        return problemService.getAllProblems();
     }
 
     @GetMapping("{id}")
-    public Problem getproblemById(@PathVariable long id) {
+    public Problem getProblemById(@PathVariable long id) {
         return problemService.getProblemById(id);
     }
 
     @PostMapping("")
     @RolesAllowed(UserRoles.roleModerator)
-    public Problem createproblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
+    public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
         // TODO: fix roles allowed restriction not working
         log.info(user.getRoles().toString());
         return problemService.createProblem(problem, user);
@@ -52,7 +52,7 @@ public class ProblemController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN') or #problem.moderator.username == authentication.name")
-    public Problem upDateProblem(@RequestBody Problem problem){
+    public Problem updateProblem(@RequestBody Problem problem){
         return problemService.updateProblem(problem);
     }
 

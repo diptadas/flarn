@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
         createSubscriptions();
 
         createCategories();
-        createproblems();
+        createProblems();
     }
 
     private void createCategories() {
@@ -111,7 +111,7 @@ public class DataInitializer implements CommandLineRunner {
         entityManager.flush(); // flush everything
     }
 
-    private void createproblems() {
+    private void createProblems() {
         for (int i = 0; i < 10; i++) {
             Problem problem = new Problem();
             problem.setDifficulty(Difficulty.EASY);
