@@ -113,4 +113,9 @@ public class UserController {
         user = userService.findById(user.getId());
         return userService.follow(user, id);
     }
+
+    @GetMapping("/search")
+    public List<User> searchUser(@RequestParam String name) {
+        return userService.searchUserByName(name);
+    }
 }

@@ -162,4 +162,8 @@ public class UserService {
     public List<User> getUserSubscriptions(long Id) {
         return userRepository.findUserSubscriptions(Id);
     }
+
+    public List<User> searchUserByName(String name) {
+        return userRepository.findByFullNameContainingIgnoreCase(name);
+    }
 }
