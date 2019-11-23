@@ -72,6 +72,13 @@ public class ProblemController {
         return manageProblemService.deleteProblem(id);
     }
 
+    //Todo: Check moderator also
+    @DeleteMapping("/{ids}")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseBody deleteBatchProblem(@PathVariable("id") List<Long> ids) {
+        return manageProblemService.deleteBatchProblem(ids);
+    }
+
     @GetMapping("/random")
     public Problem getRandomProblemSet() {
         return randomProblemSetService.getRandomProblemSet();

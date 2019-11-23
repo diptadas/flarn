@@ -58,4 +58,16 @@ public class ManageProblemService {
     public Problem updateProblem(Problem problem) {
         return problemSetRepository.save(problem);
     }
+
+    public ResponseBody deleteBatchProblem(List<Long> ids){
+        try {
+            problemSetRepository.deleteByIdIn(ids);
+            return  new ResponseBody(200,"Successful");
+        }
+        catch (Exception e){
+            return  new ResponseBody(500,e.getMessage());
+        }
+    }
+
+
 }
