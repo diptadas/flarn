@@ -26,7 +26,7 @@ public class ManageProblemService {
         this.knowledgeSourceRepository = knowledgeSourceRepository;
     }
 
-    public Problem createproblem(Problem problem, User user) {
+    public Problem createProblem(Problem problem, User user) {
         problem.setModerator(user);
 
         // save the knowledge source first
@@ -40,7 +40,7 @@ public class ManageProblemService {
         return problemRepository.findAll();
     }
 
-    public Problem getproblemById(long id) {
+    public Problem getProblemById(long id) {
         Optional<Problem> problem = problemRepository.findById(id);
         return problem.orElse(null);
     }

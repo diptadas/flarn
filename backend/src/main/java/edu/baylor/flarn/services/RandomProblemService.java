@@ -16,7 +16,7 @@ public class RandomProblemService {
     }
 
     // TODO: filter unsolved only
-    public Problem getRandomproblem() {
+    public Problem getRandomProblem() {
         long least = 1L;
         long highest = problemRepository.count();
         Long random = least + (long) (Math.random() * (highest - least));

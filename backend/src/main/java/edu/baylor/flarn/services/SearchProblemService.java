@@ -23,7 +23,7 @@ public class SearchProblemService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Problem> searchproblem(ProblemSearchRequest problemSearchRequest) {
+    public List<Problem> searchProblem(ProblemSearchRequest problemSearchRequest) {
         // get category
         Category category = null;
         if (problemSearchRequest.getCategory() != null) {
