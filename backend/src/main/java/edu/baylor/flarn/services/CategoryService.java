@@ -25,7 +25,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public ResponseBody deleteProblem(Long id) {
+    public ResponseBody deleteCategory(Long id) {
         try {
             categoryRepository.deleteById(id);
             return new ResponseBody(200, "Successful");
@@ -34,7 +34,7 @@ public class CategoryService {
         }
     }
 
-    public Category updateProblem(Category category) {
+    public Category updateCategory(Category category) {
         return categoryRepository.save(category);
     }
 

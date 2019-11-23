@@ -44,15 +44,15 @@ public class CategoryController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public Category upDateCategory(@RequestBody Category category) {
-        return categoryService.updateProblem(category);
+    public Category updateCategory(@RequestBody Category category) {
+        return categoryService.updateCategory(category);
     }
 
     //Todo: Check moderator also
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseBody deleteProblem(@PathVariable("id") Long id) {
-        return categoryService.deleteProblem(id);
+    public ResponseBody deleteCategory(@PathVariable("id") Long id) {
+        return categoryService.deleteCategory(id);
     }
 
 
