@@ -57,8 +57,8 @@ public class ProblemController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN') or #problem.moderator.username == authentication.name")
-    public Problem upDateProblem(@RequestBody UpdateRequest<Problem> updateRequest) throws RecordNotFoundException {
-        return manageProblemService.updateProblem(updateRequest);
+    public Problem upDateProblem(@RequestBody Problem problem){
+        return manageProblemService.updateProblem(problem);
     }
 
     @PostMapping("/search")

@@ -58,22 +58,7 @@ public class ManageProblemService {
     }
 
 
-    public Problem updateProblem(UpdateRequest<Problem> updateRequest) throws RecordNotFoundException {
-        Problem problem = problemSetRepository.findById(updateRequest.getId()).orElse(null);
-
-        if (problem == null) {
-            throw new RecordNotFoundException("user not found with id " + updateRequest.getId());
-        }
-        /**
-         * Which fields to update ../
-         */
-        problem.setModerator(updateRequest.getObj().getModerator());
-        problem.setCategory(updateRequest.getObj().getCategory());
-        problem.setDescription(updateRequest.getObj().getDescription());
-        problem.setTitle(updateRequest.getObj().getTitle());
-        problem.setKnowledgeSource(updateRequest.getObj().getKnowledgeSource());
-        problem.setDifficulty(updateRequest.getObj().getDifficulty());
-
+    public Problem updateProblem(Problem problem) {
         return problemSetRepository.save(problem);
     }
 }
