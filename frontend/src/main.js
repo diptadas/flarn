@@ -20,7 +20,7 @@ require("./assets/js/argon.js");
 
 // create http request handler
 const _axios = axios.create({
-  baseURL: "http://localhost:8085/",
+  baseURL: process.env.VUE_APP_SERVER_URL,
   timeout: 1000
 });
 
