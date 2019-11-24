@@ -9,5 +9,3 @@ export default {
   name: "Ranks"
 };
 </script>
-
-<style lang="scss" scoped></style>
