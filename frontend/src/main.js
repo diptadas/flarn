@@ -42,7 +42,7 @@ _axios.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.status === 401) {
+    if (error.response.status === 401) {
       return router.replace({ name: "login" });
     }
 
