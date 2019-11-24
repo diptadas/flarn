@@ -18,7 +18,10 @@
               <div class="card bg-secondary shadow border-0">
                 <div class="card-body px-lg-5 py-lg-5">
                   <div class="text-center text-muted mb-4">
-                    <small>Login in with credentials</small>
+                    <small
+                      >Enter your email address here to recover your
+                      password</small
+                    >
                   </div>
 
                   <div
@@ -60,34 +63,19 @@
                         />
                       </div>
                     </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"
-                            ><i class="ni ni-lock-circle-open"></i
-                          ></span>
-                        </div>
-                        <input
-                          class="form-control"
-                          placeholder="Password"
-                          type="password"
-                          v-model="password"
-                        />
-                      </div>
-                    </div>
                     <div class="text-center">
                       <button
                         type="button"
                         class="btn btn-primary mt-4"
-                        @click="loginUser"
+                        @click="submit"
                       >
-                        Login To Account
+                        Submit
                       </button>
                     </div>
                     <div class="text-center text-muted mt-4 text-underline">
                       <small
-                        ><router-link :to="{ name: 'forgot' }"
-                          >Forgot my password</router-link
+                        ><router-link :to="{ name: 'login' }"
+                          >or Login instead</router-link
                         ></small
                       >
                     </div>
@@ -104,7 +92,7 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "Forgot",
   props: {
     message: {
       type: String,
@@ -114,7 +102,6 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
       error: {
         state: false,
         text: "",
@@ -123,54 +110,26 @@ export default {
     };
   },
   created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "login");
-
-    if (this.message) {
-      this.error.text = this.message;
-      this.error.type = "";
-      this.error.state = true;
-    }
-
-    // if router before was home, show logout message
+    this.$store.commit("SET_GLOBAL_BUTTON", "");
   },
   methods: {
-    loginUser() {
+    submit() {
       // validate data
 
-      const url = "auth/login";
-      const data = {
-        username: this.email,
-        password: this.password
-      };
-
-      console.log(data);
+      const url = `users/sendConfirmationCode/?username=${this.email}`;
 
       this.$http
-        .post(url, data)
+        .get(url)
         .then(res => {
           const data = res.data;
 
-          if (!data.enabled) {
-            return this.$router.replace({ name: "confirm" });
-          }
-
-          this.$store.commit("SET_AUTH", {
-            username: this.email,
-            token: data.token,
-            userId: data.userId
-          });
-
-          localStorage.setItem("auth_token", data.token);
-          localStorage.setItem("username", data.email);
-          localStorage.setItem("user_id", data.userId);
-
-          this.$router.push({
-            name: "home"
-          });
+          this.error.text = "Recover code sent to your account";
+          this.error.type = "info";
+          this.error.state = false;
         })
         .catch(err => {
           console.log(err);
-          const mess = err.response.data.error || "Unknown error occured";
+          const mess = err.response.data.message || "Unknown error occured";
           this.error.text = mess;
           this.error.type = "error";
           this.error.state = true;

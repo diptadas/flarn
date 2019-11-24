@@ -16,9 +16,34 @@
           <div class="row justify-content-center">
             <div class="col-lg-7">
               <div class="card bg-secondary shadow border-0">
+                <div class="card-header bg-white pb-5">
+                  <div class="text-muted text-center mb-3">
+                    <small>Login with:</small>
+                  </div>
+                  <div class="text-center">
+                    <a href="#" class="btn btn-neutral btn-icon mr-4">
+                      <span class="btn-inner--icon">
+                        <img
+                          src="../../assets/img/icons/common/github.svg"
+                          alt="image"
+                        />
+                      </span>
+                      <span class="btn-inner--text">Github</span>
+                    </a>
+                    <a href="#" class="btn btn-neutral btn-icon">
+                      <span class="btn-inner--icon">
+                        <img
+                          src="../../assets/img/icons/common/google.svg"
+                          alt="image"
+                        />
+                      </span>
+                      <span class="btn-inner--text">Google</span>
+                    </a>
+                  </div>
+                </div>
                 <div class="card-body px-lg-5 py-lg-5">
                   <div class="text-center text-muted mb-4">
-                    <small>Login in with credentials</small>
+                    <small>Or login in with credentials</small>
                   </div>
 
                   <div
@@ -84,13 +109,6 @@
                         Login To Account
                       </button>
                     </div>
-                    <div class="text-center text-muted mt-4 text-underline">
-                      <small
-                        ><router-link :to="{ name: 'forgot' }"
-                          >Forgot my password</router-link
-                        ></small
-                      >
-                    </div>
                   </form>
                 </div>
               </div>
@@ -104,7 +122,7 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "Recover",
   props: {
     message: {
       type: String,
@@ -123,15 +141,7 @@ export default {
     };
   },
   created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "login");
-
-    if (this.message) {
-      this.error.text = this.message;
-      this.error.type = "";
-      this.error.state = true;
-    }
-
-    // if router before was home, show logout message
+    this.$store.commit("SET_GLOBAL_BUTTON", "");
   },
   methods: {
     loginUser() {
@@ -149,11 +159,6 @@ export default {
         .post(url, data)
         .then(res => {
           const data = res.data;
-
-          if (!data.enabled) {
-            return this.$router.replace({ name: "confirm" });
-          }
-
           this.$store.commit("SET_AUTH", {
             username: this.email,
             token: data.token,
