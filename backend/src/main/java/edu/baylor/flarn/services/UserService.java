@@ -164,20 +164,19 @@ public class UserService {
      * @return
      */
     public ResponseBody deleteUser(Long id) {
-        User user = getUser(id);
-        if(user != null){
-            try {
-                //Remove all subscription associations
-                customQueries.deleteAssociations(id);
+        try {
+            //Remove all subscription associations
+            ResponseBody responseBody = customQueries.deleteAssociations(id);
+
+            if(responseBody.getStatus() == 200){
                 userRepository.deleteById(id);
                 return new ResponseBody(200, "Successful");
-            } catch (Exception e) {
-                return new ResponseBody(500, e.getMessage());
             }
-        }else{
-            // What you think 200 or explicit one
-            // user not found defaults to 200 though
-            return new ResponseBody(200, "Successful");
+            else{
+                return responseBody;
+            }
+        } catch (Exception e) {
+            return new ResponseBody(500, e.getMessage());
         }
 
     }
