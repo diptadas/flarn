@@ -1,7 +1,11 @@
 <template>
   <div>
     <h3 class="text-primary">Problems you created:</h3>
-    <Problem :problems="problems">
+    <Problem
+      :problems="problems"
+      @prob="showProblem"
+      @category="getProblemsForCategory"
+    >
       <div class="text-right">
         <button
           type="button"
@@ -25,8 +29,21 @@ export default {
     };
   },
   methods: {
+    getProblemsForCategory(categoryId) {
+      const url = `category/${categoryId}`;
+
+      this.$http.get(url).then(res => {
+        this.problems = res.data.problems;
+      });
+    },
+    showProblem(problemId) {
+      this.$router.push({
+        name: "manage-problems-detail",
+        params: { id: this.$hash.encode(problemId) }
+      });
+    },
     getProblems() {
-      const url = "problemsets";
+      const url = "problems";
 
       this.$http.get(url).then(res => {
         this.problems = res.data;
@@ -41,5 +58,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

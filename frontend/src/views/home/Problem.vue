@@ -5,8 +5,8 @@
         :p="prob"
         v-for="prob in problems"
         :key="prob.id"
-        @prob="showProblem"
-        @cat="showCategory"
+        @prob="$emit('prob', $event)"
+        @cat="$emit('category', $event)"
       />
     </div>
     <div class="col col-md-4">
@@ -45,10 +45,10 @@
             :id="`category-radio-${cat.id}`"
             type="radio"
             v-model="selectedCategory"
-            :value="cat.value"
+            :value="cat"
           />
           <label class="custom-control-label" :for="`category-radio-${cat.id}`">
-            {{ cat.text }}
+            {{ cat.name }}
           </label>
         </div>
       </div>
@@ -90,6 +90,11 @@
 <script>
 import Prob from "@/components/problem/ProblemItem.vue";
 
+const defaultCategory = {
+  id: 0,
+  name: "All Categories"
+};
+
 export default {
   name: "Problem",
   props: {
@@ -100,24 +105,8 @@ export default {
   data() {
     return {
       title: "",
-      selectedCategory: "",
-      categories: [
-        {
-          id: 1,
-          text: "All Categories",
-          value: ""
-        },
-        {
-          id: 2,
-          text: "Category 1",
-          value: "category-1"
-        },
-        {
-          id: 3,
-          text: "Category 3",
-          value: "category-3"
-        }
-      ],
+      selectedCategory: defaultCategory,
+      categories: [],
       selectedDiff: "",
       diffs: [
         {
@@ -128,24 +117,24 @@ export default {
         {
           id: 2,
           text: "Easy",
-          value: "easy"
+          value: "EASY"
         },
         {
           id: 3,
           text: "Medium",
-          value: "medium"
+          value: "MEDIUM"
         },
         {
           id: 4,
           text: "Hard",
-          value: "hard"
+          value: "HARD"
         }
       ]
     };
   },
   methods: {
     searchProblem() {
-      const url = "problemsets/search";
+      const url = "problems/search";
 
       const data = {};
 
@@ -154,31 +143,28 @@ export default {
       }
 
       if (this.selectedCategory) {
-        data["category"] = this.selectedCategory;
+        data["category"] = this.selectedCategory.name;
       }
 
       if (this.selectedDiff) {
         data["difficulty"] = this.selectedDiff;
       }
 
-      this.$http
-        .post(url, data)
-        .then(res => {
-          this.problems = res.data;
-        })
-    },
-    showProblem(problemId) {
-      this.$router.push({
-        name: "problem-detail",
-        params: { id: this.$hash.encode(problemId) }
+      this.$http.post(url, data).then(res => {
+        this.problems = res.data;
       });
     },
-    showCategory(categoryId) {
-      console.log(categoryId);
+    getCategories() {
+      const url = "category";
+
+      this.$http.get(url).then(res => {
+        this.categories = res.data;
+        this.categories.unshift(defaultCategory);
+      });
     }
   },
   created() {
-    // this.getProblems();
+    this.getCategories();
   },
   components: {
     Prob
@@ -207,19 +193,4 @@ export default {
   width: 43px;
   height: 43px;
 }
-
-// .m-card {
-//   border-radius: 2px;
-//   display: inline-block;
-//   position: relative;
-// }
-
-// .card-shadow {
-//   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-//   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-// }
-
-// .card-shadow:hover {
-//   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-// }
 </style>

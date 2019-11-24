@@ -287,7 +287,9 @@
       ></div>
 
       <div class="container-fluid mt-2">
-        <router-view />
+        <div class="min-h-full">
+          <router-view />
+        </div>
 
         <footer class="footer">
           <div class="row align-items-center justify-content-xl-between">

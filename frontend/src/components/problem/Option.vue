@@ -6,6 +6,7 @@
       class="form-control form-control-alternative"
       placeholder="Enter option for Problem"
       v-model="content"
+      @change="$emit('input', content)"
       type="text"
     />
   </div>
@@ -17,15 +18,8 @@ export default {
   name: "Option",
   data() {
     return {
-      content: ""
+      content: this.value
     };
-  },
-  watch: {
-    content(old, value) {
-      this.$emit("input", value);
-    }
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

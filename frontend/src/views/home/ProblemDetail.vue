@@ -1,48 +1,36 @@
 <template>
   <div class="row">
     <div class="col col-md-8">
-      <div
-        class="d-flex align-items-start profile-feed-item card my-2 p-2 pointed"
-      >
-        <div>
-          <h6>
-            {{ problem.title }}
-
+      <div v-if="problem.id">
+        <div
+          class="d-flex-column justify-content-start p-4"
+          @click="showProblem(problem.id)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <h4>
+              {{ problem.title }}
+            </h4>
             <a
               href="#"
-              class="badge badge-default"
-              @click.stop="
-                getProlemsInCategory(
-                  problem.category ? problem.category.id : ''
-                )
-              "
-              >{{ problem.category ? problem.category.name : "" }}</a
+              class="badge badge-primary text-right"
+              @click.stop="getProlemsInCategory(problem.category.id)"
             >
-          </h6>
-          <p>
+              {{ problem.category.name }}
+            </a>
+          </div>
+          <p class="text-left">
             {{ problem.description }}
           </p>
-          <p>
-            <small class="text-muted">Moderator:</small>
-            {{ moderator }}
-          </p>
-          <p>
-            {{ problem.description }}
-          </p>
-          <!-- <p>
-        {{ problem.description }}
-      </p> -->
+          <small class="text-muted text-left"
+            >Created by: {{ moderator }}</small
+          >
         </div>
-      </div>
 
-      <div class="text-right">
-        <button
-          type="button"
-          class="btn btn-primary mt-4"
-          @click="startProblem"
-        >
-          Start Problem
-        </button>
+        <div class="text-right mt-4">
+          <button type="button" class="btn btn-primary" @click="startProblem">
+            Start Problem
+          </button>
+        </div>
       </div>
     </div>
     <div class="col col-md-4"></div>
@@ -80,11 +68,12 @@ export default {
       default: "Moderator"
     }
   },
-  computed: {},
   methods: {
-    startProblem() {},
+    startProblem() {
+      this.$router.push({ name: "problem-session", params: { id: this.id } });
+    },
     getProblem(id) {
-      const url = `problemsets/${id}`;
+      const url = `problems/${id}`;
 
       this.$http.get(url).then(res => {
         this.problem = res.data;
@@ -96,5 +85,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

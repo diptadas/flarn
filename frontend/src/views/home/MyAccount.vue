@@ -9,5 +9,3 @@ export default {
   name: "MyAccount"
 };
 </script>
-
-<style lang="scss" scoped></style>
