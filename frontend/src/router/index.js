@@ -57,6 +57,12 @@ const routes = [
         props: true
       },
       {
+        path: "problems/sessions/:id",
+        name: "problem-session",
+        component: () => import("../views/home/ProblemSession.vue"),
+        props: true
+      },
+      {
         path: "ranks",
         name: "ranks",
         component: () => import("../views/home/Ranks.vue")
@@ -81,6 +87,18 @@ const routes = [
         path: "manage/problems",
         name: "manage-problems",
         component: () => import("../views/home/ManageProblem.vue")
+      },
+      {
+        path: "manage/problems/:id",
+        name: "manage-problems-detail",
+        component: () => import("../views/home/ManageProblemDetail.vue"),
+        props: true
+      },
+      {
+        path: "manage/problems/edit/:id",
+        name: "manage-problem-edit",
+        component: () => import("../views/home/EditProblem.vue"),
+        props: true
       },
       {
         path: "manage/users",
@@ -114,6 +132,21 @@ const routes = [
         path: "/register",
         name: "register",
         component: () => import("../views/account/Register.vue")
+      },
+      {
+        path: "/confirm",
+        name: "confirm",
+        component: () => import("../views/account/Confirm.vue")
+      },
+      {
+        path: "/forgot",
+        name: "forgot",
+        component: () => import("../views/account/Forgot.vue")
+      },
+      {
+        path: "/recover",
+        name: "recover",
+        component: () => import("../views/account/Recover.vue")
       }
     ]
   }
