@@ -31,13 +31,13 @@ public class Problem {
     KnowledgeSource knowledgeSource;
 
     // don't use Set, order matters to check the answers from sessions
-    @OneToMany(mappedBy = "problem")
+    @OneToMany(mappedBy = "problem",cascade = {CascadeType.ALL})
     List<Question> questions = new ArrayList<>();
 
     @NotNull
     Difficulty difficulty;
 
-    @OneToMany(mappedBy = "problem")
+    @OneToMany(mappedBy = "problem",cascade = {CascadeType.ALL})
     Set<Review> reviews = new HashSet<>();
 
     @ManyToOne
@@ -67,5 +67,11 @@ public class Problem {
     public void addQuestion(Question question) { // helper to ensure bidirectional insert
         this.getQuestions().add(question);
         question.setProblem(this);
+    }
+
+
+    public void addReview(Review review) { // helper to ensure bidirectional insert
+        this.getReviews().add(review);
+        review.setProblem(this);
     }
 }
