@@ -22,11 +22,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final CustomQueries customQueries;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService, CustomQueries customQueries) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.customQueries = customQueries;
     }
 
     public User findById(Long id) throws RecordNotFoundException {
@@ -166,9 +168,7 @@ public class UserService {
         if(user != null){
             try {
                 //Remove all subscription associations
-                //userRepository.deleteSubscriptionAssociations(id);
-                //CustomQueries customQueries = new CustomQueries();
-                //customQueries.deleteAssociations(id);
+                customQueries.deleteAssociations(id);
                 userRepository.deleteById(id);
                 return new ResponseBody(200, "Successful");
             } catch (Exception e) {

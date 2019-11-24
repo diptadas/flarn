@@ -81,7 +81,7 @@ public class User implements UserDetails {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<User> subscriptions = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subscriptions",cascade = {CascadeType.ALL})
+    @ManyToMany(mappedBy = "subscriptions")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
