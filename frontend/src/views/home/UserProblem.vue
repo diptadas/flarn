@@ -22,7 +22,11 @@
         </li>
       </ul>
     </div>
-    <Problem :problems="problems">
+    <Problem
+      :problems="problems"
+      @category="getProblemsForCategory"
+      @prob="showProblem"
+    >
       <div class="text-right">
         <button type="button" class="btn btn-info" @click="getRandomProblem">
           Random Problem
@@ -55,8 +59,21 @@ export default {
     };
   },
   methods: {
+    showProblem(problemId) {
+      this.$router.push({
+        name: "problem-detail",
+        params: { id: this.$hash.encode(problemId) }
+      });
+    },
     getProblems() {
-      const url = "problemsets";
+      const url = "problems";
+
+      this.$http.get(url).then(res => {
+        this.problems = res.data;
+      });
+    },
+    getAttemptedProblems() {
+      const url = "users/attemptedProblems";
 
       this.$http.get(url).then(res => {
         this.problems = res.data;
@@ -65,28 +82,32 @@ export default {
     changeTabView(tabId) {
       if (this.activeTab === tabId) return;
 
-      // switch (tabId) {
-      //   case 1:
-      //     this.getSubscribedUsers();
-      //     break;
-      //   case 2:
-      //     this.getSubscriptions();
-      //     break;
-      //   case 3:
-      //     this.getUsers();
-      //     break;
-      // }
+      switch (tabId) {
+        case 1:
+          this.getProblems();
+          break;
+        case 2:
+          this.getAttemptedProblems();
+          break;
+      }
 
       this.activeTab = tabId;
     },
     getRandomProblem() {
-      const url = "problemsets/random";
+      const url = "problems/random";
 
       this.$http.get(url).then(res => {
         this.$router.push({
           name: "problem-detail",
           params: { id: this.$hash.encode(res.data.id) }
         });
+      });
+    },
+    getProblemsForCategory(categoryId) {
+      const url = `category/${categoryId}`;
+
+      this.$http.get(url).then(res => {
+        this.problems = res.data.problems;
       });
     }
   },
@@ -98,5 +119,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>
