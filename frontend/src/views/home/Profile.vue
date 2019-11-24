@@ -3,27 +3,24 @@
     <!-- Header -->
     <div
       class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center header-back rounded mt--7"
-      style="z-index: -1;"
     >
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
       <div class="container-fluid d-flex align-items-center">
         <div class="row">
-          <div class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">Hello Jesse</h1>
+          <div class="col-lg-12 col-md-12">
+            <h1 class="display-2 text-white">Hello {{ user.fullName }}</h1>
             <p class="text-white mt-0 mb-5">
-              This is your profile page. You can see the progress you've made
-              with your work and manage your projects or assigned tasks
+              This is your profile page. You can edit your account here
             </p>
-            <a href="#!" class="btn btn-info">Edit profile</a>
           </div>
         </div>
       </div>
     </div>
     <div class="container-fluid mt--7">
-      <div class="row">
-        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="row d-flex align-items-start">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0 mx-auto">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
@@ -37,63 +34,60 @@
                 </div>
               </div>
             </div>
-            <div
-              class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"
-            >
-              <div class="d-flex justify-content-between">
-                <a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
-                <a href="#" class="btn btn-sm btn-default float-right"
-                  >Message</a
-                >
-              </div>
-            </div>
-            <div class="card-body pt-0 pt-md-4">
+            <div class="card-body pt-0 pt-md-8">
               <div class="row">
                 <div class="col">
                   <div
-                    class="card-profile-stats d-flex justify-content-center mt-md-5"
+                    class="card-profile-stats d-flex justify-content-center "
                   >
                     <div>
-                      <span class="heading">22</span>
-                      <span class="description">Friends</span>
+                      <span class="heading">
+                        {{ user.subscriptions.length }}
+                      </span>
+                      <span class="description">Subscriptions</span>
                     </div>
                     <div>
-                      <span class="heading">10</span>
-                      <span class="description">Photos</span>
+                      <span class="heading">
+                        {{ user.subscribedUsers.length }}
+                      </span>
+                      <span class="description">Subscribers</span>
                     </div>
                     <div>
-                      <span class="heading">89</span>
-                      <span class="description">Comments</span>
+                      <span class="heading">
+                        {{ user.subscriptions.length }}
+                      </span>
+                      <span class="description">Rank</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="text-center">
                 <h3>
-                  Jessica Jones<span class="font-weight-light">, 27</span>
+                  {{ user.fullName }}
+                  <span class="font-weight-light">, {{ user.userType }}</span>
                 </h3>
                 <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>Bucharest, Romania
+                  <i class="ni location_pin mr-2"></i>{{ user.username }}
                 </div>
                 <div class="h5 mt-4">
-                  <i class="ni business_briefcase-24 mr-2"></i>Solution Manager
-                  - Creative Tim Officer
-                </div>
-                <div>
-                  <i class="ni education_hat mr-2"></i>University of Computer
-                  Science
+                  <i class="ni business_briefcase-24 mr-2"></i
+                  >{{ user.state }} - {{ user.city }}
                 </div>
                 <hr class="my-4" />
                 <p>
                   Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick
                   Murphy — writes, performs and records all of his own music.
                 </p>
-                <a href="#">Show more</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xl-8 order-xl-1">
+
+        <button v-if="!edit" class="btn btn-info" @click="edit = true">
+          Edit profile
+        </button>
+
+        <div class="col-xl-8 order-xl-1" v-if="edit">
           <div class="card bg-secondary shadow">
             <div class="card-header bg-white border-0">
               <div class="row align-items-center">
@@ -101,7 +95,12 @@
                   <h3 class="mb-0">My account</h3>
                 </div>
                 <div class="col-4 text-right">
-                  <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                  <a
+                    href="#!"
+                    class="btn btn-sm btn-primary"
+                    @click="edit = false"
+                    >Cancel</a
+                  >
                 </div>
               </div>
             </div>
@@ -112,20 +111,6 @@
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-username"
-                          >Username</label
-                        >
-                        <input
-                          type="text"
-                          id="input-username"
-                          class="form-control form-control-alternative"
-                          placeholder="Username"
-                          value="lucky.jesse"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
                         <label class="form-control-label" for="input-email"
                           >Email address</label
                         >
@@ -134,6 +119,21 @@
                           id="input-email"
                           class="form-control form-control-alternative"
                           placeholder="jesse@example.com"
+                          v-model="user.username"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username"
+                          >Phone Number</label
+                        >
+                        <input
+                          type="text"
+                          id="input-username"
+                          class="form-control form-control-alternative"
+                          placeholder="Phone number"
+                          v-model="user.phoneNumber"
                         />
                       </div>
                     </div>
@@ -149,21 +149,7 @@
                           id="input-first-name"
                           class="form-control form-control-alternative"
                           placeholder="First name"
-                          value="Lucky"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-last-name"
-                          >Last name</label
-                        >
-                        <input
-                          type="text"
-                          id="input-last-name"
-                          class="form-control form-control-alternative"
-                          placeholder="Last name"
-                          value="Jesse"
+                          v-model="user.fullName"
                         />
                       </div>
                     </div>
@@ -185,7 +171,7 @@
                           id="input-address"
                           class="form-control form-control-alternative"
                           placeholder="Home Address"
-                          value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                          v-model="user.street"
                           type="text"
                         />
                       </div>
@@ -202,7 +188,7 @@
                           id="input-city"
                           class="form-control form-control-alternative"
                           placeholder="City"
-                          value="New York"
+                          v-model="user.city"
                         />
                       </div>
                     </div>
@@ -230,6 +216,7 @@
                           id="input-postal-code"
                           class="form-control form-control-alternative"
                           placeholder="Postal code"
+                          v-model="user.zip"
                         />
                       </div>
                     </div>
@@ -250,6 +237,16 @@ A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
                     >
                   </div>
                 </div>
+
+                <div class="text-right mt-4">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="updateProfile"
+                  >
+                    Update Profile
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -261,8 +258,36 @@ A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
 
 <script>
 export default {
-  name: "Profile"
+  name: "Profile",
+  data() {
+    return {
+      edit: false,
+      user: {
+        subscriptions: [],
+        subscribedUsers: []
+      }
+    };
+  },
+  methods: {
+    updateProfile() {
+      const url = `users/`;
+
+      this.$http.post(url, this.user).then(res => {
+        this.user = res.data;
+      });
+    },
+    getUserProfile(userId) {
+      const url = `users/${userId}`;
+
+      this.$http.get(url).then(res => {
+        this.user = res.data;
+        this.edit = false;
+      });
+    }
+  },
+  created() {
+    const userId = Number(this.$store.state.userId);
+    this.getUserProfile(userId);
+  }
 };
 </script>
-
-<style lang="scss" scoped></style>
