@@ -54,6 +54,8 @@ public class User implements UserDetails {
     private String biography;
     @URL
     private String avatarLink;
+    @URL
+    private String dpLink; // display picture
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -110,7 +112,7 @@ public class User implements UserDetails {
     private Set<Session> participatedSessions = new HashSet<>();
 
     public User(@Email @NotNull String username, @NotNull String password, String fullName, String phoneNumber,
-                String street, String city, String state, String zip, String biography, String avatarLink,
+                String street, String city, String state, String zip, String biography, String avatarLink, String dpLink,
                 UserType userType) {
 
         if (userType == null) {
@@ -127,6 +129,7 @@ public class User implements UserDetails {
         this.zip = zip;
         this.biography = biography;
         this.avatarLink = avatarLink;
+        this.dpLink = dpLink;
 
         this.userType = userType;
         this.roles = UserRoles.rolesForUserType(userType);

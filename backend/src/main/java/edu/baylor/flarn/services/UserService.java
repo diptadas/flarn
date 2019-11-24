@@ -54,6 +54,9 @@ public class UserService {
         user.setCity(userDetails.getCity());
         user.setStreet(userDetails.getStreet());
         user.setZip(userDetails.getZip());
+        user.setBiography(userDetails.getBiography());
+        user.setAvatarLink(userDetails.getAvatarLink());
+        user.setDpLink(userDetails.getDpLink());
 
         // TODO: update password more elegantly
         if (userDetails.getPassword() != null) {
@@ -160,6 +163,7 @@ public class UserService {
     /**
      * AS far as I know hibernate does not have an implementation for onCascade set null yet.
      * So if we want to delete a user, we probably need to remove all his subscribers/subscriptions before proceeding.
+     *
      * @param id
      * @return
      */
@@ -168,11 +172,10 @@ public class UserService {
             //Remove all subscription associations
             ResponseBody responseBody = customQueries.deleteAssociations(id);
 
-            if(responseBody.getStatus() == 200){
+            if (responseBody.getStatus() == 200) {
                 userRepository.deleteById(id);
                 return new ResponseBody(200, "Successful");
-            }
-            else{
+            } else {
                 return responseBody;
             }
         } catch (Exception e) {
