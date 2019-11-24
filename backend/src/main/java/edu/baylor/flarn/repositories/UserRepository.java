@@ -3,6 +3,7 @@ package edu.baylor.flarn.repositories;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,4 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUserSubscriptions(@Param("userId") long userId);
 
     List<User> findByFullNameContainingIgnoreCase(@NotNull String name);
+
+
 }
