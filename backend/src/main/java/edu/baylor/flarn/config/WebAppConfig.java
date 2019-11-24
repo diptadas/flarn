@@ -62,7 +62,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
                         .allowedMethods("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
                         .allowedHeaders("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization")
                         .allowCredentials(true)
-                        .allowedOrigins("http://localhost:8080");
+                        .allowedOrigins("http://localhost:8080", "https://flarn.netlify.com");
             }
         };
     }
