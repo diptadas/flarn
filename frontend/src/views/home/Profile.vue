@@ -56,7 +56,7 @@
                       <span class="heading">
                         {{ user.subscriptions.length }}
                       </span>
-                      <span class="description">Rank</span>
+                      <span class="description">User Rank</span>
                     </div>
                   </div>
                 </div>
@@ -75,8 +75,7 @@
                 </div>
                 <hr class="my-4" />
                 <p>
-                  Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick
-                  Murphy — writes, performs and records all of his own music.
+                  {{ user.biography }}
                 </p>
               </div>
             </div>
@@ -232,9 +231,8 @@
                       rows="4"
                       class="form-control form-control-alternative"
                       placeholder="A few words about you ..."
-                    >
-A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
-                    >
+                      v-model="user.biography"
+                    ></textarea>
                   </div>
                 </div>
 
@@ -270,10 +268,11 @@ export default {
   },
   methods: {
     updateProfile() {
-      const url = `users/`;
+      const url = `users/current`;
 
       this.$http.post(url, this.user).then(res => {
         this.user = res.data;
+        this.edit = false;
       });
     },
     getUserProfile(userId) {

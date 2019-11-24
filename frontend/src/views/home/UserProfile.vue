@@ -10,7 +10,7 @@
     </div>
     <div class="container-fluid mt--7">
       <div class="row">
-        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0 mx-auto">
+        <div class="col-xl-6 mb-5 mb-xl-0 mx-auto">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
@@ -18,7 +18,8 @@
                   <a href="#">
                     <img
                       src="@/assets/img/theme/team-4-800x800.jpg"
-                      class="rounded-circle"
+                      class="rounded-circle img-fliud"
+                    />
                     />
                   </a>
                 </div>
@@ -29,10 +30,9 @@
             >
               <div class="d-flex justify-content-between">
                 <a
-                  class="btn btn-sm btn-info mr-4 pointed"
-                  @click="subscribeToUser"
-                  v-show="!followsUser"
-                  >Subscribe</a
+                  class="btn btn-sm btn-info pointed"
+                  @click="followsUser ? unSubscribeToUser() : subscribeToUser()"
+                  >{{ followsUser ? "Unsuscribe" : "Subscribe" }}</a
                 >
                 <a
                   href="#"
@@ -70,7 +70,7 @@
                       <span class="heading">
                         {{ user.subscriptions.length }}
                       </span>
-                      <span class="description">Rank</span>
+                      <span class="description">User Rank</span>
                     </div>
                   </div>
                 </div>
@@ -89,8 +89,7 @@
                 </div>
                 <hr class="my-4" />
                 <p>
-                  Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick
-                  Murphy — writes, performs and records all of his own music.
+                  {{ user.biography }}
                 </p>
               </div>
             </div>
@@ -119,9 +118,10 @@ export default {
     };
   },
   methods: {
+    unSubscribeToUser() {},
     subscribeToUser() {
       const userId = this.$hash.decode(this.id);
-      const url = `users/follow/${userId}`;
+      const url = `users/current/follow/${userId}`;
 
       this.$http.post(url).then(res => {
         this.getUserProfile(userId);
