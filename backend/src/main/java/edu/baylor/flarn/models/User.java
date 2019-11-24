@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import edu.baylor.flarn.resources.UserRoles;
 import lombok.*;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,6 +51,9 @@ public class User implements UserDetails {
     private String city;
     private String state;
     private String zip;
+    private String biography;
+    @URL
+    private String avatarLink;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -102,7 +106,8 @@ public class User implements UserDetails {
     private Set<Session> participatedSessions = new HashSet<>();
 
     public User(@Email @NotNull String username, @NotNull String password, String fullName, String phoneNumber,
-                String street, String city, String state, String zip, UserType userType) {
+                String street, String city, String state, String zip, String biography, String avatarLink,
+                UserType userType) {
 
         if (userType == null) {
             userType = UserType.LEARNER;
@@ -116,6 +121,9 @@ public class User implements UserDetails {
         this.city = city;
         this.state = state;
         this.zip = zip;
+        this.biography = biography;
+        this.avatarLink = avatarLink;
+
         this.userType = userType;
         this.roles = UserRoles.rolesForUserType(userType);
 

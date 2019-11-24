@@ -60,7 +60,7 @@ public class DataInitializer implements CommandLineRunner {
         for (int i = 0; i < 3; i++) {
             User moderator = new User("moderator" + i + "@gm.com",
                     passwordEncoder.encode("moderator" + i), "Moderator" + i, "254567908", "part",
-                    "temple", "AZ", "0000", UserType.MODERATOR);
+                    "temple", "AZ", "0000", "my story", null, UserType.MODERATOR);
 
             moderator.setEnabled(true);
             entityManager.persist(moderator);
@@ -73,7 +73,7 @@ public class DataInitializer implements CommandLineRunner {
         for (int i = 0; i < 3; i++) {
             User learner = new User("learner" + i + "@gm.com",
                     passwordEncoder.encode("learner" + i), "Learner" + i, "254567908", "part",
-                    "temple", "AZ", "0000", UserType.LEARNER);
+                    "temple", "AZ", "0000", "my story", null, UserType.LEARNER);
 
             learner.setEnabled(true);
             entityManager.persist(learner);
@@ -85,7 +85,7 @@ public class DataInitializer implements CommandLineRunner {
     private void createAdmin() {
         admin = new User("admin@gm.com",
                 passwordEncoder.encode("admin"), "Admin Mock", "254567908", "part",
-                "temple", "AZ", "0000", UserType.ADMIN);
+                "temple", "AZ", "0000", "my story", null, UserType.ADMIN);
 
         admin.setEnabled(true);
         entityManager.persist(admin);
