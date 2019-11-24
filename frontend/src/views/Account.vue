@@ -148,7 +148,7 @@
                   data-toggle="tooltip"
                   title="Like us on Facebook"
                 >
-                  <i class="fa fa-facebook-square"></i>
+                  <i class="fab fa-facebook-square"></i>
                   <span class="nav-link-inner--text d-lg-none">Facebook</span>
                 </a>
               </li>
@@ -160,7 +160,7 @@
                   data-toggle="tooltip"
                   title="Follow us on Instagram"
                 >
-                  <i class="fa fa-instagram"></i>
+                  <i class="fab fa-instagram"></i>
                   <span class="nav-link-inner--text d-lg-none">Instagram</span>
                 </a>
               </li>
@@ -172,7 +172,7 @@
                   data-toggle="tooltip"
                   title="Follow us on Twitter"
                 >
-                  <i class="fa fa-twitter-square"></i>
+                  <i class="fab fa-twitter-square"></i>
                   <span class="nav-link-inner--text d-lg-none">Twitter</span>
                 </a>
               </li>
@@ -184,7 +184,7 @@
                   data-toggle="tooltip"
                   title="Star us on Github"
                 >
-                  <i class="fa fa-github"></i>
+                  <i class="fab fa-github"></i>
                   <span class="nav-link-inner--text d-lg-none">Github</span>
                 </a>
               </li>
@@ -193,7 +193,7 @@
                   :to="{ name: button.value }"
                   class="nav-link nav-link-icon"
                 >
-                  <i class="fa fa-cloud-download mr-2"></i>
+                  <i class="fab fa-cloud-download mr-2"></i>
                   <span class="nav-link-inner--text">{{ button.text }}</span>
                 </router-link>
               </li>
@@ -223,7 +223,7 @@
               data-toggle="tooltip"
               data-original-title="Follow us"
             >
-              <i class="fa fa-twitter"></i>
+              <i class="fab fa-twitter"></i>
             </a>
             <a
               target="_blank"
@@ -232,7 +232,7 @@
               data-toggle="tooltip"
               data-original-title="Like us"
             >
-              <i class="fa fa-facebook-square"></i>
+              <i class="fab fa-facebook-square"></i>
             </a>
             <a
               target="_blank"
@@ -241,7 +241,7 @@
               data-toggle="tooltip"
               data-original-title="Follow us"
             >
-              <i class="fa fa-dribbble"></i>
+              <i class="fab fa-dribbble"></i>
             </a>
             <a
               target="_blank"
@@ -250,7 +250,7 @@
               data-toggle="tooltip"
               data-original-title="Star on Github"
             >
-              <i class="fa fa-github"></i>
+              <i class="fab fa-github"></i>
             </a>
           </div>
         </div>
@@ -309,27 +309,41 @@
 <script>
 export default {
   name: "Account",
+  data() {
+    return {
+      button: {
+        text: "Log In",
+        value: "login"
+      }
+    };
+  },
   created() {
     this.$store.commit("LOGOUT");
     localStorage.removeItem("auth_token");
+    this.setButton(this.currentPage);
   },
   computed: {
     currentPage() {
-      return this.$store.state.globalButton;
-    },
-    button() {
-      switch (this.currentPage) {
+      return this.$router.currentRoute.name;
+    }
+  },
+  methods: {
+    setButton(page) {
+      switch (page) {
         case "login":
-          return {
-            text: "Sign Up",
-            value: "register"
-          };
+          this.button.text = "Sign Up";
+          this.button.value = "register";
+          break;
         default:
-          return {
-            text: "Login",
-            value: "login"
-          };
+          this.button.text = "Log In";
+          this.button.value = "login";
+          break;
       }
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.setButton(to.name);
     }
   }
 };
