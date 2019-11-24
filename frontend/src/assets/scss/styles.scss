@@ -1,0 +1,42 @@
+.h-screen {
+  min-height: 100vh;
+}
+
+.pointed {
+  cursor: pointer;
+}
+
+.header-nav {
+  display: block;
+  height: 1.5rem;
+}
+
+.hover-grey:hover {
+  background-color: #f4f5f7;
+}
+
+.header-back {
+  min-height: 45vh;
+  background-size: cover;
+  background-position: center top;
+}
+
+.header-create {
+  min-height: 20vh;
+}
+
+.min-h-full {
+  min-height: 80vh;
+}
+
+table {
+  border-spacing: 2em;
+}
+
+.header-back {
+  z-index: -1;
+}
+
+.w-100 {
+  width: 100%;
+}
