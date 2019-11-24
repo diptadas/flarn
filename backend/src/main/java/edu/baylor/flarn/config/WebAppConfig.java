@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class WebAppConfig extends WebSecurityConfigurerAdapter {
@@ -57,6 +59,9 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
+                        .allowedMethods("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
+                        .allowedHeaders("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization")
+                        .allowCredentials(true)
                         .allowedOrigins("http://localhost:8080");
             }
         };
