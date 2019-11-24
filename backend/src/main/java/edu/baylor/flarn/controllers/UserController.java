@@ -46,7 +46,7 @@ public class UserController {
         return ok(model);
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -56,9 +56,9 @@ public class UserController {
         return userService.getUserByType(userType);
     }
 
-    @PostMapping("/")
     // update current user
-    public User updateUser(@RequestBody UserRegistration userDetails, @AuthenticationPrincipal User user) {
+    @PostMapping("/current")
+    public User updateCurrentUser(@RequestBody UserRegistration userDetails, @AuthenticationPrincipal User user) {
         return userService.updateUser(userDetails, user);
     }
 
@@ -107,7 +107,7 @@ public class UserController {
     }
 
     // current user will follow user specified by {id}
-    @PostMapping("follow/{id}")
+    @PostMapping("/current/follow/{id}")
     public User follow(@PathVariable Long id, @AuthenticationPrincipal User user) throws RecordNotFoundException {
         // re-fetch the current user
         // fixes error: failed to lazily initialize
@@ -120,7 +120,7 @@ public class UserController {
         return userService.searchUserByName(name);
     }
 
-    @GetMapping("/attemptedProblems")
+    @GetMapping("/current/attemptedProblems")
     public List<Problem> attemptedProblems(@AuthenticationPrincipal User user) throws RecordNotFoundException {
         // re-fetch the current user
         // fixes error: failed to lazily initialize
