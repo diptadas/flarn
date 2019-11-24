@@ -9,7 +9,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,8 +30,9 @@ public class Problem {
     @OneToOne
     KnowledgeSource knowledgeSource;
 
+    // don't use Set, order matters to check the answers from sessions
     @OneToMany(mappedBy = "problem")
-    Set<Question> questions = new HashSet<>();
+    List<Question> questions = new ArrayList<>();
 
     @NotNull
     Difficulty difficulty;

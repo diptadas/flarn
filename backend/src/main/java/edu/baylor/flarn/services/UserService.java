@@ -60,6 +60,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // helper method, used in other service
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
     // user will follow other user specified by id
     public User follow(User user, Long id) throws RecordNotFoundException {
         User toBeFollowed = userRepository.findById(id).orElse(null);

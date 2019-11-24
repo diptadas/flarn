@@ -66,6 +66,10 @@ public class User implements UserDetails {
     @NotNull
     private UserType userType;
 
+    // points based on attempted problems or, likes/dislikes of created problems
+    // it will recalculated when a session is created or, when a review is crated
+    private long points = 0;
+
     @ManyToMany
     @JoinTable(
             name = "user_subscription",

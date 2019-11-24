@@ -1,5 +1,6 @@
 package edu.baylor.flarn.controllers;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.services.SessionService;
@@ -20,7 +21,7 @@ public class SessionController {
     }
 
     @PostMapping
-    public Session createSession(@RequestBody Session session, @AuthenticationPrincipal User user) {
+    public Session createSession(@RequestBody Session session, @AuthenticationPrincipal User user) throws RecordNotFoundException {
         return sessionService.createSession(session, user);
     }
 }
