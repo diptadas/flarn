@@ -178,9 +178,6 @@ export default {
       this.checkPassStrength(value);
     }
   },
-  created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "register");
-  },
   methods: {
     registerUser() {
       // validate data

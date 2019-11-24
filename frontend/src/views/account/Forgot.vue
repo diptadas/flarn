@@ -109,9 +109,6 @@ export default {
       }
     };
   },
-  created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "");
-  },
   methods: {
     submit() {
       // validate data

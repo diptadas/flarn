@@ -73,7 +73,7 @@ export default {
       });
     },
     getAttemptedProblems() {
-      const url = "users/attemptedProblems";
+      const url = "users/current/attemptedProblems";
 
       this.$http.get(url).then(res => {
         this.problems = res.data;
