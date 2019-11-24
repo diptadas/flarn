@@ -3,7 +3,6 @@
     <!-- Header -->
     <div
       class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center header-back rounded mt--7"
-      style="z-index: -1;"
       :style="styles"
     >
       <!-- Mask -->
@@ -29,10 +28,16 @@
               class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"
             >
               <div class="d-flex justify-content-between">
-                <a class="btn btn-sm btn-info mr-4" @click="subscribeToUser"
+                <a
+                  class="btn btn-sm btn-info mr-4 pointed"
+                  @click="subscribeToUser"
+                  v-show="!followsUser"
                   >Subscribe</a
                 >
-                <a href="#" class="btn btn-sm btn-default float-right"
+                <a
+                  href="#"
+                  class="btn btn-sm btn-default float-right pointed"
+                  v-show="followsUser"
                   >Message</a
                 >
               </div>
@@ -40,7 +45,7 @@
             <div class="card-body pt-0 pt-md-4">
               <div class="row">
                 <div class="col">
-                  <div class="text-center mt-md-5" v-if="subscribed">
+                  <div class="text-center mt-md-5" v-if="userFollowsMe">
                     <small class="font-weight-light text-muted text-monospace">
                       This user subscribes to you
                     </small>
@@ -107,7 +112,6 @@ export default {
   name: "UserProfile",
   data() {
     return {
-      subscribed: true,
       user: {
         subscriptions: [],
         subscribedUsers: []
@@ -116,10 +120,11 @@ export default {
   },
   methods: {
     subscribeToUser() {
-      const url = `users/${userId}`;
+      const userId = this.$hash.decode(this.id);
+      const url = `users/follow/${userId}`;
 
-      this.$http.get(url).then(res => {
-        this.user = res.data;
+      this.$http.post(url).then(res => {
+        this.getUserProfile(userId);
       });
     },
     getUserProfile(userId) {
@@ -131,10 +136,17 @@ export default {
     }
   },
   created() {
-    console.log(`${this.publicPath}assets/img/theme/profile-cover.jpg`);
     this.getUserProfile(this.$hash.decode(this.id));
   },
   computed: {
+    followsUser() {
+      const userId = Number(this.$store.state.userId);
+      return this.user.subscribedUsers.indexOf(userId) !== -1;
+    },
+    userFollowsMe() {
+      const userId = Number(this.$store.state.userId);
+      return this.user.subscriptions.indexOf(userId) !== -1;
+    },
     styles() {
       return {
         backgroundImage:
@@ -144,5 +156,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

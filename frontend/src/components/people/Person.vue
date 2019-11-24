@@ -1,6 +1,6 @@
 <template>
-  <tr class="pointed hover-grey" @click="goToProfile">
-    <th scope="row">
+  <tr class="pointed hover-grey">
+    <th scope="row" @click="goToProfile">
       <div class="media align-items-center">
         <a href="#" class="avatar rounded-circle mr-3">
           <img
@@ -13,12 +13,12 @@
         </div>
       </div>
     </th>
-    <td>
+    <td @click="goToProfile">
       <span class="badge badge-dot d-inline-block pt-3">
         <i class="bg-warning"></i> {{ user.userType }}
       </span>
     </td>
-    <td>
+    <td @click="goToProfile">
       <div class="avatar-group">
         <a
           href="#"
@@ -70,36 +70,40 @@
         </a>
       </div>
     </td>
-    <td>
+    <td @click="goToProfile">
       <div class="d-flex align-items-center">
         <span class="">700 points</span>
       </div>
     </td>
-    <!-- <td class="text-right">
+    <td class="text-right" v-if="action">
       <div class="dropdown">
-        <a
+        <button
           class="btn btn-sm btn-icon-only text-light"
-          href="#"
           role="button"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
-          <i class="fas fa-ellipsis-v"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <i class="fa fa-ellipsis-v"></i>
+        </button>
+        <div
+          class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+          style="z-index: 2;"
+        >
+          <a class="dropdown-item" @click="$emit('promote')">Promote User</a>
+          <!-- <a class="dropdown-item" @click="$emit('delete')">Delete User</a> -->
         </div>
       </div>
-    </td> -->
+    </td>
   </tr>
 </template>
 
 <script>
 export default {
   props: {
+    action: {
+      type: Boolean
+    },
     user: {
       type: Object,
       required: true
@@ -116,5 +120,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>
