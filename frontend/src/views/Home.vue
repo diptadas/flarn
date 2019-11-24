@@ -140,42 +140,12 @@
           <ul class="navbar-nav">
             <li class="nav-item" v-for="nav in navs" :key="nav.id">
               <router-link class=" nav-link" :to="{ name: nav.value }">
-                <i class="ni ni-tv-2 text-primary"></i> {{ nav.text }}
+                <i :class="`fas fa-${nav.icon} text-primary`"></i>
+                {{ nav.text }}
               </router-link>
             </li>
-
-            <!-- <li class="nav-item">
-              <a class="nav-link " href="./examples/icons.html">
-                <i class="ni ni-planet text-blue"></i> Icons
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="./examples/maps.html">
-                <i class="ni ni-pin-3 text-orange"></i> Maps
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="./examples/profile.html">
-                <i class="ni ni-single-02 text-yellow"></i> User profile
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="./examples/tables.html">
-                <i class="ni ni-bullet-list-67 text-red"></i> Tables
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./examples/login.html">
-                <i class="ni ni-key-25 text-info"></i> Login
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./examples/register.html">
-                <i class="ni ni-circle-08 text-pink"></i> Register
-              </a>
-            </li> -->
           </ul>
-          <template v-if="moderatorNavs.length">
+          <template v-if="isModerator">
             <!-- Divider -->
             <hr class="my-3" />
             <!-- Heading -->
@@ -184,12 +154,13 @@
             <ul class="navbar-nav mb-md-3">
               <li class="nav-item" v-for="nav in moderatorNavs" :key="nav.id">
                 <router-link class=" nav-link" :to="{ name: nav.value }">
-                  <i class="ni ni-tv-2 text-primary"></i> {{ nav.text }}
+                  <i :class="`fas fa-${nav.icon} text-primary`"></i>
+                  {{ nav.text }}
                 </router-link>
               </li>
             </ul>
           </template>
-          <template v-if="adminNavs.length">
+          <template v-if="isAdmin">
             <!-- Divider -->
             <hr class="my-3" />
             <!-- Heading -->
@@ -198,7 +169,8 @@
             <ul class="navbar-nav mb-md-3">
               <li class="nav-item" v-for="nav in adminNavs" :key="nav.id">
                 <router-link class=" nav-link" :to="{ name: nav.value }">
-                  <i class="ni ni-tv-2 text-primary"></i> {{ nav.text }}
+                  <i :class="`fas fa-${nav.icon} text-primary`"></i>
+                  {{ nav.text }}
                 </router-link>
               </li>
             </ul>
@@ -271,7 +243,7 @@
                   :key="nav.id"
                   class="dropdown-item"
                 >
-                  <i class="ni ni-single-02"></i>
+                  <i :class="`fas fa-${nav.icon}`"></i>
                   <span>{{ nav.text }}</span>
                 </router-link>
               </div>
@@ -297,7 +269,7 @@
               <div class="copyright text-center text-xl-left text-muted">
                 &copy; 2019
                 <a
-                  href="https://www.creative-tim.com"
+                  href="https://github.com/diptadas/flarn"
                   class="font-weight-bold ml-1"
                   target="_blank"
                   >Flarn Project</a
@@ -310,34 +282,23 @@
               >
                 <li class="nav-item">
                   <a
-                    href="https://www.creative-tim.com"
+                    href="https://github.com/diptadas/flarn"
                     class="nav-link"
                     target="_blank"
                     >Flarn Project</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a
-                    href="https://www.creative-tim.com/presentation"
-                    class="nav-link"
-                    target="_blank"
-                    >About Us</a
+                  <router-link :to="{ name: 'about' }" class="nav-link"
+                    >About Us</router-link
                   >
                 </li>
                 <li class="nav-item">
                   <a
-                    href="http://blog.creative-tim.com"
+                    href="https://www.baylor.edu"
                     class="nav-link"
                     target="_blank"
                     >Baylor</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a
-                    href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
-                    class="nav-link"
-                    target="_blank"
-                    >MIT License</a
                   >
                 </li>
               </ul>
@@ -362,41 +323,74 @@ export default {
         {
           id: 1,
           text: "Timeline",
-          value: "timeline"
+          value: "timeline",
+          icon: "stream"
         },
         {
           id: 2,
           text: "Problems",
-          value: "problems"
+          value: "problems",
+          icon: "brain"
         },
         {
           id: 3,
           text: "People",
-          value: "people"
+          value: "people",
+          icon: "users"
         },
         {
           id: 4,
           text: "Ranks",
-          value: "ranks"
+          value: "ranks",
+          icon: "hat-cowboy"
         },
         {
           id: 5,
           text: "My Profile",
-          value: "profile"
+          value: "profile",
+          icon: "id-card"
         }
       ],
-      moderatorNavs: [],
-      adminNavs: [],
+      moderatorNavs: [
+        {
+          id: 6,
+          text: "Manage Problems",
+          value: "manage-problems",
+          icon: "atom"
+        }
+      ],
+      adminNavs: [
+        {
+          id: 7,
+          text: "Manage Users",
+          value: "manage-users",
+          icon: "users-cog"
+        },
+        {
+          id: 8,
+          text: "Manage Categories",
+          value: "manage-categories",
+          icon: "filter"
+        }
+      ],
       profileNavs: [
+        {
+          id: 9,
+          text: "Team",
+          value: "about",
+          icon: "users"
+        },
         {
           id: 4,
           text: "Support",
-          value: "support"
+          value: "support",
+          icon: "question"
         },
         {
           id: 5,
           text: "Logout",
-          value: "login"
+          value: "login",
+          icon: "sign-out-alt"
         }
       ]
     };
@@ -409,7 +403,6 @@ export default {
         .get(url)
         .then(res => {
           this.user = res.data;
-          this.setNavs();
         })
         .catch(err => {
           this.$router.replace({ name: "login" });
@@ -417,32 +410,20 @@ export default {
     },
     formatNavText(string) {
       return string.split("-").join(" ");
-    },
-    setNavs() {
-      if (this.user.roles.indexOf("ROLE_MODERATOR") !== -1) {
-        this.moderatorNavs.push({
-          id: 6,
-          text: "Manage Problems",
-          value: "manage-problems"
-        });
-      }
-
-      if (this.user.roles.indexOf("ROLE_ADMIN") !== -1) {
-        this.adminNavs.push({
-          id: 7,
-          text: "Manage Users",
-          value: "manage-users"
-        });
-      }
     }
   },
   created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "home");
     this.authenticate();
   },
   computed: {
     activeHomePage() {
       return this.formatNavText(this.$route.name);
+    },
+    isModerator() {
+      return this.user.roles.indexOf("ROLE_MODERATOR") !== -1;
+    },
+    isAdmin() {
+      return this.user.roles.indexOf("ROLE_ADMIN") !== -1;
     }
   }
 };
