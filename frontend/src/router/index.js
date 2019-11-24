@@ -111,7 +111,17 @@ const routes = [
         component: () => import("../views/home/CreateProblem.vue")
       },
       {
-        path: "",
+        path: "manage/categories",
+        name: "manage-categories",
+        component: () => import("../views/home/ManageCategory.vue")
+      },
+      {
+        path: "/about",
+        name: "about",
+        component: () => import("../views/utils/About.vue")
+      },
+      {
+        path: "/",
         name: "home",
         redirect: { name: "timeline" }
       }
@@ -147,8 +157,17 @@ const routes = [
         path: "/recover",
         name: "recover",
         component: () => import("../views/account/Recover.vue")
+      },
+      {
+        path: "/404",
+        name: "404",
+        component: () => import("../views/utils/404.vue")
       }
     ]
+  },
+  {
+    path: "*",
+    redirect: { name: "404" }
   }
 ];
 
