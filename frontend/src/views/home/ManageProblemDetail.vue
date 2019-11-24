@@ -57,16 +57,26 @@
       </div>
 
       <hr class="my-4" />
-      <div class="text-right mt-4">
-        <button type="button" class="btn btn-primary" @click="edit">
-          Edit Problem
-        </button>
+      <div class="row d-inline-flex justify-content-between w-100">
+        <div class="text-left mt-4">
+          <button type="button" class="btn btn-danger" @click="deleteProblem">
+            Archive Problem
+          </button>
+        </div>
+        <div class="text-right mt-4">
+          <button type="button" class="btn btn-primary" @click="edit">
+            Edit Problem
+          </button>
+        </div>
       </div>
     </div>
+    <Delete ref="delete" :content="deleteContent" :action="deleteAction" />
   </div>
 </template>
 
 <script>
+import Delete from "@/components/utils/Delete.vue";
+
 export default {
   props: {
     id: {
@@ -81,10 +91,20 @@ export default {
       problem: {},
       submitting: false,
       dateStarted: "",
-      dateSubmitted: ""
+      dateSubmitted: "",
+      deleteContent: {},
+      deleteAction: null
     };
   },
   methods: {
+    deleteProblem() {
+      this.deleteContent = {
+        name: this.problem.title
+      };
+      this.deleteAction = () => this.doDeleteProblem();
+      this.$refs["delete"].show();
+    },
+    doDeleteProblem(params) {},
     edit() {
       if (this.submitting) return false;
       this.submitting = true;
@@ -120,7 +140,9 @@ export default {
       },
       default: "Moderator"
     }
+  },
+  components: {
+    Delete
   }
 };
 </script>
-
