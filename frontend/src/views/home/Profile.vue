@@ -20,7 +20,7 @@
     </div>
     <div class="container-fluid mt--7">
       <div class="row d-flex align-items-start">
-        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0 mx-auto">
+        <div class="col-xl-6 mb-5 mb-xl-0 mx-auto">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">

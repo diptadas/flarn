@@ -20,7 +20,6 @@
                       src="@/assets/img/theme/team-4-800x800.jpg"
                       class="rounded-circle img-fliud"
                     />
-                    />
                   </a>
                 </div>
               </div>
