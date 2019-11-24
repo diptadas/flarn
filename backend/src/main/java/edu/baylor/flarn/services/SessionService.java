@@ -26,13 +26,16 @@ public class SessionService {
             session.setUser(user);
         }
 
-        session = sessionRepository.save(session);
-        updatePointForTheSession(user, session.getProblem(), session.getAnswers());
+        updatePointForTheSession(session);
 
-        return session;
+        return sessionRepository.save(session);
     }
 
-    private void updatePointForTheSession(User user, Problem problem, List<Integer> answers) throws RecordNotFoundException {
+    private void updatePointForTheSession(Session session) throws RecordNotFoundException {
+        User user = session.getUser();
+        Problem problem = session.getProblem();
+        List<Integer> answers = session.getAnswers();
+
         // re-fetch the user and problem
         user = userService.findById(user.getId());
         problem = problemService.getProblemById(problem.getId());
@@ -58,6 +61,9 @@ public class SessionService {
                 break;
             }
 
+            // add correct answers in session
+            session.getCorrectAnswers().add(question.getAnswer());
+
             // answer matched, update points
             if (question.getAnswer() == answers.get(index)) {
                 points += pointForEachQuestion;
@@ -67,8 +73,10 @@ public class SessionService {
             index++;
         }
 
-        user.setPoints(points);
+        user.setPoints(user.getPoints() + points); // increase points
         userService.saveUser(user);
         log.info("user " + user.getUsername() + " gained " + points + " points");
+
+        session.setPointsGained(points);
     }
 }

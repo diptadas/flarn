@@ -27,6 +27,13 @@ public class Session {
     @ElementCollection
     private List<Integer> answers = new ArrayList<>();
 
+    // this will be calculated when session is submitted
+    Long pointsGained;
+
+    // this will be populated when session is submitted
+    @ElementCollection
+    private List<Integer> correctAnswers = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIdentityInfo(
