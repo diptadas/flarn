@@ -26,13 +26,14 @@
     <div class="row mt-4">
       <div class="col">
         <div class="card shadow">
-          <div class="table-responsive">
+          <div class="table-responsive min-h-full">
             <table class="table align-items-center table-flush">
               <tbody>
                 <person-item
                   v-for="user in users"
                   :key="user.id"
                   :user="user"
+                  :action="false"
                   class="my-4"
                 ></person-item>
               </tbody>
@@ -121,29 +122,23 @@ export default {
     getSubscriptions() {
       const url = `users/${this.$store.state.userId}/subscriptions`;
 
-      this.$http
-        .get(url)
-        .then(res => {
-          this.users = res.data;
-        })
+      this.$http.get(url).then(res => {
+        this.users = res.data;
+      });
     },
     getSubscribedUsers() {
       const url = `users/${this.$store.state.userId}/subscribers`;
 
-      this.$http
-        .get(url)
-        .then(res => {
-          this.users = res.data;
-        })
+      this.$http.get(url).then(res => {
+        this.users = res.data;
+      });
     },
     getUsers() {
       const url = "users";
 
-      this.$http
-        .get(url)
-        .then(res => {
-          this.users = res.data;
-        })
+      this.$http.get(url).then(res => {
+        this.users = res.data;
+      });
     }
   },
   created() {
@@ -154,9 +149,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-table {
-  border-spacing: 2em;
-}
-</style>
