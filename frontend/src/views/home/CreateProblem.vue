@@ -3,7 +3,7 @@
     <!-- Header -->
     <div
       class="header d-flex align-items-center header-back header-create rounded mt--3"
-      style="z-index: -1;"
+      style="z-index: 1;"
     >
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
@@ -66,11 +66,12 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Knowledge Source</label>
+
                         <textarea
-                          rows="10"
-                          v-model="problem.knowledgeSource.contentLink"
+                          rows="2"
+                          v-model="problem.knowledgeSource.content"
                           class="form-control form-control-alternative"
-                          placeholder="Provide the content of the Problem"
+                          placeholder="Provide the content of the problem"
                         ></textarea>
                       </div>
                     </div>
@@ -116,15 +117,15 @@
                         <select
                           class="form-control"
                           id="category"
-                          v-model="problem.category"
+                          v-model="problem.category.id"
                         >
-                          <option value="" selected>Select Category</option>
+                          <option value="">Select Category</option>
                           <option
                             v-for="opt in categories"
                             :key="opt.id"
                             :id="opt.id"
-                            :value="opt.value"
-                            >{{ opt.text }}</option
+                            :value="opt.id"
+                            >{{ opt.name }}</option
                           >
                         </select>
                       </div>
@@ -160,9 +161,22 @@ export default {
         title: "",
         difficulty: "MEDIUM",
         knowledgeSource: {
-          contentLink: ""
+          content: ""
         },
-        questions: [],
+        questions: [
+          {
+            options: ["", "", ""],
+            answer: ""
+          },
+          {
+            options: ["", "", ""],
+            answer: ""
+          },
+          {
+            options: ["", "", ""],
+            answer: ""
+          }
+        ],
         description: "",
         category: ""
       },
@@ -189,13 +203,19 @@ export default {
   methods: {
     createProblem() {
       const data = this.problem;
-      const url = "problemsets";
+      const url = "problems";
 
       this.$http.post(url, data).then(res => {
         this.$router.push({ name: "manage-problems" });
       });
     },
-    getCategories() {}
+    getCategories() {
+      const url = "category";
+
+      this.$http.get(url).then(res => {
+        this.categories = res.data;
+      });
+    }
   },
   created() {
     this.getCategories();
@@ -205,5 +225,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>
