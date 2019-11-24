@@ -6,6 +6,7 @@ import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,11 +22,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final CustomQueries customQueries;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService, CustomQueries customQueries) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.customQueries = customQueries;
     }
 
     public User findById(Long id) throws RecordNotFoundException {
@@ -154,13 +157,29 @@ public class UserService {
         return user;
     }
 
+    /**
+     * AS far as I know hibernate does not have an implementation for onCascade set null yet.
+     * So if we want to delete a user, we probably need to remove all his subscribers/subscriptions before proceeding.
+     * @param id
+     * @return
+     */
     public ResponseBody deleteUser(Long id) {
-        try {
-            userRepository.deleteById(id);
+        User user = getUser(id);
+        if(user != null){
+            try {
+                //Remove all subscription associations
+                customQueries.deleteAssociations(id);
+                userRepository.deleteById(id);
+                return new ResponseBody(200, "Successful");
+            } catch (Exception e) {
+                return new ResponseBody(500, e.getMessage());
+            }
+        }else{
+            // What you think 200 or explicit one
+            // user not found defaults to 200 though
             return new ResponseBody(200, "Successful");
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
         }
+
     }
 
     public List<User> getSubscribedUsers(long Id) {
