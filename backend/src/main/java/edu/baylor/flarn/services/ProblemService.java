@@ -1,10 +1,12 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.Question;
 import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
+import edu.baylor.flarn.repositories.QuestionRepository;
 import edu.baylor.flarn.resources.ResponseBody;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,18 +23,31 @@ import java.util.Optional;
 public class ProblemService {
     private final ProblemRepository problemRepository;
     private final KnowledgeSourceRepository knowledgeSourceRepository;
+    private final QuestionRepository questionRepository;
 
-    public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository) {
+    public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository, QuestionRepository questionRepository) {
         this.problemRepository = problemRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
+        this.questionRepository = questionRepository;
     }
 
     public Problem createProblem(Problem problem, User user) {
         problem.setModerator(user);
 
-        // save the knowledge source first
+        // save the knowledge source
         // solved: Not-null property references a transient value - transient instance must be saved before current operation
         knowledgeSourceRepository.save(problem.getKnowledgeSource());
+
+        // save each question
+        for (Question question : problem.getQuestions()) {
+            questionRepository.save(question);
+        }
+
+        // add associations
+        problem.getKnowledgeSource().setProblem(problem);
+        for (Question question : problem.getQuestions()) {
+            question.setProblem(problem);
+        }
 
         return problemRepository.save(problem);
     }
