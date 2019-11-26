@@ -57,7 +57,7 @@
                 :id="`category-radio-${qi}-${i}`"
                 type="radio"
                 v-model="answers[qi]"
-                :value="opt"
+                :value="i"
               />
               <label
                 class="custom-control-label"
