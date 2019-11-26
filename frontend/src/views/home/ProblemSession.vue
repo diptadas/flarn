@@ -39,8 +39,12 @@
         <div>
           <h4 class="mb-4">Questions:</h4>
 
-          <div v-for="(que, i) in problem.questions" :key="que.id" class="mb-4">
-            {{ i + 1 }}. {{ que.content }}
+          <div
+            v-for="(que, qi) in problem.questions"
+            :key="que.id"
+            class="mb-4"
+          >
+            {{ qi + 1 }}. {{ que.content }}
 
             <div
               class="custom-control custom-radio my-3 ml-4"
@@ -48,14 +52,17 @@
               :key="i"
             >
               <input
-                name="category"
+                :name="`radio-${qi}`"
                 class="custom-control-input"
-                :id="`category-radio-${i}`"
+                :id="`category-radio-${qi}-${i}`"
                 type="radio"
-                v-model="answers[i]"
-                :value="i"
+                v-model="answers[qi]"
+                :value="opt"
               />
-              <label class="custom-control-label" :for="`category-radio-${i}`">
+              <label
+                class="custom-control-label"
+                :for="`category-radio-${qi}-${i}`"
+              >
                 {{ opt }}
               </label>
             </div>
@@ -90,7 +97,7 @@ export default {
   name: "ProblemSession",
   data() {
     return {
-      answers: [],
+      answers: ["", "", ""],
       problem: {},
       timeleft: "_ _:_ _",
       timer: null,
