@@ -1,10 +1,8 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Question;
-import edu.baylor.flarn.models.Session;
-import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;
@@ -24,11 +22,14 @@ public class ProblemService {
     private final ProblemRepository problemRepository;
     private final KnowledgeSourceRepository knowledgeSourceRepository;
     private final QuestionRepository questionRepository;
+    private final ActivityRepository activityRepository;
 
-    public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository, QuestionRepository questionRepository) {
+    public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository,
+                          QuestionRepository questionRepository, ActivityRepository activityRepository) {
         this.problemRepository = problemRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
         this.questionRepository = questionRepository;
+        this.activityRepository = activityRepository;
     }
 
     public Problem createProblem(Problem problem, User user) {
@@ -49,7 +50,14 @@ public class ProblemService {
             question.setProblem(problem);
         }
 
-        return problemRepository.save(problem);
+        problem = problemRepository.save(problem);
+
+        // save the activity
+        Activity activity = new Activity(user.getId(), user.getFullName());
+        activity.setCreatedProblemActivity(problem.getId(), problem.getTitle());
+        activityRepository.save(activity);
+
+        return problem;
     }
 
     public List<Problem> getAllProblems() {
