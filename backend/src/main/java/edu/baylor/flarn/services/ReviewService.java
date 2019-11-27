@@ -42,4 +42,12 @@ public class ReviewService {
         Problem problem = problemService.getProblemById(problemId);
         return reviewRepository.findByReviewTypeAndUserAndProblem(ReviewType.STAR, user, problem) != null;
     }
+
+    public Review commentOnProblem(Review review, User user) throws RecordNotFoundException {
+        // fetch the complete problem
+        review.setProblem(problemService.getProblemById(review.getProblem().getId()));
+        review.setUser(user);
+        review.setReviewType(ReviewType.COMMENT);
+        return reviewRepository.save(review);
+    }
 }

@@ -10,10 +10,7 @@ import edu.baylor.flarn.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reviews")
@@ -54,6 +51,16 @@ public class ReviewController {
         // fixes error: failed to lazily initialize
         user = userService.findById(user.getId());
         return reviewService.hasStared(problemId, user);
+    }
+
+    // post a review object with commentContent and problemId only
+    // other fields will be ignored
+    @PostMapping("/comment")
+    public Review commentOnProblem(@RequestBody Review review, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return reviewService.commentOnProblem(review, user);
     }
 }
 
