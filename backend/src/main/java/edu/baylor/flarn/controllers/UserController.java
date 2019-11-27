@@ -135,4 +135,13 @@ public class UserController {
         user = userService.findById(user.getId());
         return userService.getStaredProblemsForUser(user);
     }
+
+    // returns true if current user attempted the problem
+    @GetMapping("/current/hasAttempted")
+    public boolean hasAttemptedProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.hasAttempted(problemId, user);
+    }
 }

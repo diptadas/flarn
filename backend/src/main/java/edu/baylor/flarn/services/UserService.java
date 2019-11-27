@@ -213,4 +213,15 @@ public class UserService {
         }
         return problems;
     }
+
+    // TODO: use custom query
+    public boolean hasAttempted(Long problemId, User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Session session : user.getParticipatedSessions()) {
+            if (session.getProblem().getId().equals(problemId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
