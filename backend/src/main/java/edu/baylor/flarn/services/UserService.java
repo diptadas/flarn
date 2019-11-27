@@ -2,10 +2,7 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Session;
-import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.models.*;
 import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
@@ -15,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static edu.baylor.flarn.models.ReviewType.STAR;
 
 @Service
 public class UserService {
@@ -201,6 +200,16 @@ public class UserService {
         List<Problem> problems = new ArrayList<>();
         for (Session session : user.getParticipatedSessions()) {
             problems.add(session.getProblem());
+        }
+        return problems;
+    }
+
+    public List<Problem> getStaredProblemsForUser(User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Review review : user.getCreatedReviews()) {
+            if (review.getReviewType().equals(STAR)) {
+                problems.add(review.getProblem());
+            }
         }
         return problems;
     }

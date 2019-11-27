@@ -127,4 +127,12 @@ public class UserController {
         user = userService.findById(user.getId());
         return userService.getSolvedProblemsForUser(user);
     }
+
+    @GetMapping("/current/staredProblems")
+    public List<Problem> staredProblems(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.getStaredProblemsForUser(user);
+    }
 }
