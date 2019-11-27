@@ -198,8 +198,8 @@ public class UserService {
 
     }
 
-    public List<User> getSubscribedUsers(long Id) {
-        return userRepository.findSubscribedUsers(Id);
+    public List<User> getSubscribers(long Id) {
+        return userRepository.findSubscribers(Id);
     }
 
     public List<User> getUserSubscriptions(long Id) {

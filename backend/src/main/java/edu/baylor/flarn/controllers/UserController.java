@@ -99,7 +99,7 @@ public class UserController {
 
     @GetMapping("/{id}/subscribers")
     public List<User> getSubscribers(@PathVariable long id) {
-        return userService.getSubscribedUsers(id);
+        return userService.getSubscribers(id);
     }
 
     @GetMapping("/{id}/subscriptions")

@@ -72,6 +72,7 @@ public class User implements UserDetails {
     // it will recalculated when a session is created or, when a review is crated
     private long points = 0;
 
+    // list of other users this user is following
     @ManyToMany
     @JoinTable(
             name = "user_subscription",
@@ -83,12 +84,13 @@ public class User implements UserDetails {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<User> subscriptions = new HashSet<>();
 
+    // list of other users who follow this user i.e. followers
     @ManyToMany(mappedBy = "subscriptions")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private Set<User> subscribedUsers = new HashSet<>();
+    private Set<User> subscribers = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIdentityInfo(
@@ -174,11 +176,11 @@ public class User implements UserDetails {
 
     public void subscribe(User user) { // helper to ensures bidirectional insert
         this.getSubscriptions().add(user);
-        user.getSubscribedUsers().add(this);
+        user.getSubscribers().add(this);
     }
 
     public void unsubscribe(User user) { // helper to ensures bidirectional insert
         this.getSubscriptions().remove(user);
-        user.getSubscribedUsers().remove(this);
+        user.getSubscribers().remove(this);
     }
 }
