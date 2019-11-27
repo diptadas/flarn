@@ -52,8 +52,8 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/usertype/{userType}")
-    public List<User> getUsersByGroup(@PathVariable UserType userType) {
+    @GetMapping("/type/{userType}")
+    public List<User> getUsersByType(@PathVariable UserType userType) {
         return userService.getUserByType(userType);
     }
 
@@ -86,7 +86,7 @@ public class UserController {
         return userService.updatePassword(updatePasswordRequest);
     }
 
-    @PostMapping("/usertype")
+    @PostMapping("/type")
     @RolesAllowed(UserRoles.roleAdmin)
     public User updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
         return userService.changeUserType(userTypeUpdateRequest);
