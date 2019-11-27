@@ -224,4 +224,9 @@ public class UserService {
         }
         return false;
     }
+
+    public User deactivateUser(User user) {
+        user.setEnabled(false);
+        return userRepository.save(user);
+    }
 }

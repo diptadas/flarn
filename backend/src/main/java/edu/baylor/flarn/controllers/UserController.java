@@ -144,4 +144,12 @@ public class UserController {
         user = userService.findById(user.getId());
         return userService.hasAttempted(problemId, user);
     }
+
+    @GetMapping("/current/deactivate")
+    public User deactivateCurrentUser(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.deactivateUser(user);
+    }
 }
