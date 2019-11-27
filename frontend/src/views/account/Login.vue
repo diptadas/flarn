@@ -80,7 +80,14 @@
                         type="button"
                         class="btn btn-primary mt-4"
                         @click="loginUser"
+                        :disabled="loading"
                       >
+                      <span
+            class="spinner-grow spinner-grow-sm"
+            role="status"
+            aria-hidden="true"
+            v-if="loading"
+          ></span>
                         Login To Account
                       </button>
                     </div>
@@ -113,6 +120,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       email: "",
       password: "",
       error: {
@@ -124,6 +132,8 @@ export default {
   },
   methods: {
     loginUser() {
+      if(this.loading) return false
+      this.loading = true
       // validate data
 
       const url = "auth/login";
@@ -163,7 +173,8 @@ export default {
           this.error.text = mess;
           this.error.type = "error";
           this.error.state = true;
-        });
+        })
+        .finally(() => this.loading = false);
     }
   }
 };

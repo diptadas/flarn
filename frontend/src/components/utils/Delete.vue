@@ -44,7 +44,18 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-white" @click="doAction">
+            <button
+              type="button"
+              class="btn btn-white"
+              @click="doAction"
+              :disabled="loading"
+            >
+              <span
+                class="spinner-grow spinner-grow-sm"
+                role="status"
+                aria-hidden="true"
+                v-if="loading"
+              ></span>
               Confirm
             </button>
             <button
@@ -71,6 +82,11 @@ export default {
     action: {
       type: Function
     }
+  },
+  data() {
+    return {
+      loading: false
+    };
   },
   methods: {
     show() {

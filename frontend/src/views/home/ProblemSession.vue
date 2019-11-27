@@ -72,7 +72,18 @@
 
       <hr class="my-4" />
       <div class="text-right mt-4">
-        <button type="button" class="btn btn-primary" @click="submit">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="submit"
+          :disabled="submitting"
+        >
+          <span
+            class="spinner-grow spinner-grow-sm"
+            role="status"
+            aria-hidden="true"
+            v-if="submitting"
+          ></span>
           Submit Session
         </button>
       </div>
@@ -97,14 +108,15 @@ export default {
   name: "ProblemSession",
   data() {
     return {
-      answers: ["", "", ""],
+      answers: [-1, -1, -1],
       problem: {},
       timeleft: "_ _:_ _",
       timer: null,
       submitting: false,
       dateStarted: "",
       dateSubmitted: "",
-      timeSmall: false
+      timeSmall: false,
+      editing: true
     };
   },
   methods: {
@@ -121,15 +133,25 @@ export default {
         dateSubmitted: new Date().toISOString()
       };
 
-      const url = `sessions`;
+      const url = "sessions";
 
-      this.$http.post(url, data).then(res => {
-        if (cb) {
-          cb();
-        } else {
-          this.$router.replace({ name: "problems" });
-        }
-      });
+      this.$http
+        .post(url, data)
+        .then(res => {
+          this.editing = false;
+          if (this.isFunction(cb)) {
+            cb();
+          } else {
+            this.$router.replace({ name: "problems" });
+          }
+        })
+        .finally(() => (this.submitting = false));
+    },
+    isFunction(functionToCheck) {
+      return (
+        functionToCheck &&
+        {}.toString.call(functionToCheck) === "[object Function]"
+      );
     },
     getProblem(id) {
       const url = `problems/${id}`;
@@ -162,8 +184,10 @@ export default {
       this.dateStarted = new Date().toISOString();
     },
     preventNav(event) {
-      event.preventDefault();
-      event.returnValue = "";
+      if (this.editing) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
     }
   },
   created() {
@@ -200,10 +224,14 @@ export default {
     window.addEventListener("beforeunload", this.preventNav);
   },
   beforeRouteLeave(to, from, next) {
-    if (!window.confirm("You still have some time left.")) {
-      return;
+    if (this.editing) {
+      if (!window.confirm("You still have some time left.")) {
+        return;
+      }
+      this.submit(next);
+    } else {
+      next();
     }
-    this.submit(next);
   }
 };
 </script>

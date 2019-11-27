@@ -140,7 +140,14 @@
                         type="button"
                         class="btn btn-primary mt-4"
                         @click="registerUser"
+                        :disabled="loading"
                       >
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          v-if="loading"
+                        ></span>
                         Create account
                       </button>
                     </div>
@@ -160,6 +167,7 @@ export default {
   name: "Register",
   data() {
     return {
+      loading: false,
       name: "",
       email: "",
       password: "",
@@ -180,6 +188,8 @@ export default {
   },
   methods: {
     registerUser() {
+      if (this.loading) return false;
+      this.loading = true;
       // validate data
 
       const url = "auth/register";
@@ -203,7 +213,8 @@ export default {
           this.error.text = mess;
           this.error.type = "error";
           this.error.state = true;
-        });
+        })
+        .finally(() => (this.loading = false));
     },
     scorePassword(pass) {
       let score = 0;

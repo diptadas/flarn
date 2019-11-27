@@ -241,7 +241,14 @@
                     type="button"
                     class="btn btn-primary"
                     @click="updateProfile"
+                    :disabled="loading"
                   >
+                    <span
+                      class="spinner-grow spinner-grow-sm"
+                      role="status"
+                      aria-hidden="true"
+                      v-if="loading"
+                    ></span>
                     Update Profile
                   </button>
                 </div>
@@ -259,6 +266,7 @@ export default {
   name: "Profile",
   data() {
     return {
+      loading: false,
       edit: false,
       user: {
         subscriptions: [],
@@ -268,12 +276,17 @@ export default {
   },
   methods: {
     updateProfile() {
+      if (this.loading) return;
+      this.loading = true;
       const url = `users/current`;
 
-      this.$http.post(url, this.user).then(res => {
-        this.user = res.data;
-        this.edit = false;
-      });
+      this.$http
+        .post(url, this.user)
+        .then(res => {
+          this.user = res.data;
+          this.edit = false;
+        })
+        .finally(() => (this.loading = false));
     },
     getUserProfile(userId) {
       const url = `users/${userId}`;

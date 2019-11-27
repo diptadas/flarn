@@ -27,7 +27,18 @@
         </div>
 
         <div class="text-right mt-4">
-          <button type="button" class="btn btn-primary" @click="startProblem">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="startProblem"
+            :disabled="loading"
+          >
+            <span
+              class="spinner-grow spinner-grow-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="loading"
+            ></span>
             Start Problem
           </button>
         </div>
@@ -48,6 +59,7 @@ export default {
   name: "ProblemDetail",
   data() {
     return {
+      loading: false,
       problem: {}
     };
   },
@@ -70,6 +82,8 @@ export default {
   },
   methods: {
     startProblem() {
+      if (this.loading) return;
+      this.loading = true;
       this.$router.push({ name: "problem-session", params: { id: this.id } });
     },
     getProblem(id) {

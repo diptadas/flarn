@@ -80,7 +80,14 @@
                 type="button"
                 class="btn btn-primary"
                 @click="createCategory"
+                :disabled="loading"
               >
+                <span
+                  class="spinner-grow spinner-grow-sm"
+                  role="status"
+                  aria-hidden="true"
+                  v-if="loading"
+                ></span>
                 Submit
               </button>
               <button
@@ -146,7 +153,18 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" @click="editCat">
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="editCat"
+                :disabled="editloading"
+              >
+                <span
+                  class="spinner-grow spinner-grow-sm"
+                  role="status"
+                  aria-hidden="true"
+                  v-if="editloading"
+                ></span>
                 Submit
               </button>
               <button
@@ -174,6 +192,8 @@ export default {
   name: "ManageCategories",
   data() {
     return {
+      loading: false,
+      editloading: false,
       categories: [],
       name: "",
       category: {
@@ -186,30 +206,40 @@ export default {
   },
   methods: {
     createCategory() {
+      if (this.loading) return false;
+      this.loading = true;
       const url = "category";
       const data = {
         name: this.name
       };
-      this.$http.post(url, data).then(res => {
-        this.categories.unshift(res.data);
-        this.name = "";
-        this.$refs["modal-btn-close"].click();
-      });
+      this.$http
+        .post(url, data)
+        .then(res => {
+          this.categories.unshift(res.data);
+          this.name = "";
+          this.$refs["modal-btn-close"].click();
+        })
+        .finally(() => (this.loading = false));
     },
     edit(cat, index) {
       this.category = cat;
       this.$refs["edit-modal-btn"].click();
     },
     editCat(id, index) {
+      if (this.editloading) return false;
+      this.editloading = true;
       const url = `category/update`;
       const data = {
         id: this.category.id,
         name: this.category.name
       };
-      this.$http.post(url, data).then(res => {
-        this.categories.splice(index, 1, res.data);
-        this.$refs["modal-btn-close-2"].click();
-      });
+      this.$http
+        .post(url, data)
+        .then(res => {
+          this.categories.splice(index, 1, res.data);
+          this.$refs["modal-btn-close-2"].click();
+        })
+        .finally(() => (this.editloading = false));
     },
     deleteCat(cat, index) {
       this.deleteContent = {

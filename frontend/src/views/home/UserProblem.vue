@@ -42,6 +42,7 @@ export default {
   name: "UserProblem",
   data() {
     return {
+      randLoading: false,
       problems: [],
       activeTab: 1,
       tabs: [
@@ -94,14 +95,20 @@ export default {
       this.activeTab = tabId;
     },
     getRandomProblem() {
+      if (this.randLoading) return;
+      this.randLoading = true;
+
       const url = "problems/random";
 
-      this.$http.get(url).then(res => {
-        this.$router.push({
-          name: "problem-detail",
-          params: { id: this.$hash.encode(res.data.id) }
-        });
-      });
+      this.$http
+        .get(url)
+        .then(res => {
+          this.$router.push({
+            name: "problem-detail",
+            params: { id: this.$hash.encode(res.data.id) }
+          });
+        })
+        .finally(() => (this.randLoading = false));
     },
     getProblemsForCategory(categoryId) {
       const url = `category/${categoryId}`;

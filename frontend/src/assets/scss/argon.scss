@@ -18,14 +18,14 @@
 
 // Docs components
 
-@import "argon-dashboard/docs/variables";
-@import "argon-dashboard/docs/nav";
-@import "argon-dashboard/docs/clipboard-js";
-@import "argon-dashboard/docs/component-examples";
-@import "argon-dashboard/docs/prism";
-@import "argon-dashboard/docs/content";
-@import "argon-dashboard/docs/sidebar";
-@import "argon-dashboard/docs/footer";
+// @import "argon-dashboard/docs/variables";
+// @import "argon-dashboard/docs/nav";
+// @import "argon-dashboard/docs/clipboard-js";
+// @import "argon-dashboard/docs/component-examples";
+// @import "argon-dashboard/docs/prism";
+// @import "argon-dashboard/docs/content";
+// @import "argon-dashboard/docs/sidebar";
+// @import "argon-dashboard/docs/footer";
 
 // Other Pages
 
@@ -59,19 +59,21 @@
 @import "bootstrap/nav";
 @import "bootstrap/navbar";
 @import "bootstrap/card";
-// @import "bootstrap/breadcrumb";
+// @import "bootstrap/breadcrumb"; //
 @import "bootstrap/pagination";
 @import "bootstrap/badge";
-// @import "bootstrap/jumbotron";
+// @import "bootstrap/jumbotron"; //
 @import "bootstrap/alert";
 @import "bootstrap/progress";
+@import "bootstrap/spinners";
+@import "bootstrap/toasts";
 @import "bootstrap/media";
 @import "bootstrap/list-group";
 @import "bootstrap/close";
 @import "bootstrap/modal";
-// @import "bootstrap/tooltip";
-// @import "bootstrap/popover";
-// @import "bootstrap/carousel";
+// @import "bootstrap/tooltip"; //
+// @import "bootstrap/popover"; //
+// @import "bootstrap/carousel"; //
 @import "bootstrap/utilities";
 @import "bootstrap/print";
 
@@ -109,6 +111,6 @@
 
 // Vendor
 
-// @import "custom/vendor/bootstrap-datepicker.scss";
+// @import "custom/vendor/bootstrap-datepicker.scss"; //
 @import "custom/vendor/headroom.scss";
-// @import "custom/vendor/nouislider.scss";
+// @import "custom/vendor/nouislider.scss"; //
