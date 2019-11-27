@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
     List<Activity> findByUserIdOrderByDateDesc(@NotNull Long userId);
+
+    List<Activity> findByUserIdInOrderByDateDesc(@NotNull List<Long> userIds);
 }

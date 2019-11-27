@@ -168,4 +168,14 @@ public class UserController {
     public List<Activity> activityForCurrentUser(@AuthenticationPrincipal User user) {
         return userService.activityForCurrentUser(user);
     }
+
+    // activities filtered by subscriptions for current user
+    // to be used in timeline
+    @GetMapping("/current/subscriptionsActivities")
+    public List<Activity> activityOfSubscriptionsForCurrentUser(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.activityOfSubscriptionsForCurrentUser(user);
+    }
 }

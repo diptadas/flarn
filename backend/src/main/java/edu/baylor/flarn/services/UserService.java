@@ -247,4 +247,11 @@ public class UserService {
     public List<Activity> activityForCurrentUser(User user) {
         return activityRepository.findByUserIdOrderByDateDesc(user.getId());
     }
+
+    public List<Activity> activityOfSubscriptionsForCurrentUser(User user) {
+        List<Long> subscriptionIds = new ArrayList<>();
+        user.getSubscriptions().forEach(e -> subscriptionIds.add(e.getId()));
+
+        return activityRepository.findByUserIdInOrderByDateDesc(subscriptionIds);
+    }
 }
