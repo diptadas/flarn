@@ -73,6 +73,12 @@ public class ProblemService {
         }
     }
 
+    public Problem archiveProblem(Long problemId) throws RecordNotFoundException {
+        Problem problem = getProblemById(problemId);
+        problem.setArchived(true);
+        return problemRepository.save(problem);
+    }
+
 
     public Problem updateProblem(Problem problem) {
         return problemRepository.save(problem);

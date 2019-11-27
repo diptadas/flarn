@@ -26,18 +26,20 @@ public class Problem {
     @NotNull
     String description;
 
+    boolean archived = false;
+
     @NotNull
     @OneToOne
     KnowledgeSource knowledgeSource;
 
     // don't use Set, order matters to check the answers from sessions
-    @OneToMany(mappedBy = "problem",cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "problem", cascade = {CascadeType.ALL})
     List<Question> questions = new ArrayList<>();
 
     @NotNull
     Difficulty difficulty;
 
-    @OneToMany(mappedBy = "problem",cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "problem", cascade = {CascadeType.ALL})
     Set<Review> reviews = new HashSet<>();
 
     @ManyToOne

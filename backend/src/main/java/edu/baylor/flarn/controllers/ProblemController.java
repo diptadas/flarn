@@ -67,6 +67,12 @@ public class ProblemController {
         return searchProblemService.searchProblem(problemSearchRequest);
     }
 
+    @GetMapping("/{id}/archive")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Problem archiveProblem(@PathVariable("id") Long id) throws RecordNotFoundException {
+        return problemService.archiveProblem(id);
+    }
+
     //Todo: Check moderator is owner or admin
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
