@@ -2,6 +2,7 @@ package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.Activity;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
@@ -160,5 +161,11 @@ public class UserController {
         // fixes error: failed to lazily initialize
         user = userService.findById(user.getId());
         return userService.deactivateUser(user);
+    }
+
+    // activities of current user
+    @GetMapping("/current/activities")
+    public List<Activity> activityForCurrentUser(@AuthenticationPrincipal User user) {
+        return userService.activityForCurrentUser(user);
     }
 }

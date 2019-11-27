@@ -2,10 +2,8 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.AlreadyStaredException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Review;
-import edu.baylor.flarn.models.ReviewType;
-import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +11,12 @@ import org.springframework.stereotype.Service;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProblemService problemService;
+    private final ActivityRepository activityRepository;
 
-    public ReviewService(ReviewRepository reviewRepository, ProblemService problemService) {
+    public ReviewService(ReviewRepository reviewRepository, ProblemService problemService, ActivityRepository activityRepository) {
         this.reviewRepository = reviewRepository;
         this.problemService = problemService;
+        this.activityRepository = activityRepository;
     }
 
     public Review starProblem(Long problemId, User user) throws RecordNotFoundException, AlreadyStaredException {
@@ -29,7 +29,14 @@ public class ReviewService {
         review.setReviewType(ReviewType.STAR);
         review.setProblem(problem);
         review.setUser(user);
-        return reviewRepository.save(review);
+        review = reviewRepository.save(review);
+
+        // save the activity
+        Activity activity = new Activity(user.getId(), user.getFullName());
+        activity.setStaredActivity(problem.getId(), problem.getTitle());
+        activityRepository.save(activity);
+
+        return review;
     }
 
     // delete the star entry
@@ -45,9 +52,17 @@ public class ReviewService {
 
     public Review commentOnProblem(Review review, User user) throws RecordNotFoundException {
         // fetch the complete problem
-        review.setProblem(problemService.getProblemById(review.getProblem().getId()));
+        Problem problem = problemService.getProblemById(review.getProblem().getId());
+        review.setProblem(problem);
         review.setUser(user);
         review.setReviewType(ReviewType.COMMENT);
-        return reviewRepository.save(review);
+        review = reviewRepository.save(review);
+
+        // save the activity
+        Activity activity = new Activity(user.getId(), user.getFullName());
+        activity.setCommentedActivity(problem.getId(), problem.getTitle());
+        activityRepository.save(activity);
+
+        return review;
     }
 }

@@ -3,6 +3,7 @@ package edu.baylor.flarn.services;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
@@ -22,12 +23,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final CustomQueries customQueries;
+    private final ActivityRepository activityRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService, CustomQueries customQueries) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService,
+                       CustomQueries customQueries, ActivityRepository activityRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.customQueries = customQueries;
+        this.activityRepository = activityRepository;
     }
 
     public User findById(Long id) throws RecordNotFoundException {
@@ -78,7 +82,14 @@ public class UserService {
         }
 
         user.subscribe(toBeFollowed);
-        return userRepository.save(user);
+        user = userRepository.save(user);
+
+        // save the activity
+        Activity activity = new Activity(user.getId(), user.getFullName());
+        activity.setFollowedActivity(toBeFollowed.getId(), toBeFollowed.getFullName());
+        activityRepository.save(activity);
+
+        return user;
     }
 
     // user will unfollow other user specified by id
@@ -199,7 +210,6 @@ public class UserService {
         return userRepository.findByFullNameContainingIgnoreCase(name);
     }
 
-
     public List<Problem> getSolvedProblemsForUser(User user) {
         List<Problem> problems = new ArrayList<>();
         for (Session session : user.getParticipatedSessions()) {
@@ -232,5 +242,9 @@ public class UserService {
     public User deactivateUser(User user) {
         user.setEnabled(false);
         return userRepository.save(user);
+    }
+
+    public List<Activity> activityForCurrentUser(User user) {
+        return activityRepository.findByUserIdOrderByDateDesc(user.getId());
     }
 }
