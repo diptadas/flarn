@@ -7,6 +7,8 @@ import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
@@ -69,5 +71,10 @@ public class ReviewService {
     public Long countStarsForProblem(long problemId) throws RecordNotFoundException {
         Problem problem = problemService.getProblemById(problemId);
         return reviewRepository.countByReviewTypeAndProblem(ReviewType.STAR, problem);
+    }
+
+    public List<Review> commentsForProblem(long problemId) throws RecordNotFoundException {
+        Problem problem = problemService.getProblemById(problemId);
+        return reviewRepository.findByReviewTypeAndProblem(ReviewType.COMMENT, problem);
     }
 }

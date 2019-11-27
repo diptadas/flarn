@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/reviews")
 @Slf4j
@@ -63,10 +65,16 @@ public class ReviewController {
         return reviewService.commentOnProblem(review, user);
     }
 
-    // number of stars the problem
+    // number of stars for the problem
     @GetMapping("/countStars")
     public Long countStarsForProblem(@RequestParam("problemId") Long problemId) throws RecordNotFoundException {
         return reviewService.countStarsForProblem(problemId);
+    }
+
+    // list all comments for the problem 
+    @GetMapping("/comments")
+    public List<Review> commentsForProblem(@RequestParam("problemId") Long problemId) throws RecordNotFoundException {
+        return reviewService.commentsForProblem(problemId);
     }
 }
 
