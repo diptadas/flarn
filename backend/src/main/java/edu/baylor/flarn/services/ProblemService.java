@@ -1,5 +1,6 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.Question;
 import edu.baylor.flarn.models.Session;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manage problem service includes service for to add problems, delete problems etc.
@@ -56,9 +56,12 @@ public class ProblemService {
         return problemRepository.findAll();
     }
 
-    public Problem getProblemById(long id) {
-        Optional<Problem> problem = problemRepository.findById(id);
-        return problem.orElse(null);
+    public Problem getProblemById(long id) throws RecordNotFoundException {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            throw new RecordNotFoundException("Problem not found with id: " + id);
+        }
+        return problem;
     }
 
     public ResponseBody deleteProblem(Long problem) {
