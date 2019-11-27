@@ -77,14 +77,18 @@ public class UserService {
             throw new RecordNotFoundException("can not find user with id " + id);
         }
 
-        // also re-fetch the current user
-        // fixes error: failed to lazily initialize
-        user = userRepository.findById(user.getId()).orElse(null);
-        if (user == null) {
-            throw new RecordNotFoundException("can not fetch current user");
+        user.subscribe(toBeFollowed);
+        return userRepository.save(user);
+    }
+
+    // user will unfollow other user specified by id
+    public User unfollow(User user, Long id) throws RecordNotFoundException {
+        User toBeUnFollowed = userRepository.findById(id).orElse(null);
+        if (toBeUnFollowed == null) {
+            throw new RecordNotFoundException("can not find user with id " + id);
         }
 
-        user.subscribe(toBeFollowed);
+        user.unsubscribe(toBeUnFollowed);
         return userRepository.save(user);
     }
 

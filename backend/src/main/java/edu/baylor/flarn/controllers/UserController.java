@@ -115,6 +115,15 @@ public class UserController {
         return userService.follow(user, id);
     }
 
+    // current user will unfollow user specified by {id}
+    @PostMapping("/current/unfollow/{id}")
+    public User unfollow(@PathVariable Long id, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.unfollow(user, id);
+    }
+
     @GetMapping("/search")
     public List<User> searchUser(@RequestParam String name) {
         return userService.searchUserByName(name);
