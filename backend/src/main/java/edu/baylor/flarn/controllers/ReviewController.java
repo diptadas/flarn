@@ -62,6 +62,12 @@ public class ReviewController {
         user = userService.findById(user.getId());
         return reviewService.commentOnProblem(review, user);
     }
+
+    // number of stars the problem
+    @GetMapping("/countStars")
+    public Long countStarsForProblem(@RequestParam("problemId") Long problemId) throws RecordNotFoundException {
+        return reviewService.countStarsForProblem(problemId);
+    }
 }
 
 

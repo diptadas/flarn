@@ -65,4 +65,9 @@ public class ReviewService {
 
         return review;
     }
+
+    public Long countStarsForProblem(long problemId) throws RecordNotFoundException {
+        Problem problem = problemService.getProblemById(problemId);
+        return reviewRepository.countByReviewTypeAndProblem(ReviewType.STAR, problem);
+    }
 }

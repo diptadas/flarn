@@ -12,4 +12,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     void deleteByReviewTypeAndUserAndProblem(ReviewType reviewType, User user, Problem problem);
 
     Review findByReviewTypeAndUserAndProblem(ReviewType reviewType, User user, Problem problem);
+
+    Long countByReviewTypeAndProblem(ReviewType reviewType, Problem problem);
 }
