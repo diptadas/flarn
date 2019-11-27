@@ -108,7 +108,7 @@ export default {
     };
   },
   methods: {
-    submit() {
+    submit(cb) {
       if (this.submitting) return false;
       this.submitting = true;
 
@@ -124,7 +124,11 @@ export default {
       const url = `sessions`;
 
       this.$http.post(url, data).then(res => {
-        this.$router.replace({ name: "problems" });
+        if (cb) {
+          cb();
+        } else {
+          this.$router.replace({ name: "problems" });
+        }
       });
     },
     getProblem(id) {
@@ -156,6 +160,10 @@ export default {
         }
       }, 1000);
       this.dateStarted = new Date().toISOString();
+    },
+    preventNav(event) {
+      event.preventDefault();
+      event.returnValue = "";
     }
   },
   created() {
@@ -185,6 +193,17 @@ export default {
     console.log("before destroy");
     clearTimeout(this.timer);
     this.timer = null;
+
+    window.removeEventListener("beforeunload", this.preventNav);
+  },
+  beforeMount() {
+    window.addEventListener("beforeunload", this.preventNav);
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!window.confirm("You still have some time left.")) {
+      return;
+    }
+    this.submit(next);
   }
 };
 </script>
