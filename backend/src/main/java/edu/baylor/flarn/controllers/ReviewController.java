@@ -1,6 +1,7 @@
 package edu.baylor.flarn.controllers;
 
 
+import edu.baylor.flarn.exceptions.AlreadyStaredException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Review;
 import edu.baylor.flarn.models.User;
@@ -30,7 +31,7 @@ public class ReviewController {
 
     // current user stars the problem
     @GetMapping("/star")
-    public Review starProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+    public Review starProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException, AlreadyStaredException {
         // re-fetch the current user
         // fixes error: failed to lazily initialize
         user = userService.findById(user.getId());
@@ -44,6 +45,15 @@ public class ReviewController {
         // fixes error: failed to lazily initialize
         user = userService.findById(user.getId());
         reviewService.unstarProblem(problemId, user);
+    }
+
+    // returns true if current user stared the problem
+    @GetMapping("/hasStared")
+    public boolean hasStaredProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return reviewService.hasStared(problemId, user);
     }
 }
 

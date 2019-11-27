@@ -10,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Transactional
     void deleteByReviewTypeAndUserAndProblem(ReviewType reviewType, User user, Problem problem);
+
+    Review findByReviewTypeAndUserAndProblem(ReviewType reviewType, User user, Problem problem);
 }

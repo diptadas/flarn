@@ -1,5 +1,6 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.AlreadyStaredException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.Review;
@@ -18,7 +19,11 @@ public class ReviewService {
         this.problemService = problemService;
     }
 
-    public Review starProblem(Long problemId, User user) throws RecordNotFoundException {
+    public Review starProblem(Long problemId, User user) throws RecordNotFoundException, AlreadyStaredException {
+        if (hasStared(problemId, user)) {
+            throw new AlreadyStaredException("Already stared problem " + problemId);
+        }
+
         Problem problem = problemService.getProblemById(problemId);
         Review review = new Review();
         review.setReviewType(ReviewType.STAR);
@@ -31,5 +36,10 @@ public class ReviewService {
     public void unstarProblem(Long problemId, User user) throws RecordNotFoundException {
         Problem problem = problemService.getProblemById(problemId);
         reviewRepository.deleteByReviewTypeAndUserAndProblem(ReviewType.STAR, user, problem);
+    }
+
+    public boolean hasStared(Long problemId, User user) throws RecordNotFoundException {
+        Problem problem = problemService.getProblemById(problemId);
+        return reviewRepository.findByReviewTypeAndUserAndProblem(ReviewType.STAR, user, problem) != null;
     }
 }
