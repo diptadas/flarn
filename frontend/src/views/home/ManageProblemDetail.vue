@@ -59,12 +59,34 @@
       <hr class="my-4" />
       <div class="row d-inline-flex justify-content-between w-100">
         <div class="text-left mt-4">
-          <button type="button" class="btn btn-danger" @click="deleteProblem">
+          <button
+            type="button"
+            class="btn btn-danger"
+            @click="deleteProblem"
+            :disabled="archLoading"
+          >
+            <span
+              class="spinner-grow spinner-grow-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="archLoading"
+            ></span>
             Archive Problem
           </button>
         </div>
         <div class="text-right mt-4">
-          <button type="button" class="btn btn-primary" @click="edit">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="edit"
+            :disabled="editLoading"
+          >
+            <span
+              class="spinner-grow spinner-grow-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="editLoading"
+            ></span>
             Edit Problem
           </button>
         </div>
@@ -87,9 +109,10 @@ export default {
   name: "ManageProblemDetail",
   data() {
     return {
+      archLoading: false,
+      editLoading: false,
       answers: [],
       problem: {},
-      submitting: false,
       dateStarted: "",
       dateSubmitted: "",
       deleteContent: {},
@@ -106,12 +129,14 @@ export default {
     },
     doDeleteProblem(params) {},
     edit() {
-      if (this.submitting) return false;
-      this.submitting = true;
-      this.$router.push({
-        name: "manage-problem-edit",
-        params: { id: this.id }
-      });
+      if (this.editLoading) return false;
+      this.editLoading = true;
+      this.$router
+        .push({
+          name: "manage-problem-edit",
+          params: { id: this.id }
+        })
+        .finally(() => (this.editLoading = false));
     },
     getProblem(id) {
       const url = `problems/${id}`;

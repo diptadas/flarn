@@ -42,7 +42,18 @@
       </div>
 
       <div class="col-md-6">
-        <button type="button" class="btn btn-primary" @click="searchUser">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="searchUser"
+          :disabled="searchLoading"
+        >
+          <span
+            class="spinner-grow spinner-grow-sm"
+            role="status"
+            aria-hidden="true"
+            v-if="searchLoading"
+          ></span>
           Search Users
         </button>
       </div>
@@ -105,6 +116,7 @@ export default {
   name: "People",
   data() {
     return {
+      searchLoading: false,
       name: "",
       activeTab: 3,
       users: [],
@@ -129,12 +141,17 @@ export default {
   },
   methods: {
     searchUser() {
+      if (this.searchLoading) return false;
+      this.searchLoading = true;
       const url = `users/search?name=${this.name}`;
 
-      this.$http.get(url).then(res => {
-        this.users = res.data;
-        this.name = "";
-      });
+      this.$http
+        .get(url)
+        .then(res => {
+          this.users = res.data;
+          this.name = "";
+        })
+        .finally(() => (this.searchLoading = false));
     },
     changeTabView(tabId) {
       if (this.activeTab === tabId) return;

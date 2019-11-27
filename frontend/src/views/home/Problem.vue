@@ -79,7 +79,18 @@
       </div>
 
       <div class="text-right mt-4">
-        <button type="button" class="btn btn-primary" @click="searchProblem">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="searchProblem"
+          :disabled="loadingSearch"
+        >
+          <span
+            class="spinner-grow spinner-grow-sm"
+            role="status"
+            aria-hidden="true"
+            v-if="loadingSearch"
+          ></span>
           Search Problems
         </button>
       </div>
@@ -104,6 +115,7 @@ export default {
   },
   data() {
     return {
+      loadingSearch: false,
       title: "",
       selectedCategory: defaultCategory,
       categories: [],
@@ -134,6 +146,8 @@ export default {
   },
   methods: {
     searchProblem() {
+      if (this.loadingSearch) return;
+      this.loadingSearch = true;
       const url = "problems/search";
 
       const data = {};
@@ -152,7 +166,8 @@ export default {
 
       this.$http.post(url, data).then(res => {
         this.problems = res.data;
-      });
+      })
+      .finally(() => (this.loadingSearch = false));
     },
     getCategories() {
       const url = "category";
