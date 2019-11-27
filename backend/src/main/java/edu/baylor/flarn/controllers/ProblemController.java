@@ -44,7 +44,7 @@ public class ProblemController {
     }
 
     @GetMapping("{id}")
-    public Problem getProblemById(@PathVariable long id) {
+    public Problem getProblemById(@PathVariable long id) throws RecordNotFoundException {
         return problemService.getProblemById(id);
     }
 
@@ -67,6 +67,12 @@ public class ProblemController {
         return searchProblemService.searchProblem(problemSearchRequest);
     }
 
+    @GetMapping("/{id}/archive")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Problem archiveProblem(@PathVariable("id") Long id) throws RecordNotFoundException {
+        return problemService.archiveProblem(id);
+    }
+
     //Todo: Check moderator is owner or admin
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
@@ -83,6 +89,15 @@ public class ProblemController {
 
     @GetMapping("/random")
     public Problem getRandomProblem(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return problemService.getRandomProblem(user);
+    }
+
+    // current user stars the problem
+    @GetMapping("/{id}/star")
+    public Problem starProblem(@PathVariable("id") Long id, @AuthenticationPrincipal User user) throws RecordNotFoundException {
         // re-fetch the current user
         // fixes error: failed to lazily initialize
         user = userService.findById(user.getId());

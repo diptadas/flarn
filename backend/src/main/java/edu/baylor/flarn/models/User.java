@@ -176,4 +176,9 @@ public class User implements UserDetails {
         this.getSubscriptions().add(user);
         user.getSubscribedUsers().add(this);
     }
+
+    public void unsubscribe(User user) { // helper to ensures bidirectional insert
+        this.getSubscriptions().remove(user);
+        user.getSubscribedUsers().remove(this);
+    }
 }

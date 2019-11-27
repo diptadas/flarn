@@ -2,10 +2,7 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Session;
-import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.models.*;
 import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
@@ -15,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static edu.baylor.flarn.models.ReviewType.STAR;
 
 @Service
 public class UserService {
@@ -78,14 +77,18 @@ public class UserService {
             throw new RecordNotFoundException("can not find user with id " + id);
         }
 
-        // also re-fetch the current user
-        // fixes error: failed to lazily initialize
-        user = userRepository.findById(user.getId()).orElse(null);
-        if (user == null) {
-            throw new RecordNotFoundException("can not fetch current user");
+        user.subscribe(toBeFollowed);
+        return userRepository.save(user);
+    }
+
+    // user will unfollow other user specified by id
+    public User unfollow(User user, Long id) throws RecordNotFoundException {
+        User toBeUnFollowed = userRepository.findById(id).orElse(null);
+        if (toBeUnFollowed == null) {
+            throw new RecordNotFoundException("can not find user with id " + id);
         }
 
-        user.subscribe(toBeFollowed);
+        user.unsubscribe(toBeUnFollowed);
         return userRepository.save(user);
     }
 
@@ -203,5 +206,31 @@ public class UserService {
             problems.add(session.getProblem());
         }
         return problems;
+    }
+
+    public List<Problem> getStaredProblemsForUser(User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Review review : user.getCreatedReviews()) {
+            if (review.getReviewType().equals(STAR)) {
+                problems.add(review.getProblem());
+            }
+        }
+        return problems;
+    }
+
+    // TODO: use custom query
+    public boolean hasAttempted(Long problemId, User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Session session : user.getParticipatedSessions()) {
+            if (session.getProblem().getId().equals(problemId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public User deactivateUser(User user) {
+        user.setEnabled(false);
+        return userRepository.save(user);
     }
 }

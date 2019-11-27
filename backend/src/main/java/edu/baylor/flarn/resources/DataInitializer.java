@@ -146,13 +146,11 @@ public class DataInitializer implements CommandLineRunner {
             // add reviews
             for (int j = 0; j < 10; j++) {
                 Review review = new Review();
-                if (j % 3 == 0) {
+                if (j % 2 == 0) {
                     review.setReviewType(ReviewType.COMMENT);
                     review.setCommentContent("I loved this problem");
-                } else if (j % 3 == 1) {
-                    review.setReviewType(ReviewType.DISLIKE);
                 } else {
-                    review.setReviewType(ReviewType.LIKE);
+                    review.setReviewType(ReviewType.STAR);
                 }
 
                 entityManager.persist(review);
