@@ -8,7 +8,11 @@ export default new Vuex.Store({
     username: "",
     token: "",
     userId: "",
-    currentHomePahe: "Timeline"
+    currentHomePahe: "Timeline",
+    error: {
+      state: false,
+      text: ""
+    }
   },
   mutations: {
     SET_AUTH(state, auth) {
@@ -22,6 +26,17 @@ export default new Vuex.Store({
     },
     SET_HOMEPAGE(state, name) {
       state.currentHomePahe = name;
+    },
+    SET_ERROR(state, mess) {
+      state.error.text = mess;
+      state.error.state = true;
+    },
+    HIDE_ERROR(state) {
+      state.error.state = false;
+    },
+    ERROR(state, mess) {
+      state.error.text = mess;
+      state.error.state = true;
     }
   },
   actions: {},

@@ -26,6 +26,7 @@ const _axios = axios.create({
 
 _axios.interceptors.request.use(
   function(config) {
+    store.commit("ERROR", "");
     let token = localStorage.getItem("auth_token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -42,16 +43,13 @@ _axios.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.response.status === 401) {
-      return router.replace({ name: "login" });
-    }
-
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
+      if (
+        error.response.status === 401 &&
+        router.currentRoute.name !== "login"
+      ) {
+        return router.replace({ name: "login" });
+      }
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -63,9 +61,29 @@ _axios.interceptors.response.use(
     }
 
     console.log(error.config);
+
+    store.commit("ERROR", errorMessage(error));
     return Promise.reject(error);
   }
 );
+
+function errorMessage(error) {
+  let mess = "";
+  if (error.response) {
+    if (error.response.status < 500) {
+      mess = "We are having problems connecting to the server";
+    } else if (error.response.status < 600) {
+      mess = "Our server seems to be down.. Hold on tight!";
+    }
+  } else if (error.request) {
+    mess = "There seems to be a problem with our servers...";
+  } else {
+    mess = "Unknown error occured";
+  }
+  return mess;
+}
+
+_axios.prototype.errorMessage = errorMessage;
 
 Vue.prototype.$http = _axios;
 

@@ -30,7 +30,7 @@
                     "
                   >
                     <span class="alert-inner--icon"
-                      ><i class="ni ni-like-2"></i
+                      ><i class="ni ni-bell-55"></i
                     ></span>
                     <span class="alert-inner--text">{{ error.text }}</span>
                     <button
@@ -82,12 +82,12 @@
                         @click="loginUser"
                         :disabled="loading"
                       >
-                      <span
-            class="spinner-grow spinner-grow-sm"
-            role="status"
-            aria-hidden="true"
-            v-if="loading"
-          ></span>
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          v-if="loading"
+                        ></span>
                         Login To Account
                       </button>
                     </div>
@@ -132,8 +132,8 @@ export default {
   },
   methods: {
     loginUser() {
-      if(this.loading) return false
-      this.loading = true
+      if (this.loading) return false;
+      this.loading = true;
       // validate data
 
       const url = "auth/login";
@@ -168,13 +168,11 @@ export default {
           });
         })
         .catch(err => {
-          console.log(err);
-          const mess = err.response.data.error || "Unknown error occured";
-          this.error.text = mess;
+          this.error.text = this.$http.errorMessage(err);
           this.error.type = "error";
           this.error.state = true;
         })
-        .finally(() => this.loading = false);
+        .finally(() => (this.loading = false));
     }
   }
 };

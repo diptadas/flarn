@@ -208,9 +208,7 @@ export default {
           });
         })
         .catch(err => {
-          console.log(err);
-          const mess = err.response.data.message || "Unknown error occured";
-          this.error.text = mess;
+          const mess = (this.error.text = this.$http.errorMessage(err));
           this.error.type = "error";
           this.error.state = true;
         })

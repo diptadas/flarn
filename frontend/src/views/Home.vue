@@ -307,10 +307,13 @@
         </footer>
       </div>
     </div>
+
+    <Error ref="error" />
   </div>
 </template>
 
 <script>
+import Error from "@/components/utils/Error.vue";
 export default {
   name: "home",
   data() {
@@ -425,6 +428,9 @@ export default {
     isAdmin() {
       return this.user.roles.indexOf("ROLE_ADMIN") !== -1;
     }
+  },
+  components: {
+    Error
   }
 };
 </script>
