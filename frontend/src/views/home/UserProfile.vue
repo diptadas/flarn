@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import store from "@/store";
+import Hashids from "hashids";
 export default {
   props: {
     id: {
@@ -133,6 +135,15 @@ export default {
         this.user = res.data;
       });
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    const hash = new Hashids();
+    const userId = Number(hash.decode(to.params.id));
+    const selfUserId = Number(store.state.userId);
+    if (userId === selfUserId) {
+      return next({ name: "profile" });
+    }
+    next();
   },
   created() {
     this.getUserProfile(this.$hash.decode(this.id));
