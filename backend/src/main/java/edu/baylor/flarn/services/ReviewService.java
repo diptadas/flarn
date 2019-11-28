@@ -2,8 +2,10 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.AlreadyStaredException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.*;
-import edu.baylor.flarn.repositories.ActivityRepository;
+import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.Review;
+import edu.baylor.flarn.models.ReviewType;
+import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,12 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProblemService problemService;
-    private final ActivityRepository activityRepository;
+    private final ActivityService activityService;
 
-    public ReviewService(ReviewRepository reviewRepository, ProblemService problemService, ActivityRepository activityRepository) {
+    public ReviewService(ReviewRepository reviewRepository, ProblemService problemService, ActivityService activityService) {
         this.reviewRepository = reviewRepository;
         this.problemService = problemService;
-        this.activityRepository = activityRepository;
+        this.activityService = activityService;
     }
 
     public Review starProblem(Long problemId, User user) throws RecordNotFoundException, AlreadyStaredException {
@@ -34,9 +36,7 @@ public class ReviewService {
         review = reviewRepository.save(review);
 
         // save the activity
-        Activity activity = new Activity(user.getId(), user.getFullName());
-        activity.setStaredActivity(problem.getId(), problem.getTitle());
-        activityRepository.save(activity);
+        activityService.saveStaredActivity(user, problem);
 
         return review;
     }
@@ -62,9 +62,7 @@ public class ReviewService {
         review = reviewRepository.save(review);
 
         // save the activity
-        Activity activity = new Activity(user.getId(), user.getFullName());
-        activity.setCommentedActivity(problem.getId(), problem.getTitle());
-        activityRepository.save(activity);
+        activityService.saveCommentedActivity(user, problem);
 
         return review;
     }
