@@ -44,41 +44,7 @@ export default {
       type: Object
     }
   },
-  data() {
-    return {
-      user: {
-        id: -1
-      },
-      staredProblem: {
-        id: -1
-      }
-    };
-  },
   name: "Stared",
-  methods: {
-    getUser(id) {
-      const url = `users/${id}`;
-
-      this.$http.get(url).then(res => {
-        this.user = res.data;
-      });
-    },
-    getStaredProblem(id) {
-      const url = `problems/${id}`;
-
-      this.$http.get(url).then(res => {
-        this.staredProblem = res.data;
-      });
-    }
-  },
-  filters: {
-    formatDate(date) {
-      return timeago.format(date);
-    }
-  },
-  created() {
-    this.getUser(this.activity.userId);
-    this.getStaredProblem(this.activity.problemId);
-  }
+  mixins: [formateDate]
 };
 </script>
