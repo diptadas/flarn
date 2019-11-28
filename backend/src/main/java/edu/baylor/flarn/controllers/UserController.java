@@ -127,4 +127,5 @@ public class UserController {
         user = userService.findById(user.getId());
         return userService.getSolvedProblemsForUser(user);
     }
+
 }
