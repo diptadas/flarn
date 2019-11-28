@@ -144,21 +144,27 @@ public class DataInitializer implements CommandLineRunner {
             }
 
             // add reviews
-            for (int j = 0; j < 10; j++) {
+
+            // add one comment from each moderator
+            for (int j = 0; j < 3; j++) {
                 Review review = new Review();
-                if (j % 2 == 0) {
-                    review.setReviewType(ReviewType.COMMENT);
-                    review.setCommentContent("I loved this problem");
-                } else {
-                    review.setReviewType(ReviewType.STAR);
-                }
+                review.setReviewType(ReviewType.COMMENT);
+                review.setCommentContent("I loved this problem");
+                review.setUser(moderators.get(j));
 
                 entityManager.persist(review);
-
                 problem.addReview(review);
-
             }
 
+            // add one star from each learner
+            for (int j = 0; j < 3; j++) {
+                Review review = new Review();
+                review.setReviewType(ReviewType.STAR);
+                review.setUser(learners.get(j));
+
+                entityManager.persist(review);
+                problem.addReview(review);
+            }
 
             entityManager.persist(problem);
 
