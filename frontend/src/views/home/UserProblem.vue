@@ -26,6 +26,7 @@
       :problems="problems"
       @category="getProblemsForCategory"
       @prob="showProblem"
+      v-if="problems.length"
     >
       <div class="text-right">
         <button type="button" class="btn btn-info" @click="getRandomProblem">
@@ -33,6 +34,8 @@
         </button>
       </div>
     </Problem>
+
+    <Empty v-else mess="problems" />
   </div>
 </template>
 

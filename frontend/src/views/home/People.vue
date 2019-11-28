@@ -62,7 +62,7 @@
     <div class="row mt-4">
       <div class="col">
         <div class="card shadow">
-          <div class="table-responsive min-h-full">
+          <div class="table-responsive min-h-full" v-if="users.length">
             <table class="table align-items-center table-flush">
               <tbody>
                 <person-item
@@ -75,6 +75,8 @@
               </tbody>
             </table>
           </div>
+          <Empty v-else mess="users" />
+
           <div class="card-footer py-4">
             <nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">

@@ -5,6 +5,7 @@ import AsyncComputed from "vue-async-computed";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import Empty from "./views/utils/Empty";
 
 Vue.config.productionTip = false;
 
@@ -97,6 +98,9 @@ Vue.mixin({
     return {
       publicPath: process.env.BASE_URL
     };
+  },
+  components: {
+    Empty
   }
 });
 
