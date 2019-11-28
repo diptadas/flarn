@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "f_users")
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
