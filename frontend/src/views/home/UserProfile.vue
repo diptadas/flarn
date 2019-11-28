@@ -61,7 +61,7 @@
                     </div>
                     <div>
                       <span class="heading">
-                        {{ user.subscribedUsers.length }}
+                        {{ user.subscribers.length }}
                       </span>
                       <span class="description">Subscribers</span>
                     </div>
@@ -112,7 +112,7 @@ export default {
     return {
       user: {
         subscriptions: [],
-        subscribedUsers: []
+        subscribers: []
       }
     };
   },
@@ -140,7 +140,7 @@ export default {
   computed: {
     followsUser() {
       const userId = Number(this.$store.state.userId);
-      return this.user.subscribedUsers.indexOf(userId) !== -1;
+      return this.user.subscribers.indexOf(userId) !== -1;
     },
     userFollowsMe() {
       const userId = Number(this.$store.state.userId);
