@@ -1,9 +1,13 @@
 package edu.baylor.flarn.controllers;
 
+import edu.baylor.flarn.exceptions.EmailSendingException;
+import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.AuthenticationRequest;
+import edu.baylor.flarn.resources.ConfirmUserRequest;
+import edu.baylor.flarn.resources.UpdatePasswordRequest;
 import edu.baylor.flarn.resources.UserRegistration;
 import edu.baylor.flarn.security.JwtTokenProvider;
 import edu.baylor.flarn.services.UserService;
@@ -15,10 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,10 +69,26 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody UserRegistration data) {
+    public User register(@RequestBody UserRegistration data) throws EmailSendingException {
         User user = userService.registerUser(data);
         userService.sendConfirmationCode(user);
         return user;
+    }
+
+    @GetMapping("/sendConfirmationCode")
+    public void sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException, EmailSendingException {
+        User user = userService.getUserByUsername(username);
+        userService.sendConfirmationCode(user);
+    }
+
+    @PostMapping("/confirm")
+    public User confirmAccount(@RequestBody ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+        return userService.confirmUser(confirmUserRequest);
+    }
+
+    @PostMapping("/updatePassword")
+    public User updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+        return userService.updatePassword(updatePasswordRequest);
     }
 
     @AllArgsConstructor
