@@ -6,8 +6,11 @@
     <div class="content">
       <div class="summary">
         <router-link
-          :to="{ name: 'user-profile', params: { id: $hash.encode(user.id) } }"
-          >{{ user.fullName }}</router-link
+          :to="{
+            name: 'user-profile',
+            params: { id: $hash.encode(activity.userId) }
+          }"
+          >{{ activity.userFullName }}</router-link
         >
         followed a user
         <div class="date">
@@ -16,16 +19,19 @@
       </div>
       <div class="extra text">
         <router-link
-          :to="{ name: 'user-profile', params: { id: $hash.encode(user.id) } }"
-          >{{ user.fullName }}</router-link
+          :to="{
+            name: 'user-profile',
+            params: { id: $hash.encode(activity.userId) }
+          }"
+          >{{ activity.userFullName }}</router-link
         >
         has followed
         <router-link
           :to="{
             name: 'user-profile',
-            params: { id: $hash.encode(followedUser.id) }
+            params: { id: $hash.encode(activity.followedUserId) }
           }"
-          >{{ followedUser.fullName }}</router-link
+          >{{ activity.followedUserFullName }}</router-link
         >
       </div>
       <div class="meta">

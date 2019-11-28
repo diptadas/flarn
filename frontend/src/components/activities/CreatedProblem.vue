@@ -6,8 +6,11 @@
     <div class="content">
       <div class="summary">
         <router-link
-          :to="{ name: 'user-profile', params: { id: $hash.encode(user.id) } }"
-          >{{ user.fullName }}</router-link
+          :to="{
+            name: 'user-profile',
+            params: { id: $hash.encode(activity.userId) }
+          }"
+          >{{ activity.userFullName }}</router-link
         >
         commented created a problem
         <div class="date">
@@ -16,16 +19,19 @@
       </div>
       <div class="extra text">
         <router-link
-          :to="{ name: 'user-profile', params: { id: $hash.encode(user.id) } }"
-          >{{ user.fullName }}</router-link
+          :to="{
+            name: 'user-profile',
+            params: { id: $hash.encode(activity.userId) }
+          }"
+          >{{ activity.userFullName }}</router-link
         >
         has created a new problem
         <router-link
           :to="{
             name: 'problem-detail',
-            params: { id: $hash.encode(staredProblem.id) }
+            params: { id: $hash.encode(activity.problemId) }
           }"
-          >{{ staredProblem.title }}</router-link
+          >{{ sactivity.problemTitle }}</router-link
         >
       </div>
       <div class="meta">
