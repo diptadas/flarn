@@ -212,7 +212,7 @@ export default {
       this.$refs["modal-btn"].click();
     },
     doPromoteUser() {
-      const url = `users/usertype`;
+      const url = `users/type`;
 
       const data = {
         id: this.currentUser.id,
