@@ -36,6 +36,12 @@ public class CategoryService {
             throw new DefaultCategoryModificationException();
         }
 
+        // assign default category to all problems of deleted category
+        Category defaultCategory = getDefaultCategory();
+        category.getProblems().forEach(e -> e.setCategory(defaultCategory));
+        defaultCategory.getProblems().addAll(category.getProblems());
+        categoryRepository.save(defaultCategory);
+
         try {
             categoryRepository.deleteById(id);
             return new ResponseBody(200, "Successful");
@@ -55,6 +61,14 @@ public class CategoryService {
         Category category = categoryRepository.findById(id).orElse(null);
         if (category == null) {
             throw new RecordNotFoundException("Category not found with id: " + id);
+        }
+        return category;
+    }
+
+    public Category getDefaultCategory() throws RecordNotFoundException {
+        Category category = categoryRepository.findByName(Category.DEFAULT_CATEGORY_NAME);
+        if (category == null) {
+            throw new RecordNotFoundException("Default category not found");
         }
         return category;
     }
