@@ -64,6 +64,10 @@ public class ProblemService {
         return problemRepository.findAll();
     }
 
+    public List<Problem> getAllUnarchivedProblems() {
+        return problemRepository.findByArchivedFalse();
+    }
+
     public Problem getProblemById(long id) throws RecordNotFoundException {
         Problem problem = problemRepository.findById(id).orElse(null);
         if (problem == null) {

@@ -38,9 +38,10 @@ public class ProblemController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    // returns a list of unarchived problems
+    @GetMapping()
     public List<Problem> getProblems() {
-        return problemService.getAllProblems();
+        return problemService.getAllUnarchivedProblems();
     }
 
     @GetMapping("{id}")
@@ -48,10 +49,9 @@ public class ProblemController {
         return problemService.getProblemById(id);
     }
 
-    @PostMapping("")
+    @PostMapping()
     @RolesAllowed(UserRoles.roleModerator)
     public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
-        // TODO: fix roles allowed restriction not working
         log.info(user.getRoles().toString());
         return problemService.createProblem(problem, user);
     }
