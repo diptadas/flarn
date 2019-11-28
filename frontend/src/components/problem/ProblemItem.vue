@@ -9,7 +9,7 @@
       </h4>
       <a
         href="#"
-        class="badge badge-primary text-right"
+        class="badge badge-info text-right"
         @click.stop="getProlemsInCategory(p.category.id)"
       >
         {{ p.category.name }}
@@ -18,10 +18,45 @@
     <p class="text-left">
       {{ p.description }}
     </p>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <button
+            class="btn btn-icon btn-2 btn-outline-secondary p-0"
+            type="button"
+          >
+            <span class="btn-inner--icon"
+              ><i class="fas fa-star" style="top: 0;"></i
+            ></span>
+          </button>
+          <span style="color: #4385b1;">{{ stars.length }} stars</span>
+        </div>
+
+        <div class="ml-4">
+          <button
+            class="btn btn-icon btn-2 btn-outline-secondary p-0"
+            type="button"
+          >
+            <span class="btn-inner--icon"
+              ><i class="fas fa-comment" style="top: 0;"></i
+            ></span>
+          </button>
+          <span style="color: #4385b1;">{{ comments.length }} comments</span>
+        </div>
+      </div>
+
+      <div class="ml-4 text-right">
+        <small style="color: #4385b1;">{{
+          attempted === true ? "Attempted" : "Non Attempted"
+        }}</small>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import shave from "shave";
+
 export default {
   props: {
     p: {
@@ -30,13 +65,51 @@ export default {
     }
   },
   name: "Problem",
+  data() {
+    return {
+      attempted: null
+    };
+  },
   methods: {
+    hasAttemptedProbelm(pId) {
+      const url = `users/current/hasAttempted?problemId=${pId}`;
+
+      this.$http.get(url).then(res => {
+        this.attempted = res.data;
+
+        if (this.attempted === true) {
+          this.getComments(pId);
+        }
+      });
+    },
     showProblem(pId) {
       this.$emit("prob", pId);
     },
     getProlemsInCategory(catId) {
       this.$emit("cat", catId);
+    },
+    getComments(pId) {
+      const url = `reviews/comments?problemId=${pId}`;
+
+      this.$http.get(url).then(res => {
+        this.comments = res.data.length;
+      });
+    },
+    shorten() {
+      shave(".desc", 3);
     }
+  },
+  computed: {
+    comments() {
+      return this.p.reviews.filter(rev => rev.reviewType === "COMMENT");
+    },
+    stars() {
+      return this.p.reviews.filter(rev => rev.reviewType === "STAR");
+    }
+  },
+  created() {
+    this.shorten();
+    this.hasAttemptedProbelm(this.p.id);
   }
 };
 </script>

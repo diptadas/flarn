@@ -1,9 +1,8 @@
 package edu.baylor.flarn.services;
 
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Question;
-import edu.baylor.flarn.models.Session;
-import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manage problem service includes service for to add problems, delete problems etc.
@@ -24,11 +22,14 @@ public class ProblemService {
     private final ProblemRepository problemRepository;
     private final KnowledgeSourceRepository knowledgeSourceRepository;
     private final QuestionRepository questionRepository;
+    private final ActivityRepository activityRepository;
 
-    public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository, QuestionRepository questionRepository) {
+    public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository,
+                          QuestionRepository questionRepository, ActivityRepository activityRepository) {
         this.problemRepository = problemRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
         this.questionRepository = questionRepository;
+        this.activityRepository = activityRepository;
     }
 
     public Problem createProblem(Problem problem, User user) {
@@ -49,16 +50,30 @@ public class ProblemService {
             question.setProblem(problem);
         }
 
-        return problemRepository.save(problem);
+        problem = problemRepository.save(problem);
+
+        // save the activity
+        Activity activity = new Activity(user.getId(), user.getFullName());
+        activity.setCreatedProblemActivity(problem.getId(), problem.getTitle());
+        activityRepository.save(activity);
+
+        return problem;
     }
 
     public List<Problem> getAllProblems() {
         return problemRepository.findAll();
     }
 
-    public Problem getProblemById(long id) {
-        Optional<Problem> problem = problemRepository.findById(id);
-        return problem.orElse(null);
+    public List<Problem> getAllUnarchivedProblems() {
+        return problemRepository.findByArchivedFalse();
+    }
+
+    public Problem getProblemById(long id) throws RecordNotFoundException {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            throw new RecordNotFoundException("Problem not found with id: " + id);
+        }
+        return problem;
     }
 
     public ResponseBody deleteProblem(Long problem) {
@@ -68,6 +83,12 @@ public class ProblemService {
         } catch (Exception e) {
             return new ResponseBody(500, e.getMessage());
         }
+    }
+
+    public Problem archiveProblem(Long problemId) throws RecordNotFoundException {
+        Problem problem = getProblemById(problemId);
+        problem.setArchived(true);
+        return problemRepository.save(problem);
     }
 
 

@@ -2,10 +2,8 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Session;
-import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
@@ -16,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static edu.baylor.flarn.models.ReviewType.STAR;
+
 @Service
 public class UserService {
 
@@ -23,12 +23,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final CustomQueries customQueries;
+    private final ActivityRepository activityRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService, CustomQueries customQueries) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService,
+                       CustomQueries customQueries, ActivityRepository activityRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.customQueries = customQueries;
+        this.activityRepository = activityRepository;
     }
 
     public User findById(Long id) throws RecordNotFoundException {
@@ -54,6 +57,9 @@ public class UserService {
         user.setCity(userDetails.getCity());
         user.setStreet(userDetails.getStreet());
         user.setZip(userDetails.getZip());
+        user.setBiography(userDetails.getBiography());
+        user.setAvatarLink(userDetails.getAvatarLink());
+        user.setDpLink(userDetails.getDpLink());
 
         // TODO: update password more elegantly
         if (userDetails.getPassword() != null) {
@@ -75,14 +81,25 @@ public class UserService {
             throw new RecordNotFoundException("can not find user with id " + id);
         }
 
-        // also re-fetch the current user
-        // fixes error: failed to lazily initialize
-        user = userRepository.findById(user.getId()).orElse(null);
-        if (user == null) {
-            throw new RecordNotFoundException("can not fetch current user");
+        user.subscribe(toBeFollowed);
+        user = userRepository.save(user);
+
+        // save the activity
+        Activity activity = new Activity(user.getId(), user.getFullName());
+        activity.setFollowedActivity(toBeFollowed.getId(), toBeFollowed.getFullName());
+        activityRepository.save(activity);
+
+        return user;
+    }
+
+    // user will unfollow other user specified by id
+    public User unfollow(User user, Long id) throws RecordNotFoundException {
+        User toBeUnFollowed = userRepository.findById(id).orElse(null);
+        if (toBeUnFollowed == null) {
+            throw new RecordNotFoundException("can not find user with id " + id);
         }
 
-        user.subscribe(toBeFollowed);
+        user.unsubscribe(toBeUnFollowed);
         return userRepository.save(user);
     }
 
@@ -160,6 +177,7 @@ public class UserService {
     /**
      * AS far as I know hibernate does not have an implementation for onCascade set null yet.
      * So if we want to delete a user, we probably need to remove all his subscribers/subscriptions before proceeding.
+     *
      * @param id
      * @return
      */
@@ -168,11 +186,10 @@ public class UserService {
             //Remove all subscription associations
             ResponseBody responseBody = customQueries.deleteAssociations(id);
 
-            if(responseBody.getStatus() == 200){
+            if (responseBody.getStatus() == 200) {
                 userRepository.deleteById(id);
                 return new ResponseBody(200, "Successful");
-            }
-            else{
+            } else {
                 return responseBody;
             }
         } catch (Exception e) {
@@ -181,8 +198,8 @@ public class UserService {
 
     }
 
-    public List<User> getSubscribedUsers(long Id) {
-        return userRepository.findSubscribedUsers(Id);
+    public List<User> getSubscribers(long Id) {
+        return userRepository.findSubscribers(Id);
     }
 
     public List<User> getUserSubscriptions(long Id) {
@@ -193,12 +210,48 @@ public class UserService {
         return userRepository.findByFullNameContainingIgnoreCase(name);
     }
 
-
     public List<Problem> getSolvedProblemsForUser(User user) {
         List<Problem> problems = new ArrayList<>();
         for (Session session : user.getParticipatedSessions()) {
             problems.add(session.getProblem());
         }
         return problems;
+    }
+
+    public List<Problem> getStaredProblemsForUser(User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Review review : user.getCreatedReviews()) {
+            if (review.getReviewType().equals(STAR)) {
+                problems.add(review.getProblem());
+            }
+        }
+        return problems;
+    }
+
+    // TODO: use custom query
+    public boolean hasAttempted(Long problemId, User user) {
+        List<Problem> problems = new ArrayList<>();
+        for (Session session : user.getParticipatedSessions()) {
+            if (session.getProblem().getId().equals(problemId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public User deactivateUser(User user) {
+        user.setEnabled(false);
+        return userRepository.save(user);
+    }
+
+    public List<Activity> activityForCurrentUser(User user) {
+        return activityRepository.findByUserIdOrderByDateDesc(user.getId());
+    }
+
+    public List<Activity> activityOfSubscriptionsForCurrentUser(User user) {
+        List<Long> subscriptionIds = new ArrayList<>();
+        user.getSubscriptions().forEach(e -> subscriptionIds.add(e.getId()));
+
+        return activityRepository.findByUserIdInOrderByDateDesc(subscriptionIds);
     }
 }

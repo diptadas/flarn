@@ -140,7 +140,14 @@
                         type="button"
                         class="btn btn-primary mt-4"
                         @click="registerUser"
+                        :disabled="loading"
                       >
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          v-if="loading"
+                        ></span>
                         Create account
                       </button>
                     </div>
@@ -160,6 +167,7 @@ export default {
   name: "Register",
   data() {
     return {
+      loading: false,
       name: "",
       email: "",
       password: "",
@@ -178,11 +186,10 @@ export default {
       this.checkPassStrength(value);
     }
   },
-  created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "register");
-  },
   methods: {
     registerUser() {
+      if (this.loading) return false;
+      this.loading = true;
       // validate data
 
       const url = "auth/register";
@@ -201,12 +208,11 @@ export default {
           });
         })
         .catch(err => {
-          console.log(err);
-          const mess = err.response.data.message || "Unknown error occured";
-          this.error.text = mess;
+          const mess = (this.error.text = this.$http.errorMessage(err));
           this.error.type = "error";
           this.error.state = true;
-        });
+        })
+        .finally(() => (this.loading = false));
     },
     scorePassword(pass) {
       let score = 0;

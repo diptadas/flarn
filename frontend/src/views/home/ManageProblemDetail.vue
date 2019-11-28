@@ -57,16 +57,48 @@
       </div>
 
       <hr class="my-4" />
-      <div class="text-right mt-4">
-        <button type="button" class="btn btn-primary" @click="edit">
-          Edit Problem
-        </button>
+      <div class="row d-inline-flex justify-content-between w-100">
+        <div class="text-left mt-4">
+          <button
+            type="button"
+            class="btn btn-danger"
+            @click="deleteProblem"
+            :disabled="archLoading"
+          >
+            <span
+              class="spinner-grow spinner-grow-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="archLoading"
+            ></span>
+            Archive Problem
+          </button>
+        </div>
+        <div class="text-right mt-4">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="edit"
+            :disabled="editLoading"
+          >
+            <span
+              class="spinner-grow spinner-grow-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="editLoading"
+            ></span>
+            Edit Problem
+          </button>
+        </div>
       </div>
     </div>
+    <Delete ref="delete" :content="deleteContent" :action="deleteAction" />
   </div>
 </template>
 
 <script>
+import Delete from "@/components/utils/Delete.vue";
+
 export default {
   props: {
     id: {
@@ -77,21 +109,41 @@ export default {
   name: "ManageProblemDetail",
   data() {
     return {
+      archLoading: false,
+      editLoading: false,
       answers: [],
       problem: {},
-      submitting: false,
       dateStarted: "",
-      dateSubmitted: ""
+      dateSubmitted: "",
+      deleteContent: {},
+      deleteAction: null
     };
   },
   methods: {
-    edit() {
-      if (this.submitting) return false;
-      this.submitting = true;
-      this.$router.push({
-        name: "manage-problem-edit",
-        params: { id: this.id }
+    deleteProblem() {
+      this.deleteContent = {
+        name: this.problem.title
+      };
+      const pId = this.$hash.decode(this.id)[0];
+      this.deleteAction = () => this.doDeleteProblem(pId);
+      this.$refs["delete"].show();
+    },
+    doDeleteProblem(pId) {
+      const url = `problems/${pId}/archive`;
+
+      this.$http.get(url).then(res => {
+        this.$router.replace({ name: "manage-problems" });
       });
+    },
+    edit() {
+      if (this.editLoading) return false;
+      this.editLoading = true;
+      this.$router
+        .push({
+          name: "manage-problem-edit",
+          params: { id: this.id }
+        })
+        .finally(() => (this.editLoading = false));
     },
     getProblem(id) {
       const url = `problems/${id}`;
@@ -120,7 +172,9 @@ export default {
       },
       default: "Moderator"
     }
+  },
+  components: {
+    Delete
   }
 };
 </script>
-

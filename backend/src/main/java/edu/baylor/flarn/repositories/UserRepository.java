@@ -3,7 +3,6 @@ package edu.baylor.flarn.repositories;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,8 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    @Query(value = "select subscribedUsers from User u where u.id =:userId")
-    List<User> findSubscribedUsers(@Param("userId") long userId);
+    @Query(value = "select subscribers from User u where u.id =:userId")
+    List<User> findSubscribers(@Param("userId") long userId);
 
     @Query(value = "select subscriptions from User u where u.id =:userId")
     List<User> findUserSubscriptions(@Param("userId") long userId);

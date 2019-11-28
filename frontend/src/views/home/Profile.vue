@@ -20,7 +20,10 @@
     </div>
     <div class="container-fluid mt--7">
       <div class="row d-flex align-items-start">
-        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0 mx-auto">
+        <div
+          class="order-2 mb-5 mb-xl-0 mx-auto"
+          :class="edit ? 'col-xl-4' : 'col-xl-6'"
+        >
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
@@ -48,7 +51,7 @@
                     </div>
                     <div>
                       <span class="heading">
-                        {{ user.subscribedUsers.length }}
+                        {{ user.subscribers.length }}
                       </span>
                       <span class="description">Subscribers</span>
                     </div>
@@ -56,7 +59,7 @@
                       <span class="heading">
                         {{ user.subscriptions.length }}
                       </span>
-                      <span class="description">Rank</span>
+                      <span class="description">User Rank</span>
                     </div>
                   </div>
                 </div>
@@ -75,8 +78,7 @@
                 </div>
                 <hr class="my-4" />
                 <p>
-                  Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick
-                  Murphy — writes, performs and records all of his own music.
+                  {{ user.biography }}
                 </p>
               </div>
             </div>
@@ -232,20 +234,45 @@
                       rows="4"
                       class="form-control form-control-alternative"
                       placeholder="A few words about you ..."
-                    >
-A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
-                    >
+                      v-model="user.biography"
+                    ></textarea>
                   </div>
                 </div>
 
-                <div class="text-right mt-4">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click="updateProfile"
-                  >
-                    Update Profile
-                  </button>
+                <div class="d-flex justify-content-between mt-4">
+                  <div>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      @click="deleteAccount"
+                      :disabled="delLoading"
+                    >
+                      <span
+                        class="spinner-grow spinner-grow-sm"
+                        role="status"
+                        aria-hidden="true"
+                        v-if="delLoading"
+                      ></span>
+                      Deactivate Account
+                    </button>
+                  </div>
+
+                  <div>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click="updateProfile"
+                      :disabled="loading"
+                    >
+                      <span
+                        class="spinner-grow spinner-grow-sm"
+                        role="status"
+                        aria-hidden="true"
+                        v-if="loading"
+                      ></span>
+                      Update Profile
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -253,28 +280,54 @@ A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea
         </div>
       </div>
     </div>
+    <Delete ref="delete" :content="deleteContent" :action="deleteAction" />
   </div>
 </template>
 
 <script>
+import Delete from "@/components/utils/Delete.vue";
 export default {
   name: "Profile",
   data() {
     return {
+      delLoading: false,
+      loading: false,
       edit: false,
       user: {
         subscriptions: [],
-        subscribedUsers: []
-      }
+        subscribers: []
+      },
+      deleteContent: {},
+      deleteAction: null
     };
   },
   methods: {
-    updateProfile() {
-      const url = `users/`;
+    deleteAccount() {
+      this.deleteContent = {
+        name: this.user.fullName
+      };
+      this.deleteAction = () => this.doDeleteAccount();
+      this.$refs["delete"].show();
+    },
+    doDeleteAccount() {
+      const url = "users/current/deactivate";
 
-      this.$http.post(url, this.user).then(res => {
-        this.user = res.data;
+      this.$http.get(url).then(res => {
+        this.$router.replace({ name: "login" });
       });
+    },
+    updateProfile() {
+      if (this.loading) return;
+      this.loading = true;
+      const url = `users/current`;
+
+      this.$http
+        .post(url, this.user)
+        .then(res => {
+          this.user = res.data;
+          this.edit = false;
+        })
+        .finally(() => (this.loading = false));
     },
     getUserProfile(userId) {
       const url = `users/${userId}`;
@@ -288,6 +341,9 @@ export default {
   created() {
     const userId = Number(this.$store.state.userId);
     this.getUserProfile(userId);
+  },
+  components: {
+    Delete
   }
 };
 </script>

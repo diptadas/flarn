@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
+    List<Problem> findByArchivedFalse();
+
     List<Problem> findByDifficultyAndCategoryAndTitleContainingIgnoreCase(@NotNull Difficulty difficulty, Category category, @NotNull String title);
 
     List<Problem> findByDifficultyAndTitleContainingIgnoreCase(@NotNull Difficulty difficulty, @NotNull String title);
@@ -23,7 +25,7 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     void deleteByIdIn(List<Long> ids);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Problem as e WHERE e.id NOT IN (:ids) ORDER BY RAND() LIMIT 1")
+    @Query(nativeQuery = true, value = "SELECT * FROM Problem as e WHERE e.archived = FALSE AND e.id NOT IN (:ids) ORDER BY RAND() LIMIT 1")
     Problem findUnsolved(@Param("ids") List<Long> ids);
 
 }

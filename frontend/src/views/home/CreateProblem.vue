@@ -137,7 +137,14 @@
                       type="button"
                       class="btn btn-primary"
                       @click="createProblem"
+                      :disabled="loading"
                     >
+                      <span
+                        class="spinner-grow spinner-grow-sm"
+                        role="status"
+                        aria-hidden="true"
+                        v-if="loading"
+                      ></span>
                       Add Problem
                     </button>
                   </div>
@@ -157,6 +164,7 @@ export default {
   name: "CreateProblem",
   data() {
     return {
+      loading: false,
       problem: {
         title: "",
         difficulty: "MEDIUM",
@@ -202,12 +210,17 @@ export default {
   },
   methods: {
     createProblem() {
+      if (this.loading) return false;
+      this.loading = true;
       const data = this.problem;
       const url = "problems";
 
-      this.$http.post(url, data).then(res => {
-        this.$router.push({ name: "manage-problems" });
-      });
+      this.$http
+        .post(url, data)
+        .then(res => {
+          this.$router.push({ name: "manage-problems" });
+        })
+        .finally(() => (this.loading = false));
     },
     getCategories() {
       const url = "category";

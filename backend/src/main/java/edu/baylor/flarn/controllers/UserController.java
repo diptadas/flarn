@@ -2,6 +2,7 @@ package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.Activity;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
@@ -51,8 +52,8 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/usertype/{userType}")
-    public List<User> getUsersByGroup(@PathVariable UserType userType) {
+    @GetMapping("/type/{userType}")
+    public List<User> getUsersByType(@PathVariable UserType userType) {
         return userService.getUserByType(userType);
     }
 
@@ -85,7 +86,7 @@ public class UserController {
         return userService.updatePassword(updatePasswordRequest);
     }
 
-    @PostMapping("/usertype")
+    @PostMapping("/type")
     @RolesAllowed(UserRoles.roleAdmin)
     public User updateUserType(@RequestBody UserTypeUpdateRequest userTypeUpdateRequest) throws RecordNotFoundException {
         return userService.changeUserType(userTypeUpdateRequest);
@@ -98,7 +99,7 @@ public class UserController {
 
     @GetMapping("/{id}/subscribers")
     public List<User> getSubscribers(@PathVariable long id) {
-        return userService.getSubscribedUsers(id);
+        return userService.getSubscribers(id);
     }
 
     @GetMapping("/{id}/subscriptions")
@@ -115,6 +116,15 @@ public class UserController {
         return userService.follow(user, id);
     }
 
+    // current user will unfollow user specified by {id}
+    @PostMapping("/current/unfollow/{id}")
+    public User unfollow(@PathVariable Long id, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.unfollow(user, id);
+    }
+
     @GetMapping("/search")
     public List<User> searchUser(@RequestParam String name) {
         return userService.searchUserByName(name);
@@ -128,4 +138,44 @@ public class UserController {
         return userService.getSolvedProblemsForUser(user);
     }
 
+    @GetMapping("/current/staredProblems")
+    public List<Problem> staredProblems(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.getStaredProblemsForUser(user);
+    }
+
+    // returns true if current user attempted the problem
+    @GetMapping("/current/hasAttempted")
+    public boolean hasAttemptedProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.hasAttempted(problemId, user);
+    }
+
+    @GetMapping("/current/deactivate")
+    public User deactivateCurrentUser(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.deactivateUser(user);
+    }
+
+    // activities of current user
+    @GetMapping("/current/activities")
+    public List<Activity> activityForCurrentUser(@AuthenticationPrincipal User user) {
+        return userService.activityForCurrentUser(user);
+    }
+
+    // activities filtered by subscriptions for current user
+    // to be used in timeline
+    @GetMapping("/current/subscriptionsActivities")
+    public List<Activity> activityOfSubscriptionsForCurrentUser(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.activityOfSubscriptionsForCurrentUser(user);
+    }
 }

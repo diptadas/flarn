@@ -140,9 +140,6 @@ export default {
       }
     };
   },
-  created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "");
-  },
   methods: {
     loginUser() {
       // validate data

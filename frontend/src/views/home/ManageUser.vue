@@ -32,13 +32,13 @@
             <table class="table align-items-center table-flush">
               <tbody>
                 <person-item
-                  v-for="user in users"
+                  v-for="(user, i) in users"
                   :key="user.id"
                   :user="user"
                   :action="true"
                   class="my-4"
-                  @promote="promoteUser(user.id)"
-                  @delete="deleteUser(user.id)"
+                  @promote="promoteUser(user.id, i)"
+                  @delete="deleteUser(user, i)"
                 ></person-item>
               </tbody>
             </table>
@@ -160,11 +160,13 @@
         </div>
       </div>
     </div>
+    <Delete ref="delete" :content="deleteContent" :action="deleteAction" />
   </div>
 </template>
 
 <script>
 import PersonItem from "@/components/people/Person.vue";
+import Delete from "@/components/utils/Delete.vue";
 
 export default {
   name: "ManageUser",
@@ -194,7 +196,9 @@ export default {
           value: "ADMIN",
           enabled: false
         }
-      ]
+      ],
+      deleteContent: {},
+      deleteAction: null
     };
   },
   methods: {
@@ -208,7 +212,7 @@ export default {
       this.$refs["modal-btn"].click();
     },
     doPromoteUser() {
-      const url = `users/usertype`;
+      const url = `users/type`;
 
       const data = {
         id: this.currentUser.id,
@@ -221,12 +225,26 @@ export default {
         this.$refs["modal-btn-close"].click();
       });
     },
-    deleteUser(userId) {},
+    deleteUser(user, index) {
+      this.deleteContent = {
+        name: user.fullName
+      };
+      this.deleteAction = () => this.doDeleteUser(user, index);
+      this.$refs["delete"].show();
+    },
+    doDeleteUser(user, index) {
+      const url = `problems/${pId}/archive`;
+
+      this.$http.get(url).then(res => {
+        this.$router.replace({ name: "manage-problems" });
+      });
+    },
     searchUser() {
       const url = `users/search?name=${this.name}`;
 
       this.$http.get(url).then(res => {
         this.users = res.data;
+        this.name = "";
       });
     },
     getUsers() {
@@ -241,7 +259,8 @@ export default {
     this.getUsers();
   },
   components: {
-    PersonItem
+    PersonItem,
+    Delete
   }
 };
 </script>

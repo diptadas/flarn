@@ -140,17 +140,6 @@ export default {
       }
     };
   },
-  created() {
-    this.$store.commit("SET_GLOBAL_BUTTON", "login");
-
-    if (this.message) {
-      this.error.text = this.message;
-      this.error.type = "";
-      this.error.state = true;
-    }
-
-    // if router before was home, show logout message
-  },
   methods: {
     loginUser() {
       // validate data

@@ -40,3 +40,69 @@ table {
 .w-100 {
   width: 100%;
 }
+
+// Pulse
+
+.pulse {
+  width: 10px;
+  height: 10px;
+  background-color: #749a02;
+  border-radius: 5px;
+}
+@keyframes greenPulse {
+  from {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
+  }
+  50% {
+    background-color: #91bd09;
+    box-shadow: 0 0 18px #91bd09;
+  }
+  to {
+    background-color: #749a02;
+    box-shadow: 0 0 9px #333;
+  }
+}
+div.pulse.green {
+  animation-name: greenPulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes yellowPulse {
+  from {
+    background-color: #fc9200;
+    box-shadow: 0 0 9px #333;
+  }
+  50% {
+    background-color: #ffb515;
+    box-shadow: 0 0 18px #ffb515;
+  }
+  to {
+    background-color: #fc9200;
+    box-shadow: 0 0 9px #333;
+  }
+}
+div.pulse.yellow {
+  animation-name: yellowPulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes redPulse {
+  from {
+    background-color: #bc330d;
+    box-shadow: 0 0 9px #333;
+  }
+  50% {
+    background-color: #e33100;
+    box-shadow: 0 0 18px #e33100;
+  }
+  to {
+    background-color: #bc330d;
+    box-shadow: 0 0 9px #333;
+  }
+}
+div.pulse.red {
+  animation-name: redPulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}

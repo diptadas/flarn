@@ -57,6 +57,8 @@ public class AuthenticationController {
             model.put("username", username);
             model.put("token", token);
             model.put("userId", user.getId());
+            model.put("enabled", user.isEnabled());
+            model.put("userType", user.getUserType());
             return ok(model);
         } catch (AuthenticationException | RecordNotFoundException e) {
             InvalidLogin invalidLogin = new InvalidLogin(data.getUsername(), data.getPassword(), "Invalid username and " +

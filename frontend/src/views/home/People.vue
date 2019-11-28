@@ -23,6 +23,42 @@
       </ul>
     </div>
 
+    <div class="row d-flex align-items-start justify-content-center  mt-4">
+      <div class="form-group col-md-6 mb-0">
+        <div class="input-group input-group-alternative mb-4">
+          <input
+            class="form-control"
+            placeholder="Search for User"
+            type="text"
+            v-model="name"
+            @keyup.enter="searchUser"
+          />
+          <div class="input-group-append">
+            <span class="input-group-text"
+              ><i class="ni ni-zoom-split-in"></i
+            ></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="searchUser"
+          :disabled="searchLoading"
+        >
+          <span
+            class="spinner-grow spinner-grow-sm"
+            role="status"
+            aria-hidden="true"
+            v-if="searchLoading"
+          ></span>
+          Search Users
+        </button>
+      </div>
+    </div>
+
     <div class="row mt-4">
       <div class="col">
         <div class="card shadow">
@@ -80,7 +116,9 @@ export default {
   name: "People",
   data() {
     return {
-      activeTab: 1,
+      searchLoading: false,
+      name: "",
+      activeTab: 3,
       users: [],
       tabs: [
         {
@@ -102,6 +140,19 @@ export default {
     };
   },
   methods: {
+    searchUser() {
+      if (this.searchLoading) return false;
+      this.searchLoading = true;
+      const url = `users/search?name=${this.name}`;
+
+      this.$http
+        .get(url)
+        .then(res => {
+          this.users = res.data;
+          this.name = "";
+        })
+        .finally(() => (this.searchLoading = false));
+    },
     changeTabView(tabId) {
       if (this.activeTab === tabId) return;
 
@@ -142,7 +193,7 @@ export default {
     }
   },
   created() {
-    this.getSubscribedUsers();
+    this.getUsers();
   },
   components: {
     PersonItem

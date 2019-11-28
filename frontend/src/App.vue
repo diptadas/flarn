@@ -12,8 +12,9 @@ export default {
 
 <style lang="scss">
 @import "./assets/vendor/nucleo/css/nucleo.css";
-@import "./assets/vendor/font-awesome/css/font-awesome.min.css";
-@import "./assets/scss/argon.scss";
-@import "./assets/scss/styles.scss";
-// @import "./assets/css/fortawesome/fontawesome-free/css/all.min.css";
+@import "./assets/scss/argon";
+@import "./assets/scss/styles";
+@import "./assets/scss/fontawesome/fontawesome";
+@import "./assets/scss/fontawesome/solid";
+@import "./assets/scss/fontawesome/brands";
 </style>

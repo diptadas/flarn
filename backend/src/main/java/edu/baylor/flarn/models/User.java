@@ -54,6 +54,8 @@ public class User implements UserDetails {
     private String biography;
     @URL
     private String avatarLink;
+    @URL
+    private String dpLink; // display picture
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -70,6 +72,7 @@ public class User implements UserDetails {
     // it will recalculated when a session is created or, when a review is crated
     private long points = 0;
 
+    // list of other users this user is following
     @ManyToMany
     @JoinTable(
             name = "user_subscription",
@@ -81,12 +84,13 @@ public class User implements UserDetails {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<User> subscriptions = new HashSet<>();
 
+    // list of other users who follow this user i.e. followers
     @ManyToMany(mappedBy = "subscriptions")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private Set<User> subscribedUsers = new HashSet<>();
+    private Set<User> subscribers = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIdentityInfo(
@@ -110,7 +114,7 @@ public class User implements UserDetails {
     private Set<Session> participatedSessions = new HashSet<>();
 
     public User(@Email @NotNull String username, @NotNull String password, String fullName, String phoneNumber,
-                String street, String city, String state, String zip, String biography, String avatarLink,
+                String street, String city, String state, String zip, String biography, String avatarLink, String dpLink,
                 UserType userType) {
 
         if (userType == null) {
@@ -127,6 +131,7 @@ public class User implements UserDetails {
         this.zip = zip;
         this.biography = biography;
         this.avatarLink = avatarLink;
+        this.dpLink = dpLink;
 
         this.userType = userType;
         this.roles = UserRoles.rolesForUserType(userType);
@@ -171,6 +176,11 @@ public class User implements UserDetails {
 
     public void subscribe(User user) { // helper to ensures bidirectional insert
         this.getSubscriptions().add(user);
-        user.getSubscribedUsers().add(this);
+        user.getSubscribers().add(this);
+    }
+
+    public void unsubscribe(User user) { // helper to ensures bidirectional insert
+        this.getSubscriptions().remove(user);
+        user.getSubscribers().remove(this);
     }
 }

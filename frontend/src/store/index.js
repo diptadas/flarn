@@ -5,16 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    globalButton: "login",
     username: "",
     token: "",
     userId: "",
-    currentHomePahe: "Timeline"
+    currentHomePahe: "Timeline",
+    error: {
+      state: false,
+      text: ""
+    }
   },
   mutations: {
-    SET_GLOBAL_BUTTON(state, newState) {
-      state.globalButton = newState;
-    },
     SET_AUTH(state, auth) {
       state.username = auth.username;
       state.token = auth.token;
@@ -26,6 +26,17 @@ export default new Vuex.Store({
     },
     SET_HOMEPAGE(state, name) {
       state.currentHomePahe = name;
+    },
+    SET_ERROR(state, mess) {
+      state.error.text = mess;
+      state.error.state = true;
+    },
+    HIDE_ERROR(state) {
+      state.error.state = false;
+    },
+    ERROR(state, mess) {
+      state.error.text = mess;
+      state.error.state = true;
     }
   },
   actions: {},

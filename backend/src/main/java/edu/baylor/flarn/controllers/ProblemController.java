@@ -38,20 +38,20 @@ public class ProblemController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    // returns a list of unarchived problems
+    @GetMapping()
     public List<Problem> getProblems() {
-        return problemService.getAllProblems();
+        return problemService.getAllUnarchivedProblems();
     }
 
     @GetMapping("{id}")
-    public Problem getProblemById(@PathVariable long id) {
+    public Problem getProblemById(@PathVariable long id) throws RecordNotFoundException {
         return problemService.getProblemById(id);
     }
 
-    @PostMapping("")
+    @PostMapping()
     @RolesAllowed(UserRoles.roleModerator)
     public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
-        // TODO: fix roles allowed restriction not working
         log.info(user.getRoles().toString());
         return problemService.createProblem(problem, user);
     }
@@ -65,6 +65,12 @@ public class ProblemController {
     @PostMapping("/search")
     public List<Problem> searchProblems(@RequestBody ProblemSearchRequest problemSearchRequest) {
         return searchProblemService.searchProblem(problemSearchRequest);
+    }
+
+    @GetMapping("/{id}/archive")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Problem archiveProblem(@PathVariable("id") Long id) throws RecordNotFoundException {
+        return problemService.archiveProblem(id);
     }
 
     //Todo: Check moderator is owner or admin
