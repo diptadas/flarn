@@ -1,5 +1,6 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
@@ -106,7 +107,7 @@ public class UserService {
     }
 
     // associate a confirmation code and send it to email
-    public void sendConfirmationCode(User user) {
+    public void sendConfirmationCode(User user) throws EmailSendingException {
         int code = new Random().nextInt(9000) + 1000; // 4 digit code
         user.setConfirmationCode(code);
         userRepository.save(user);

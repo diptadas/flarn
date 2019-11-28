@@ -1,13 +1,14 @@
 package edu.baylor.flarn.controllers;
 
-import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Activity;
 import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.resources.ResponseBody;
-import edu.baylor.flarn.resources.*;
+import edu.baylor.flarn.resources.UserRegistration;
+import edu.baylor.flarn.resources.UserRoles;
+import edu.baylor.flarn.resources.UserTypeUpdateRequest;
 import edu.baylor.flarn.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,27 +64,10 @@ public class UserController {
         return userService.updateUser(userDetails, user);
     }
 
-    @GetMapping("/sendConfirmationCode")
-    public void sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException {
-        User user = userService.getUserByUsername(username);
-        userService.sendConfirmationCode(user);
-    }
-
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id == #authUser.id")
     public ResponseBody deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User authUser) {
         return userService.deleteUser(id);
-    }
-
-    @PostMapping("/confirm")
-    public User confirmAccount(@RequestBody ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
-        return userService.confirmUser(confirmUserRequest);
-    }
-
-    @PostMapping("/updatePassword")
-    public User updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
-        return userService.updatePassword(updatePasswordRequest);
     }
 
     @PostMapping("/type")

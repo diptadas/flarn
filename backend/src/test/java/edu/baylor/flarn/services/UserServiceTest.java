@@ -1,10 +1,23 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class UserServiceTest {
+
+    @Autowired
+    private UserService userService;
 
     @Before
     public void setUp() throws Exception {
@@ -15,7 +28,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void findById() {
+    public void findById() throws RecordNotFoundException {
+        User user = userService.findById(1L);
+        assertEquals(user.getFullName(), "Admin Mock");
     }
 
     @Test

@@ -15,8 +15,4 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidConfirmationCodeException extends Exception {
 
     private static final long serialVersionUID = 1L;
-
-    public InvalidConfirmationCodeException(String message) {
-        super(message);
-    }
 }
