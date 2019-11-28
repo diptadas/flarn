@@ -1,5 +1,6 @@
 package edu.baylor.flarn.services;
 
+import edu.baylor.flarn.exceptions.EmailSendingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,11 +19,15 @@ public class EmailService {
     }
 
     @Async
-    public void sendEmail(SimpleMailMessage email) {
-        javaMailSender.send(email);
+    public void sendEmail(SimpleMailMessage email) throws EmailSendingException {
+        try {
+            javaMailSender.send(email);
+        } catch (Exception e) {
+            throw new EmailSendingException(e);
+        }
     }
 
-    public void sendVerificationEmail(String email, int confirmationCode) {
+    public void sendVerificationEmail(String email, int confirmationCode) throws EmailSendingException {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("FLARN: Confirmation Code");
