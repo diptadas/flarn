@@ -2,6 +2,7 @@ package edu.baylor.flarn.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,8 @@ public class Category {
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Problem> problems = new HashSet<>();
+
+    @JsonIgnore()
+    @Transient
+    public static final String DEFAULT_CATEGORY_NAME = "Other";
 }

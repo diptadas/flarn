@@ -1,6 +1,8 @@
 package edu.baylor.flarn.services;
 
 
+import edu.baylor.flarn.exceptions.DefaultCategoryModificationException;
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.repositories.CategoryRepository;
 import edu.baylor.flarn.resources.ResponseBody;
@@ -17,7 +19,10 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category createCategory(Category category) {
+    public Category createCategory(Category category) throws DefaultCategoryModificationException {
+        if (category.getName() != null && category.getName().equals(Category.DEFAULT_CATEGORY_NAME)) {
+            throw new DefaultCategoryModificationException();
+        }
         return categoryRepository.save(category);
     }
 
@@ -25,7 +30,18 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public ResponseBody deleteCategory(Long id) {
+    public ResponseBody deleteCategory(Long id) throws DefaultCategoryModificationException, RecordNotFoundException {
+        Category category = getCategory(id);
+        if (category.getName() != null && category.getName().equals(Category.DEFAULT_CATEGORY_NAME)) {
+            throw new DefaultCategoryModificationException();
+        }
+
+        // assign default category to all problems of deleted category
+        Category defaultCategory = getDefaultCategory();
+        category.getProblems().forEach(e -> e.setCategory(defaultCategory));
+        defaultCategory.getProblems().addAll(category.getProblems());
+        categoryRepository.save(defaultCategory);
+
         try {
             categoryRepository.deleteById(id);
             return new ResponseBody(200, "Successful");
@@ -34,11 +50,26 @@ public class CategoryService {
         }
     }
 
-    public Category updateCategory(Category category) {
+    public Category updateCategory(Category category) throws DefaultCategoryModificationException {
+        if (category.getName() != null && category.getName().equals(Category.DEFAULT_CATEGORY_NAME)) {
+            throw new DefaultCategoryModificationException();
+        }
         return categoryRepository.save(category);
     }
 
-    public Category getCategory(long id) {
-        return categoryRepository.findById(id).orElse(null);
+    public Category getCategory(long id) throws RecordNotFoundException {
+        Category category = categoryRepository.findById(id).orElse(null);
+        if (category == null) {
+            throw new RecordNotFoundException("Category not found with id: " + id);
+        }
+        return category;
+    }
+
+    public Category getDefaultCategory() throws RecordNotFoundException {
+        Category category = categoryRepository.findByName(Category.DEFAULT_CATEGORY_NAME);
+        if (category == null) {
+            throw new RecordNotFoundException("Default category not found");
+        }
+        return category;
     }
 }
