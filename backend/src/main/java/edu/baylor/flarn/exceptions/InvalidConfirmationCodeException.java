@@ -10,13 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Dipta Das
  */
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 @NoArgsConstructor
 public class InvalidConfirmationCodeException extends Exception {
 
     private static final long serialVersionUID = 1L;
-
-    public InvalidConfirmationCodeException(String message) {
-        super(message);
-    }
 }
