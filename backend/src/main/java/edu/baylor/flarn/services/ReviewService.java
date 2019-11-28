@@ -49,7 +49,8 @@ public class ReviewService {
 
     public boolean hasStared(Long problemId, User user) throws RecordNotFoundException {
         Problem problem = problemService.getProblemById(problemId);
-        return reviewRepository.findByReviewTypeAndUserAndProblem(ReviewType.STAR, user, problem) != null;
+        List<Review> reviews = reviewRepository.findByReviewTypeAndUserAndProblem(ReviewType.STAR, user, problem);
+        return reviews != null && reviews.size() > 0;
     }
 
     public Review commentOnProblem(Review review, User user) throws RecordNotFoundException {
