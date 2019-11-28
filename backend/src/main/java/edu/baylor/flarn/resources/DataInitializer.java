@@ -45,8 +45,14 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void createCategories() {
+        // create default category
+        Category category = new Category();
+        category.setName(Category.DEFAULT_CATEGORY_NAME);
+        entityManager.persist(category);
+
+        // create 3 other categories
         for (int i = 0; i < 3; i++) {
-            Category category = new Category();
+            category = new Category();
             category.setName("category-" + i);
             entityManager.persist(category);
 

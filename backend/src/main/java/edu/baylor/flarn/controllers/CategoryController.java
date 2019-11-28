@@ -1,6 +1,8 @@
 package edu.baylor.flarn.controllers;
 
 
+import edu.baylor.flarn.exceptions.DefaultCategoryModificationException;
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.services.CategoryService;
@@ -22,38 +24,36 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-
+    // don't allow creating "other" category, it should be created using DataInitializer
     @PostMapping("")
     @PreAuthorize("hasRole('ADMIN')")
-    public Category createCategory(@RequestBody Category category) {
+    public Category createCategory(@RequestBody Category category) throws DefaultCategoryModificationException {
         return categoryService.createCategory(category);
     }
-
 
     @GetMapping("")
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-
     @GetMapping("/{id}")
-    public Category getCategory(@PathVariable long id) {
+    public Category getCategory(@PathVariable long id) throws RecordNotFoundException {
         return categoryService.getCategory(id);
     }
 
-
+    // don't allow updating "other" category
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public Category updateCategory(@RequestBody Category category) {
+    public Category updateCategory(@RequestBody Category category) throws DefaultCategoryModificationException {
         return categoryService.updateCategory(category);
     }
 
-    //Todo: Check moderator also
+    // deletes the category and associate all problems of this category with "other" category
+    // don't allow deleting "other"category
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseBody deleteCategory(@PathVariable("id") Long id) {
+    public ResponseBody deleteCategory(@PathVariable("id") Long id) throws DefaultCategoryModificationException, RecordNotFoundException {
         return categoryService.deleteCategory(id);
     }
-
 
 }
