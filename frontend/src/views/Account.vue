@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="account">
     <header class="header-global">
       <nav
         id="navbar-main"
@@ -7,7 +7,11 @@
       >
         <div class="container">
           <router-link class="navbar-brand mr-lg-5" :to="{ name: 'home' }">
-            <img src="../assets/img/brand/white.png" alt="brand" />
+            <img
+              src="../assets/img/brand/logo-white.png"
+              alt="brand"
+              style="transform: scale(5, 5);"
+            />
           </router-link>
           <button
             class="navbar-toggler"
@@ -46,140 +50,32 @@
             </div>
             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
               <li class="nav-item dropdown">
-                <a
-                  href="#"
+                <router-link
                   class="nav-link"
-                  data-toggle="dropdown"
                   role="button"
+                  :to="{ name: 'acc-about' }"
                 >
                   <i class="ni ni-ui-04 d-lg-none"></i>
-                  <span class="nav-link-inner--text">Components</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-xl">
-                  <div class="dropdown-menu-inner">
-                    <a
-                      href="https://demos.creative-tim.com/argon-design-system/docs/getting-started/overview.html"
-                      class="media d-flex align-items-center"
-                    >
-                      <div
-                        class="icon icon-shape bg-gradient-primary rounded-circle text-white"
-                      >
-                        <i class="ni ni-spaceship"></i>
-                      </div>
-                      <div class="media-body ml-3">
-                        <h6 class="heading text-primary mb-md-1">
-                          Getting started
-                        </h6>
-                        <p class="description d-none d-md-inline-block mb-0">
-                          Learn how to use Argon compiling Scss, change brand
-                          colors and more.
-                        </p>
-                      </div>
-                    </a>
-                    <a
-                      href="https://demos.creative-tim.com/argon-design-system/docs/foundation/colors.html"
-                      class="media d-flex align-items-center"
-                    >
-                      <div
-                        class="icon icon-shape bg-gradient-success rounded-circle text-white"
-                      >
-                        <i class="ni ni-palette"></i>
-                      </div>
-                      <div class="media-body ml-3">
-                        <h6 class="heading text-primary mb-md-1">Foundation</h6>
-                        <p class="description d-none d-md-inline-block mb-0">
-                          Learn more about colors, typography, icons and the
-                          grid system we used for Argon.
-                        </p>
-                      </div>
-                    </a>
-                    <a
-                      href="https://demos.creative-tim.com/argon-design-system/docs/components/alerts.html"
-                      class="media d-flex align-items-center"
-                    >
-                      <div
-                        class="icon icon-shape bg-gradient-warning rounded-circle text-white"
-                      >
-                        <i class="ni ni-ui-04"></i>
-                      </div>
-                      <div class="media-body ml-3">
-                        <h5 class="heading text-warning mb-md-1">Components</h5>
-                        <p class="description d-none d-md-inline-block mb-0">
-                          Browse our 50 beautiful handcrafted components offered
-                          in the Free version.
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
+                  <span class="nav-link-inner--text">About Us</span>
+                </router-link>
               </li>
               <li class="nav-item dropdown">
-                <a
-                  href="#"
+                <router-link
+                  :to="{ name: 'acc-support' }"
                   class="nav-link"
                   data-toggle="dropdown"
                   role="button"
                 >
                   <i class="ni ni-collection d-lg-none"></i>
-                  <span class="nav-link-inner--text">Examples</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a href="../examples/landing.html" class="dropdown-item"
-                    >Landing</a
-                  >
-                  <a href="../examples/profile.html" class="dropdown-item"
-                    >Profile</a
-                  >
-                  <a href="../examples/login.html" class="dropdown-item"
-                    >Login</a
-                  >
-                  <a href="../examples/register.html" class="dropdown-item"
-                    >Register</a
-                  >
-                </div>
+                  <span class="nav-link-inner--text">Support</span>
+                </router-link>
               </li>
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
               <li class="nav-item">
                 <a
                   class="nav-link nav-link-icon"
-                  href="https://www.facebook.com/creativetim"
-                  target="_blank"
-                  data-toggle="tooltip"
-                  title="Like us on Facebook"
-                >
-                  <i class="fab fa-facebook-square"></i>
-                  <span class="nav-link-inner--text d-lg-none">Facebook</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link nav-link-icon"
-                  href="https://www.instagram.com/creativetimofficial"
-                  target="_blank"
-                  data-toggle="tooltip"
-                  title="Follow us on Instagram"
-                >
-                  <i class="fab fa-instagram"></i>
-                  <span class="nav-link-inner--text d-lg-none">Instagram</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link nav-link-icon"
-                  href="https://twitter.com/creativetim"
-                  target="_blank"
-                  data-toggle="tooltip"
-                  title="Follow us on Twitter"
-                >
-                  <i class="fab fa-twitter-square"></i>
-                  <span class="nav-link-inner--text d-lg-none">Twitter</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link nav-link-icon"
-                  href="https://github.com/creativetimofficial/argon-design-system"
+                  href="https://github.com/diptadas/flarn"
                   target="_blank"
                   data-toggle="tooltip"
                   title="Star us on Github"
@@ -206,96 +102,41 @@
 
     <footer class="footer">
       <div class="container">
-        <div class="row row-grid align-items-center mb-5">
-          <div class="col-lg-6">
-            <h3 class="text-primary font-weight-light mb-2">
-              Thank you for supporting us!
-            </h3>
-            <h4 class="mb-0 font-weight-light">
-              Let's get in touch on any of these platforms.
-            </h4>
-          </div>
-          <div class="col-lg-6 text-lg-center btn-wrapper">
-            <a
-              target="_blank"
-              href="https://twitter.com/creativetim"
-              class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg"
-              data-toggle="tooltip"
-              data-original-title="Follow us"
-            >
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a
-              target="_blank"
-              href="https://www.facebook.com/creativetim"
-              class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg"
-              data-toggle="tooltip"
-              data-original-title="Like us"
-            >
-              <i class="fab fa-facebook-square"></i>
-            </a>
-            <a
-              target="_blank"
-              href="https://dribbble.com/creativetim"
-              class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round"
-              data-toggle="tooltip"
-              data-original-title="Follow us"
-            >
-              <i class="fab fa-dribbble"></i>
-            </a>
-            <a
-              target="_blank"
-              href="https://github.com/creativetimofficial"
-              class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg"
-              data-toggle="tooltip"
-              data-original-title="Star on Github"
-            >
-              <i class="fab fa-github"></i>
-            </a>
-          </div>
-        </div>
-        <hr />
-        <div class="row align-items-center justify-content-md-between">
-          <div class="col-md-6">
-            <div class="copyright">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6">
+            <div class="copyright text-center text-xl-left text-muted">
               &copy; 2019
-              <a href="https://www.creative-tim.com" target="_blank"
-                >Creative Tim</a
-              >.
+              <a
+                href="https://github.com/diptadas/flarn"
+                class="font-weight-bold ml-1"
+                target="_blank"
+                >Flarn Project</a
+              >
             </div>
           </div>
-          <div class="col-md-6">
-            <ul class="nav nav-footer justify-content-end">
+          <div class="col-xl-6">
+            <ul
+              class="nav nav-footer justify-content-center justify-content-xl-end"
+            >
               <li class="nav-item">
                 <a
-                  href="https://www.creative-tim.com"
+                  href="https://github.com/diptadas/flarn"
                   class="nav-link"
                   target="_blank"
-                  >Creative Tim</a
+                  >Flarn Project</a
+                >
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'about' }" class="nav-link"
+                  >About Us</router-link
                 >
               </li>
               <li class="nav-item">
                 <a
-                  href="https://www.creative-tim.com/presentation"
+                  href="https://www.baylor.edu"
                   class="nav-link"
                   target="_blank"
-                  >About Us</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  href="http://blog.creative-tim.com"
-                  class="nav-link"
-                  target="_blank"
-                  >Blog</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  href="https://github.com/creativetimofficial/argon-design-system/blob/master/LICENSE.md"
-                  class="nav-link"
-                  target="_blank"
-                  >MIT License</a
+                  >Baylor</a
                 >
               </li>
             </ul>

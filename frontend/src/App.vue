@@ -17,4 +17,5 @@ export default {
 @import "./assets/scss/fontawesome/fontawesome";
 @import "./assets/scss/fontawesome/solid";
 @import "./assets/scss/fontawesome/brands";
+@import "./assets/scss/semantic-feed";
 </style>

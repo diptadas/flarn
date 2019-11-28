@@ -15,13 +15,13 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     List<Problem> findByArchivedFalse();
 
-    List<Problem> findByDifficultyAndCategoryAndTitleContainingIgnoreCase(@NotNull Difficulty difficulty, Category category, @NotNull String title);
+    List<Problem> findByDifficultyAndCategoryAndTitleContainingIgnoreCaseAndArchivedFalse(@NotNull Difficulty difficulty, Category category, @NotNull String title);
 
-    List<Problem> findByDifficultyAndTitleContainingIgnoreCase(@NotNull Difficulty difficulty, @NotNull String title);
+    List<Problem> findByDifficultyAndTitleContainingIgnoreCaseAndArchivedFalse(@NotNull Difficulty difficulty, @NotNull String title);
 
-    List<Problem> findByCategoryAndTitleContainingIgnoreCase(Category category, @NotNull String title);
+    List<Problem> findByCategoryAndTitleContainingIgnoreCaseAndArchivedFalse(Category category, @NotNull String title);
 
-    List<Problem> findByTitleContainingIgnoreCase(@NotNull String title);
+    List<Problem> findByTitleContainingIgnoreCaseAndArchivedFalse(@NotNull String title);
 
     void deleteByIdIn(List<Long> ids);
 

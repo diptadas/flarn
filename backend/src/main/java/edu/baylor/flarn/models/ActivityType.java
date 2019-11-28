@@ -1,8 +1,11 @@
 package edu.baylor.flarn.models;
 
 public enum ActivityType {
-    CREATED_PROBLEM,
+    JOINED,
+    UPDATED_PROFILE,
     FOLLOWED,
+    ATTEMPTED_PROBLEM,
+    CREATED_PROBLEM,
     STARED,
     COMMENTED
 }

@@ -76,10 +76,6 @@ export default {
 
       this.$http.get(url).then(res => {
         this.attempted = res.data;
-
-        if (this.attempted === true) {
-          this.getComments(pId);
-        }
       });
     },
     showProblem(pId) {
@@ -87,13 +83,6 @@ export default {
     },
     getProlemsInCategory(catId) {
       this.$emit("cat", catId);
-    },
-    getComments(pId) {
-      const url = `reviews/comments?problemId=${pId}`;
-
-      this.$http.get(url).then(res => {
-        this.comments = res.data.length;
-      });
     },
     shorten() {
       shave(".desc", 3);

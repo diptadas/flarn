@@ -1,12 +1,13 @@
 <template>
-  <div>
-    {{ activities }}
-  </div>
+  <Feed :activities="activities" v-if="activities.length" />
+  <Empty v-else mess="stories" />
 </template>
 
 <script>
+import Feed from "@/views/home/Feed.vue";
+
 export default {
-  name: "Timeline",
+  name: "Activities",
   data() {
     return {
       activities: []
@@ -23,6 +24,9 @@ export default {
   },
   created() {
     this.getActivities();
+  },
+  components: {
+    Feed
   }
 };
 </script>

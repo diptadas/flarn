@@ -3,7 +3,6 @@ package edu.baylor.flarn.services;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
-import edu.baylor.flarn.repositories.ActivityRepository;
 import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
@@ -23,15 +22,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final CustomQueries customQueries;
-    private final ActivityRepository activityRepository;
+    private final ActivityService activityService;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService,
-                       CustomQueries customQueries, ActivityRepository activityRepository) {
+                       CustomQueries customQueries, ActivityService activityService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.customQueries = customQueries;
-        this.activityRepository = activityRepository;
+        this.activityService = activityService;
     }
 
     public User findById(Long id) throws RecordNotFoundException {
@@ -66,7 +65,12 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
         }
 
-        return userRepository.save(user);
+        user = userRepository.save(user);
+
+        // save the activity
+        activityService.saveUpdatedProfileActivity(user);
+
+        return user;
     }
 
     // helper method, used in other service
@@ -85,9 +89,7 @@ public class UserService {
         user = userRepository.save(user);
 
         // save the activity
-        Activity activity = new Activity(user.getId(), user.getFullName());
-        activity.setFollowedActivity(toBeFollowed.getId(), toBeFollowed.getFullName());
-        activityRepository.save(activity);
+        activityService.saveFollowedActivity(user, toBeFollowed);
 
         return user;
     }
@@ -122,7 +124,12 @@ public class UserService {
 
         user.setConfirmationCode(null); // reset confirmation code
         user.setEnabled(true);
-        return userRepository.save(user);
+        user = userRepository.save(user);
+
+        // save the activity
+        activityService.saveJoinedActivity(user);
+
+        return user;
     }
 
     public User updatePassword(UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
@@ -139,6 +146,17 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public List<User> getAllUsersOrderByPoints() {
+        return userRepository.findAllByOrderByPointsDesc();
+    }
+
+    public List<User> getSubscriptionsOrderByPoints(User user) {
+        List<Long> subscriptionIds = new ArrayList<>();
+        user.getSubscriptions().forEach(e -> subscriptionIds.add(e.getId()));
+
+        return userRepository.findByIdInOrderByPointsDesc(subscriptionIds);
     }
 
     public List<User> getUserByType(UserType userType) {
@@ -245,13 +263,13 @@ public class UserService {
     }
 
     public List<Activity> activityForCurrentUser(User user) {
-        return activityRepository.findByUserIdOrderByDateDesc(user.getId());
+        return activityService.getActivitiesForUser(user.getId());
     }
 
     public List<Activity> activityOfSubscriptionsForCurrentUser(User user) {
         List<Long> subscriptionIds = new ArrayList<>();
         user.getSubscriptions().forEach(e -> subscriptionIds.add(e.getId()));
 
-        return activityRepository.findByUserIdInOrderByDateDesc(subscriptionIds);
+        return activityService.getActivitiesForUserSubscriptions(subscriptionIds);
     }
 }

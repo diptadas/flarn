@@ -20,9 +20,10 @@
         <!-- Brand -->
         <router-link class="navbar-brand pt-0" :to="{ name: 'home' }">
           <img
-            src="../assets/img/brand/blue.png"
+            src="../assets/img/brand/logo.png"
             class="navbar-brand-img"
-            alt="..."
+            alt="brand"
+            style="transform: scale(5, 5);"
           />
         </router-link>
         <!-- User -->
@@ -325,9 +326,15 @@ export default {
       navs: [
         {
           id: 1,
-          text: "Timeline",
-          value: "timeline",
-          icon: "stream"
+          text: "Stories",
+          value: "stories",
+          icon: "tachometer-alt"
+        },
+        {
+          id: 12,
+          text: "Activities",
+          value: "activities",
+          icon: "snowboarding"
         },
         {
           id: 2,
@@ -384,13 +391,13 @@ export default {
           icon: "users"
         },
         {
-          id: 4,
+          id: 10,
           text: "Support",
           value: "support",
           icon: "question"
         },
         {
-          id: 5,
+          id: 11,
           text: "Logout",
           value: "login",
           icon: "sign-out-alt"

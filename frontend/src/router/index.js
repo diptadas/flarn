@@ -31,9 +31,14 @@ const routes = [
     },
     children: [
       {
-        path: "timeline",
-        name: "timeline",
-        component: () => import("../views/home/Timeline.vue")
+        path: "stories",
+        name: "stories",
+        component: () => import("../views/home/Stories.vue")
+      },
+      {
+        path: "activities",
+        name: "activities",
+        component: () => import("../views/home/Activities.vue")
       },
       {
         path: "my-account",
@@ -123,7 +128,7 @@ const routes = [
       {
         path: "/",
         name: "home",
-        redirect: { name: "timeline" }
+        redirect: { name: "stories" }
       }
     ]
   },
@@ -162,6 +167,16 @@ const routes = [
         path: "/404",
         name: "404",
         component: () => import("../views/utils/404.vue")
+      },
+      {
+        path: "support",
+        name: "acc-support",
+        component: () => import("../views/utils/Support.vue")
+      },
+      {
+        path: "about",
+        name: "acc-about",
+        component: () => import("../views/utils/About.vue")
       }
     ]
   },

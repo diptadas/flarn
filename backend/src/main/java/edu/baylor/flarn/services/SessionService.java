@@ -14,11 +14,13 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final UserService userService;
     private final ProblemService problemService;
+    private final ActivityService activityService;
 
-    public SessionService(SessionRepository sessionRepository, UserService userService, ProblemService problemService) {
+    public SessionService(SessionRepository sessionRepository, UserService userService, ProblemService problemService, ActivityService activityService) {
         this.sessionRepository = sessionRepository;
         this.userService = userService;
         this.problemService = problemService;
+        this.activityService = activityService;
     }
 
     public Session createSession(Session session, User user) throws RecordNotFoundException {
@@ -27,8 +29,12 @@ public class SessionService {
         }
 
         updatePointForTheSession(session);
+        session = sessionRepository.save(session);
 
-        return sessionRepository.save(session);
+        // save the activity
+        activityService.saveAttemptedProblemActivity(session.getUser(), session.getProblem());
+
+        return session;
     }
 
     private void updatePointForTheSession(Session session) throws RecordNotFoundException {

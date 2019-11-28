@@ -178,4 +178,17 @@ public class UserController {
         user = userService.findById(user.getId());
         return userService.activityOfSubscriptionsForCurrentUser(user);
     }
+
+    @GetMapping("/orderByPoints")
+    public List<User> getAllUsersOrderByPoints() {
+        return userService.getAllUsersOrderByPoints();
+    }
+
+    @GetMapping("/current/subscriptionsOrderByPoints")
+    public List<User> getSubscriptionsOrderByPoints(@AuthenticationPrincipal User user) throws RecordNotFoundException {
+        // re-fetch the current user
+        // fixes error: failed to lazily initialize
+        user = userService.findById(user.getId());
+        return userService.getSubscriptionsOrderByPoints(user);
+    }
 }

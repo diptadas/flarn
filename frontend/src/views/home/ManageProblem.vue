@@ -5,6 +5,7 @@
       :problems="problems"
       @prob="showProblem"
       @category="getProblemsForCategory"
+      v-if="problems.length"
     >
       <div class="text-right">
         <button
@@ -16,6 +17,7 @@
         </button>
       </div>
     </Problem>
+    <Empty v-else mess="problems" />
   </div>
 </template>
 

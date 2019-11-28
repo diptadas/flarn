@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * Activity class contains logs of user activities.
- * To avoid redundancy, it don't associate user and problem models.
+ * To avoid redundancy, it doesn't associate user and problem models.
  * Instead it stores only the part of the models required for timeline.
  * It stores id and name/title of the user/problem.
  *
@@ -48,37 +48,16 @@ public class Activity {
     String problemTitle;
 
     // initializes a activity instance with current date for a user
-    public Activity(@NotNull Long userId, @NotNull String userFullName) {
-        this.userId = userId;
-        this.userFullName = userFullName;
+    public Activity(User user) {
+        this.userId = user.getId();
+        this.userFullName = user.getFullName();
         this.date = new Date();
     }
 
-    // helper to populate data for a commented activity
-    public void setCommentedActivity(Long problemId, String problemTitle) {
-        this.setActivityType(ActivityType.COMMENTED);
-        this.setProblemId(problemId);
-        this.setProblemTitle(problemTitle);
-    }
-
-    // helper to populate data for a stared activity
-    public void setStaredActivity(Long problemId, String problemTitle) {
-        this.setActivityType(ActivityType.STARED);
-        this.setProblemId(problemId);
-        this.setProblemTitle(problemTitle);
-    }
-
-    // helper to populate data for a created problem activity
-    public void setCreatedProblemActivity(Long problemId, String problemTitle) {
-        this.setActivityType(ActivityType.CREATED_PROBLEM);
-        this.setProblemId(problemId);
-        this.setProblemTitle(problemTitle);
-    }
-
-    // helper to populate data for a followed activity
-    public void setFollowedActivity(Long followedUserId, String followedUserFullName) {
-        this.setActivityType(ActivityType.FOLLOWED);
-        this.setFollowedUserId(followedUserId);
-        this.setFollowedUserFullName(followedUserFullName);
+    // initializes a activity instance with current date for a user related to a problem
+    public Activity(User user, Problem problem) {
+        this(user);
+        this.problemId = problem.getId();
+        this.problemTitle = problem.getTitle();
     }
 }

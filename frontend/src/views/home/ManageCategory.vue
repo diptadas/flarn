@@ -14,7 +14,7 @@
 
       <div class="col col-12 mt-4">
         <div class="card shadow">
-          <div class="table-responsive min-h-full">
+          <div class="table-responsive min-h-full" v-if="categories.length">
             <table class="table align-items-center table-flush">
               <tbody>
                 <category-item
@@ -28,6 +28,7 @@
               </tbody>
             </table>
           </div>
+          <Empty v-else mess="categories" />
         </div>
       </div>
     </div>
