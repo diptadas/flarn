@@ -14,8 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
-
 @Configuration
 @EnableWebSecurity
 public class WebAppConfig extends WebSecurityConfigurerAdapter {
@@ -39,8 +37,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                // Typically permit all during development
-                .antMatchers("/**").permitAll()
+                // only permit /auth endpoints without authentication
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated()
