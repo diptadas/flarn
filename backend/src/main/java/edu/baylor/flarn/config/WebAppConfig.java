@@ -38,6 +38,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // only permit /auth endpoints without authentication
+                .antMatchers("/").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated()
