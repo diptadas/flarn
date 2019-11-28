@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * Activity class contains logs of user activities.
- * To avoid redundancy, it don't associate user and problem models.
+ * To avoid redundancy, it doesn't associate user and problem models.
  * Instead it stores only the part of the models required for timeline.
  * It stores id and name/title of the user/problem.
  *

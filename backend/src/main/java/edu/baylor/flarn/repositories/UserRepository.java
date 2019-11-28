@@ -25,5 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByFullNameContainingIgnoreCase(@NotNull String name);
 
+    List<User> findAllByOrderByPointsDesc();
 
+    List<User> findByIdInOrderByPointsDesc(@NotNull List<Long> userIds);
 }

@@ -141,6 +141,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getAllUsersOrderByPoints() {
+        return userRepository.findAllByOrderByPointsDesc();
+    }
+
+    public List<User> getSubscriptionsOrderByPoints(User user) {
+        List<Long> subscriptionIds = new ArrayList<>();
+        user.getSubscriptions().forEach(e -> subscriptionIds.add(e.getId()));
+
+        return userRepository.findByIdInOrderByPointsDesc(subscriptionIds);
+    }
+
     public List<User> getUserByType(UserType userType) {
         return userRepository.findByUserType(userType);
     }
