@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Dipta Das
  */
 
-@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
 @NoArgsConstructor
 public class InvalidConfirmationCodeException extends Exception {
 
