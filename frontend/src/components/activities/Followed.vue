@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import * as timeago from "timeago.js";
+import formateDate from "./formateDate";
 
 export default {
   props: {
@@ -50,41 +50,7 @@ export default {
       type: Object
     }
   },
-  data() {
-    return {
-      user: {
-        id: -1
-      },
-      followedUser: {
-        id: -1
-      }
-    };
-  },
   name: "Followed",
-  methods: {
-    getUser(id) {
-      const url = `users/${id}`;
-
-      this.$http.get(url).then(res => {
-        this.user = res.data;
-      });
-    },
-    getFollowedUser(id) {
-      const url = `users/${id}`;
-
-      this.$http.get(url).then(res => {
-        this.followedUser = res.data;
-      });
-    }
-  },
-  filters: {
-    formatDate(date) {
-      return timeago.format(date);
-    }
-  },
-  created() {
-    this.getUser(this.activity.userId);
-    this.getFollowedUser(this.activity.followedUserId);
-  }
+  mixins: [formateDate]
 };
 </script>
