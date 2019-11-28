@@ -212,7 +212,7 @@ export default {
       this.$refs["modal-btn"].click();
     },
     doPromoteUser() {
-      const url = `users/usertype`;
+      const url = `users/type`;
 
       const data = {
         id: this.currentUser.id,
@@ -232,7 +232,13 @@ export default {
       this.deleteAction = () => this.doDeleteUser(user, index);
       this.$refs["delete"].show();
     },
-    doDeleteUser(user, index) {},
+    doDeleteUser(user, index) {
+      const url = `problems/${pId}/archive`;
+
+      this.$http.get(url).then(res => {
+        this.$router.replace({ name: "manage-problems" });
+      });
+    },
     searchUser() {
       const url = `users/search?name=${this.name}`;
 

@@ -91,7 +91,7 @@
           style="z-index: 2;"
         >
           <a class="dropdown-item" @click="$emit('promote')">Promote User</a>
-          <a class="dropdown-item" @click="$emit('delete')">Delete User</a>
+          <a class="dropdown-item" @click="$emit('delete')">Deactivate User</a>
         </div>
       </div>
     </td>

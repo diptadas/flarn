@@ -124,10 +124,17 @@ export default {
       this.deleteContent = {
         name: this.problem.title
       };
-      this.deleteAction = () => this.doDeleteProblem();
+      const pId = this.$hash.decode(this.id)[0];
+      this.deleteAction = () => this.doDeleteProblem(pId);
       this.$refs["delete"].show();
     },
-    doDeleteProblem(params) {},
+    doDeleteProblem(pId) {
+      const url = `problems/${pId}/archive`;
+
+      this.$http.get(url).then(res => {
+        this.$router.replace({ name: "manage-problems" });
+      });
+    },
     edit() {
       if (this.editLoading) return false;
       this.editLoading = true;
