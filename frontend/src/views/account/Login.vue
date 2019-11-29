@@ -43,9 +43,12 @@
                   </button>
                 </div>
 
-                <form>
+                <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(loginUser)">
+
+                  <ValidationProvider v-slot="v" name="Email Address" rules="required|email">
                   <div class="form-group">
-                    <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text"
                           ><i class="ni ni-email-83"></i
@@ -56,9 +59,16 @@
                         placeholder="Email"
                         type="email"
                         v-model="email"
+                        required
                       />
                     </div>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
                   </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="v" name="Password" rules="required">
                   <div class="form-group">
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
@@ -71,14 +81,19 @@
                         placeholder="Password"
                         type="password"
                         v-model="password"
+                        required
                       />
                     </div>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
                   </div>
+                  </ValidationProvider>
+
                   <div class="text-center">
                     <button
-                      type="button"
+                      type="submit"
                       class="btn btn-primary mt-4"
-                      @click="loginUser"
                       :disabled="loading"
                     >
                       <span
@@ -98,6 +113,7 @@
                     >
                   </div>
                 </form>
+                </ValidationObserver>
               </div>
             </div>
           </div>
