@@ -4,7 +4,6 @@ package edu.baylor.flarn.services;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
-import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.resources.UserRegistration;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.persistence.EntityManager;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,9 +29,6 @@ class UserServiceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Test
     void findById() throws RecordNotFoundException {
@@ -60,7 +55,12 @@ class UserServiceTest {
     }
 
     @Test
-    public void deleteUser() {
+    public void deleteUser() throws RecordNotFoundException {
+        User user = userService.findById(1L);
+
+        //delete user
+        userService.deleteUser(user.getId());
+        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
     }
 
     // create,read,update,delete test
@@ -79,28 +79,66 @@ class UserServiceTest {
         //Test record
         assertEquals(saved,user);
         assertNotNull(userService.getUserByUsername(user.getUsername()));
+        assertTrue(userService.exists(user.getUsername()));
 
 
         //delete user
-        ResponseBody response =  userService.deleteUser(saved.getId());
+        userService.deleteUser(saved.getId());
         assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
 
     }
 
     @Test
-    void exists() {
+    void follow() throws RecordNotFoundException {
+        User subscriber = userService.findById(1L);
+        User subscribed = userService.findById(2L);
+
+        subscriber = userService.follow(subscriber,subscribed.getId());
+
+        assertThat(subscriber.getSubscriptions(),contains(subscribed));
+
+        assertThat(subscribed.getSubscribers(),contains(subscriber));
     }
+
+    //lazy loading issue needs to be resolved
+    @Test
+    void unfollow() throws RecordNotFoundException {
+
+        User subscribed = userService.findById(1L);
+        User subscriber = subscribed.getSubscribers().iterator().next();
+
+        subscriber = userService.unfollow(subscriber,subscribed.getId());
+
+        subscribed = userService.findById(1L);
+
+        assertFalse(subscriber.getSubscriptions().contains(subscribed));
+
+        assertFalse(subscribed.getSubscribers().contains(subscriber));
+    }
+
+    @Test
+    void followUnfollow() throws RecordNotFoundException {
+
+        User subscriber = userService.findById(1L);
+        User subscribed = userService.findById(2L);
+
+        subscriber = userService.follow(subscriber,subscribed.getId());
+
+        assertTrue(subscriber.getSubscriptions().contains(subscribed));
+
+        assertTrue(subscribed.getSubscribers().contains(subscriber));
+
+        subscriber = userService.unfollow(subscriber,subscribed.getId());
+
+        assertFalse(subscriber.getSubscriptions().contains(subscribed));
+
+        assertFalse(subscribed.getSubscribers().contains(subscriber));
+
+    }
+
 
     @Test
     void registerUser() {
-    }
-
-    @Test
-    void follow() {
-    }
-
-    @Test
-    void unfollow() {
     }
 
     @Test
