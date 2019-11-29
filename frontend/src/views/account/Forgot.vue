@@ -113,21 +113,20 @@ export default {
     submit() {
       // validate data
 
-      const url = `users/sendConfirmationCode/?username=${this.email}`;
+      const url = `auth/sendConfirmationCode/?username=${this.email}`;
 
       this.$http
         .get(url)
         .then(res => {
-          const data = res.data;
-
-          this.error.text = "Recover code sent to your account";
-          this.error.type = "info";
-          this.error.state = false;
+          this.$store.commit('SET_USERNAME', this.email);
+          this.$router.push({
+            name: "recover",
+            params: {message: "Recovery code sent to your email address"}
+          });
         })
         .catch(err => {
           console.log(err);
-          const mess = err.response.data.message || "Unknown error occured";
-          this.error.text = mess;
+          this.error.text = err.response.data.message || "Unknown error occurred";
           this.error.type = "error";
           this.error.state = true;
         });

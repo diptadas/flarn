@@ -1,7 +1,6 @@
 package edu.baylor.flarn.repositories;
 
 import edu.baylor.flarn.resources.ResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

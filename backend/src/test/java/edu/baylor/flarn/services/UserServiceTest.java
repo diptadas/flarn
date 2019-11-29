@@ -1,135 +1,185 @@
 package edu.baylor.flarn.services;
 
+
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.resources.UserRegistration;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
+import javax.persistence.EntityManager;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserServiceTest {
+class UserServiceTest {
 
     @Autowired
     private UserService userService;
 
-    @Before
-    public void setUp() throws Exception {
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @After
-    public void tearDown() throws Exception {
-    }
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
-    public void findById() throws RecordNotFoundException {
+    void findById() throws RecordNotFoundException {
         User user = userService.findById(1L);
         assertEquals(user.getFullName(), "Admin Mock");
     }
 
     @Test
-    public void registerUser() {
-    }
-
-    @Test
-    public void updateUser() {
+    public void updateUser() throws RecordNotFoundException {
+        User oldUser = userService.findById(1L);
+        UserRegistration userUpdate= new UserRegistration("newUsername","newPassword","newName",oldUser.getPhoneNumber(),oldUser.getStreet(),oldUser.getCity(),oldUser.getState(),oldUser.getZip());
+        User updateUser = userService.updateUser(userUpdate,oldUser);
+        assertFalse(updateUser.equals(oldUser));
     }
 
     @Test
     public void saveUser() {
-    }
-
-    @Test
-    public void follow() {
-    }
-
-    @Test
-    public void unfollow() {
-    }
-
-    @Test
-    public void sendConfirmationCode() {
-    }
-
-    @Test
-    public void confirmUser() {
-    }
-
-    @Test
-    public void updatePassword() {
-    }
-
-    @Test
-    public void getAllUsers() {
-    }
-
-    @Test
-    public void getAllUsersOrderByPoints() {
-    }
-
-    @Test
-    public void getSubscriptionsOrderByPoints() {
-    }
-
-    @Test
-    public void getUserByType() {
-    }
-
-    @Test
-    public void getUser() {
-    }
-
-    @Test
-    public void getUserByUsername() {
-    }
-
-    @Test
-    public void changeUserType() {
+        User user = new User("test"  + "@gm.com",
+                passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
+                "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
+        user.setEnabled(true);
+        User saved = userService.saveUser(user);
+        assertTrue(saved.equals(user));
     }
 
     @Test
     public void deleteUser() {
     }
 
+    // create,read,update,delete test
     @Test
-    public void getSubscribers() {
+    public void CRUDUser() throws RecordNotFoundException {
+        User user = new User("test"  + "@gm.com",
+                passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
+                "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
+        user.setEnabled(true);
+
+        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
+        //save User
+        User saved = userService.saveUser(user);
+
+        //Test record
+        assertEquals(saved,user);
+        assertNotNull(userService.getUserByUsername(user.getUsername()));
+
+
+        //delete user
+        userService.deleteUser(saved.getId());
+        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
+        //delete again
+        //userService.deleteUser(saved.getId());
+        //assertNull(userService.getUserByUsername(user.getUsername()));
     }
 
     @Test
-    public void getUserSubscriptions() {
+    void exists() {
     }
 
     @Test
-    public void searchUserByName() {
+    void registerUser() {
     }
 
     @Test
-    public void getSolvedProblemsForUser() {
+    void follow() {
     }
 
     @Test
-    public void getStaredProblemsForUser() {
+    void unfollow() {
     }
 
     @Test
-    public void hasAttempted() {
+    void sendConfirmationCode() {
     }
 
     @Test
-    public void deactivateUser() {
+    void confirmUser() {
     }
 
     @Test
-    public void activityForCurrentUser() {
+    void updatePassword() {
     }
 
     @Test
-    public void activityOfSubscriptionsForCurrentUser() {
+    void getAllUsers() {
+    }
+
+    @Test
+    void getAllUsersOrderByPoints() {
+    }
+
+    @Test
+    void getSubscriptionsOrderByPoints() {
+    }
+
+    @Test
+    void getUserByType() {
+    }
+
+    @Test
+    void getUser() {
+    }
+
+    @Test
+    void getUserByUsername() {
+    }
+
+    @Test
+    void changeUserType() {
+    }
+
+    @Test
+    void getSubscribers() {
+    }
+
+    @Test
+    void getUserSubscriptions() {
+    }
+
+    @Test
+    void searchUserByName() {
+    }
+
+    @Test
+    void getSolvedProblemsForUser() {
+    }
+
+    @Test
+    void getStaredProblemsForUser() {
+    }
+
+    @Test
+    void hasAttempted() {
+    }
+
+    @Test
+    void deactivateUser() {
+    }
+
+    @Test
+    void activityForCurrentUser() {
+    }
+
+    @Test
+    void activityOfSubscriptionsForCurrentUser() {
     }
 }

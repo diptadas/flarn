@@ -100,9 +100,11 @@
             <version>2.3.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>4.4.1</version>
         </dependency>
 
         <dependency>
@@ -123,6 +125,23 @@
             <version>2.9.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>me.alidg</groupId>
+            <artifactId>errors-spring-boot-starter</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.3.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
