@@ -91,6 +91,13 @@
                       Confirm Account
                     </button>
                   </div>
+                  <div class="text-center text-muted mt-4 text-underline">
+                    <small>
+                      <a @click="sendConfirmation">
+                        Send me activation code again
+                      </a>
+                    </small>
+                  </div>
                 </form>
               </div>
             </div>

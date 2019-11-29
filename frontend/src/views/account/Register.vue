@@ -140,6 +140,13 @@
                                                 Create account
                                             </button>
                                         </div>
+                                        <div class="text-center text-muted mt-4 text-underline">
+                                            <small>
+                                                <router-link :to="{ name: 'login' }">
+                                                    Login instead
+                                                </router-link>
+                                            </small>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
