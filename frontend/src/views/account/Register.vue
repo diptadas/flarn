@@ -40,21 +40,31 @@
                                         </button>
                                     </div>
 
-                                    <form>
+                                    <ValidationObserver v-slot="{ handleSubmit }">
+                                        <form @submit.prevent="handleSubmit(registerUser)">
+
+                                            <ValidationProvider v-slot="v" name="Full Name" rules="required|alpha_spaces">
                                         <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
+                                            <div class="input-group input-group-alternative">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                                                 </div>
                                                 <input
                                                         class="form-control"
-                                                        placeholder="Name"
+                                                        placeholder="Full Name"
                                                         type="text"
+                                                        required
                                                         v-model="name"/>
                                             </div>
+                                            <small class="text-danger">
+                                                {{ v.errors[0] }}
+                                            </small>
                                         </div>
+                                            </ValidationProvider>
+
+                                            <ValidationProvider v-slot="v" name="Email Address" rules="required|email">
                                         <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
+                                            <div class="input-group input-group-alternative">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                                 </div>
@@ -62,10 +72,17 @@
                                                         class="form-control"
                                                         placeholder="Email"
                                                         type="email"
+                                                        required
                                                         v-model="email"
                                                 />
                                             </div>
+                                            <small class="text-danger">
+                                                {{ v.errors[0] }}
+                                            </small>
                                         </div>
+                                            </ValidationProvider>
+
+                                            <ValidationProvider v-slot="v" name="Password" rules="required|min:4" vid="confirmation">
                                         <div class="form-group">
                                             <div class="input-group input-group-alternative">
                                                 <div class="input-group-prepend">
@@ -77,10 +94,18 @@
                                                         class="form-control"
                                                         placeholder="Password"
                                                         type="password"
+                                                        required
+                                                        minlength="4"
                                                         v-model="password"
                                                 />
                                             </div>
+                                            <small class="text-danger">
+                                                {{ v.errors[0] }}
+                                            </small>
                                         </div>
+                                            </ValidationProvider>
+
+                                            <ValidationProvider v-slot="v" name="Password Confirmation" rules="confirmed:confirmation">
                                         <div class="form-group">
                                             <div class="input-group input-group-alternative">
                                                 <div class="input-group-prepend">
@@ -92,17 +117,24 @@
                                                         class="form-control"
                                                         placeholder="Confirm Password"
                                                         type="password"
-                                                        v-model="cpassword"
+                                                        required
+                                                        v-model="confirmation"
                                                 />
                                             </div>
+                                            <small class="text-danger">
+                                                {{ v.errors[0] }}
+                                            </small>
                                         </div>
-                                        <div class="text-muted font-italic">
+                                            </ValidationProvider>
+
+                                        <div class="text-muted">
                                             <small
                                             >password strength:
-                                                <span class="text-success font-weight-700">{{passStrength}}
+                                                <span class="font-weight-700" :class="passColor">{{passStrength}}
                                                 </span></small>
                                         </div>
                                         <div class="row my-4">
+                                            <ValidationProvider v-slot="v" name="Terms" rules="required">
                                             <div class="col-12">
                                                 <div
                                                         class="custom-control custom-control-alternative custom-checkbox"
@@ -111,6 +143,7 @@
                                                             class="custom-control-input"
                                                             id="customCheckRegister"
                                                             type="checkbox"
+                                                            required
                                                             v-model="terms"
                                                     />
                                                     <label
@@ -122,14 +155,18 @@
                                                     ></label
                                                     >
                                                 </div>
+                                                <small class="text-danger">
+                                                    {{ v.errors[0] }}
+                                                </small>
                                             </div>
+                                            </ValidationProvider>
+
                                         </div>
                                         <div class="text-center">
                                             <button
                                                     :disabled="loading"
-                                                    @click="registerUser"
                                                     class="btn btn-primary mt-4"
-                                                    type="button"
+                                                    type="submit"
                                             >
                         <span
                                 aria-hidden="true"
@@ -148,6 +185,7 @@
                                             </small>
                                         </div>
                                     </form>
+                                    </ValidationObserver>
                                 </div>
                             </div>
                         </div>
@@ -167,14 +205,15 @@
                 name: "",
                 email: "",
                 password: "",
-                cpassword: "",
+                confirmation: "",
                 terms: false,
                 error: {
                     state: false,
                     text: "",
                     type: false
                 },
-                passStrength: ""
+                passStrength: "",
+                passColor: "danger"
             };
         },
         watch: {
@@ -241,10 +280,23 @@
             },
             checkPassStrength(pass) {
                 let score = this.scorePassword(pass);
-                if (score > 80) this.passStrength = "strong";
-                else if (score > 60) this.passStrength = "good";
-                else if (score >= 30) this.passStrength = "weak";
-                else this.passStrength = "bad";
+
+                if (score > 80) {
+                    this.passStrength = "strong";
+                    this.passColor = "text-success";
+                }
+                else if (score > 60) {
+                    this.passStrength = "good";
+                    this.passColor = "text-info";
+                }
+                else if (score >= 30) {
+                    this.passStrength = "weak";
+                    this.passColor = "text-warning";
+                }
+                else {
+                    this.passStrength = "bad";
+                    this.passColor = "text-danger";
+                }
             }
         }
     };
