@@ -1,5 +1,6 @@
 package edu.baylor.flarn.exceptions;
 
+import me.alidg.errors.annotation.ExceptionMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Dipta Das
  */
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+@ResponseStatus(value = HttpStatus.FORBIDDEN)
+@ExceptionMapping(statusCode = HttpStatus.FORBIDDEN, errorCode = "category.cannot_modify")
 public class DefaultCategoryModificationException extends Exception {
 
     private static final long serialVersionUID = 1L;
