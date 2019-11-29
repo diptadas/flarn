@@ -44,7 +44,10 @@
                   </button>
                 </div>
 
-                <form>
+                <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(confirm)">
+
+                  <ValidationProvider v-slot="v" name="Email Address" rules="required|email">
                   <div class="form-group">
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
@@ -57,9 +60,16 @@
                               placeholder="Email"
                               type="email"
                               v-model="email"
+                              required
                       />
                     </div>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
                   </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider v-slot="v" name="Activation Code" rules="required|digits:4">
                   <div class="form-group">
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
@@ -72,14 +82,18 @@
                               placeholder="Activation Code"
                               type="number"
                               v-model="code"
+                              required
                       />
                     </div>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
                   </div>
+                  </ValidationProvider>
                   <div class="text-center">
                     <button
-                            type="button"
+                            type="submit"
                             class="btn btn-primary mt-4"
-                            @click="confirm"
                             :disabled="loading"
                     >
                       <span
@@ -99,6 +113,7 @@
                     </small>
                   </div>
                 </form>
+                </ValidationObserver>
               </div>
             </div>
           </div>
@@ -146,7 +161,7 @@ export default {
               })
               .catch(err => {
                 console.log(err);
-                this.error.text = err.response.data.message || "Unknown error occurred";
+                this.error.text = this.errorMessage(err);;
                 this.error.type = "error";
                 this.error.state = true;
               });
@@ -172,7 +187,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          const mess = err.response.data.error || "Unknown error occurred";
+          const mess = this.errorMessage(err);;
           this.error.text = mess;
           this.error.type = "error";
           this.error.state = true;
