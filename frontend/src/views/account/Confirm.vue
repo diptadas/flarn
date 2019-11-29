@@ -130,6 +130,27 @@ export default {
     };
   },
   methods: {
+    sendConfirmation() {
+      // validate data
+
+      if(!this.email) return;
+
+      const url = `auth/sendConfirmationCode/?username=${this.email}`;
+
+      this.$http
+              .get(url)
+              .then(res => {
+                this.error.text = "Activation code has been resent to your email";
+                this.error.type = "info";
+                this.error.state = true;
+              })
+              .catch(err => {
+                console.log(err);
+                this.error.text = err.response.data.message || "Unknown error occurred";
+                this.error.type = "error";
+                this.error.state = true;
+              });
+    },
     confirm() {
       // validate data
 

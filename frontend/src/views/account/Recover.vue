@@ -103,11 +103,11 @@
                       </button>
                     </div>
                     <div class="text-center text-muted mt-4 text-underline">
-                      <small
-                      ><router-link :to="{ name: 'login' }"
-                      >or Login instead</router-link
-                      ></small
-                      >
+                      <small>
+                        <a @click="sendConfirmation">
+                          Send me activation code again
+                        </a>
+                      </small>
                     </div>
                   </form>
                 </div>
@@ -143,6 +143,27 @@
       };
     },
     methods: {
+      sendConfirmation() {
+        // validate data
+
+        if(!this.email) return;
+
+        const url = `auth/sendConfirmationCode/?username=${this.email}`;
+
+        this.$http
+                .get(url)
+                .then(res => {
+                  this.error.text = "Email has been resent";
+                  this.error.type = "info";
+                  this.error.state = true;
+                })
+                .catch(err => {
+                  console.log(err);
+                  this.error.text = err.response.data.message || "Unknown error occurred";
+                  this.error.type = "error";
+                  this.error.state = true;
+                });
+      },
       submit() {
         // validate data
 
