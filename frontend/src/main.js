@@ -12,6 +12,26 @@ import Popper from "popper.js";
 import "bootstrap";
 import Headroom from "headroom.js";
 
+// Vue Validation
+import { ValidationProvider, ValidationObserver, configure } from 'vee-validate';
+
+// Import validation rules
+import "./form-validation"
+
+// Register it globally
+// main.js or any entry file.
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
+
+configure({
+    classes: {
+        valid: 'valid',
+        invalid: 'invalid',
+        dirty: ['is-dirty', 'is-dirty'], // multiple classes per flag!
+        // ...
+    }
+})
+
 Vue.config.productionTip = false;
 
 window.jQuery = window.$ = jQuery;
