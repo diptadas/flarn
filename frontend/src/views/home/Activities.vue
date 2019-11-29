@@ -1,6 +1,6 @@
 <template>
   <Feed :activities="activities" v-if="activities.length" />
-  <Empty v-else mess="stories" />
+  <Empty v-else mess="activities" />
 </template>
 
 <script>
