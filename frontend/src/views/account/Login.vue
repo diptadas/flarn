@@ -166,7 +166,7 @@ export default {
           });
         })
         .catch(err => {
-          this.error.text = this.$http.errorMessage(err);
+          this.error.text = this.errorMessage(err);
           this.error.type = "error";
           this.error.state = true;
         })
