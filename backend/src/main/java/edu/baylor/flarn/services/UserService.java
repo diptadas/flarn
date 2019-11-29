@@ -4,7 +4,6 @@ import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
-import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
 import org.springframework.scheduling.annotation.Async;
@@ -24,15 +23,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
-    private final CustomQueries customQueries;
     private final ActivityService activityService;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService,
-                       CustomQueries customQueries, ActivityService activityService) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
+                       EmailService emailService, ActivityService activityService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
-        this.customQueries = customQueries;
         this.activityService = activityService;
     }
 
