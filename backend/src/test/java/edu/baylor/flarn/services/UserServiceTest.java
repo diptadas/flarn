@@ -63,7 +63,7 @@ class UserServiceTest {
         assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
     }
 
-    // create,read,update,delete test
+    // create,read,update,delete test for user
     @Test
     public void CRUDUser() throws RecordNotFoundException {
         User user = new User("test2"  + "@gm.com",
@@ -137,12 +137,24 @@ class UserServiceTest {
     }
 
 
+    /**
+     * Test for user registration and registered user exit in database.
+     */
     @Test
     void registerUser() {
+
+        UserRegistration user = new UserRegistration("thelma@gmail.com","acadia","Thelma Peters"
+                ,"255487901","700 S 7th Street","Waco","Texas","76707");
+
+        userService.registerUser(user);
+
+        assertTrue(userService.exists(user.getUsername()));
     }
 
     @Test
     void sendConfirmationCode() {
+
+        
     }
 
     @Test
