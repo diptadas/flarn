@@ -1,5 +1,6 @@
 package edu.baylor.flarn.security;
 
+import edu.baylor.flarn.exceptions.InvalidJwtAuthenticationException;
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
