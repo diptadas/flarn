@@ -26,6 +26,13 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    // only called from data initializer
+    public void createDefaultCategory() {
+        Category category = new Category();
+        category.setName(Category.DEFAULT_CATEGORY_NAME);
+        categoryRepository.save(category);
+    }
+
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
