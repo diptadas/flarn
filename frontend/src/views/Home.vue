@@ -256,7 +256,6 @@
       <!-- Header -->
       <div
         class="header bg-gradient-primary d-block"
-        style="height: 4.5rem;"
       ></div>
 
       <div class="container-fluid mt-2">

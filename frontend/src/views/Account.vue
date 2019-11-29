@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       button: {
-        text: "Log In",
+        text: "Sign In",
         value: "login"
       }
     };
@@ -176,7 +176,7 @@ export default {
           this.button.value = "register";
           break;
         default:
-          this.button.text = "Log In";
+          this.button.text = "Sign In";
           this.button.value = "login";
           break;
       }
