@@ -7,11 +7,13 @@ import edu.baylor.flarn.models.*;
 import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static edu.baylor.flarn.models.ReviewType.STAR;
@@ -40,6 +42,11 @@ public class UserService {
             throw new RecordNotFoundException("can not fetch current user");
         }
         return user;
+    }
+
+    public boolean exists(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.isPresent();
     }
 
     public User registerUser(UserRegistration userRegistration) {
@@ -107,6 +114,7 @@ public class UserService {
     }
 
     // associate a confirmation code and send it to email
+    @Async // somehow browser has issues if this method is not async.
     public void sendConfirmationCode(User user) throws EmailSendingException {
         int code = new Random().nextInt(9000) + 1000; // 4 digit code
         user.setConfirmationCode(code);
