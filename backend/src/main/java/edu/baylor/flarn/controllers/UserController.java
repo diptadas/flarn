@@ -64,10 +64,12 @@ public class UserController {
         return userService.updateUser(userDetails, user);
     }
 
+    // don't delete the user, instead deactivate the account
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id == #authUser.id")
-    public ResponseBody deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User authUser) {
-        return userService.deleteUser(id);
+    public ResponseBody deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User authUser) throws RecordNotFoundException {
+        deactivateCurrentUser(authUser);
+        return new ResponseBody(200, "Successful");
     }
 
     @PostMapping("/type")

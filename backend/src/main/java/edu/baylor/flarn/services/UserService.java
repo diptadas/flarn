@@ -201,30 +201,6 @@ public class UserService {
         return user;
     }
 
-    /**
-     * AS far as I know hibernate does not have an implementation for onCascade set null yet.
-     * So if we want to delete a user, we probably need to remove all his subscribers/subscriptions before proceeding.
-     *
-     * @param id
-     * @return
-     */
-    public ResponseBody deleteUser(Long id) {
-        try {
-            //Remove all subscription associations
-            ResponseBody responseBody = customQueries.deleteAssociations(id);
-
-            if (responseBody.getStatus() == 200) {
-                userRepository.deleteById(id);
-                return new ResponseBody(200, "Successful");
-            } else {
-                return responseBody;
-            }
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
-        }
-
-    }
-
     public List<User> getSubscribers(long Id) {
         return userRepository.findSubscribers(Id);
     }

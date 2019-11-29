@@ -1,19 +1,20 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.Question;
+import edu.baylor.flarn.models.Session;
+import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;
-import edu.baylor.flarn.resources.ResponseBody;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manage problem service includes service for to add problems, delete problems etc.
+ * Problem service includes CRUD operations for Problem model.
  */
 
 @Service
@@ -73,15 +74,6 @@ public class ProblemService {
         return problem;
     }
 
-    public ResponseBody deleteProblem(Long problem) {
-        try {
-            problemRepository.deleteById(problem);
-            return new ResponseBody(200, "Successful");
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
-        }
-    }
-
     public Problem archiveProblem(Long problemId) throws RecordNotFoundException {
         Problem problem = getProblemById(problemId);
         problem.setArchived(true);
@@ -91,16 +83,6 @@ public class ProblemService {
 
     public Problem updateProblem(Problem problem) {
         return problemRepository.save(problem);
-    }
-
-    @Transactional
-    public ResponseBody deleteBatchProblem(List<Long> ids) {
-        try {
-            problemRepository.deleteByIdIn(ids);
-            return new ResponseBody(200, "Successful");
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
-        }
     }
 
     public List<Long> getSolvedProblemsIdsForUser(User user) {
