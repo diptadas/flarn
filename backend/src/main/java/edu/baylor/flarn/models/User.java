@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import edu.baylor.flarn.resources.Unique;
 import edu.baylor.flarn.resources.UserRoles;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
@@ -28,9 +29,10 @@ import static java.util.stream.Collectors.toList;
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    @Email
-    @NotNull
+    @Email(message = "username.required")
+    @NotNull(message = "username.required")
     @Column(unique = true)
+    @Unique(message = "username.already_exists")
     // username must be a valid email
     private String username;
 

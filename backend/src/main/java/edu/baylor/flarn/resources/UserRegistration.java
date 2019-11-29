@@ -5,11 +5,24 @@ import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 @Data
 public class UserRegistration {
+    @Email(message = "username.invalid")
+    @NotNull(message = "username.required")
+    @Column(unique = true)
+    @Unique(message = "username.already_exists")
     private final String username;
+
+    @NotNull(message = "password.required")
     private final String password;
+
+    @NotNull(message = "fullName.required")
     private final String fullName;
+
     private final String phoneNumber;
     private final String street;
     private final String city;

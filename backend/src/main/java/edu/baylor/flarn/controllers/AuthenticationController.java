@@ -13,6 +13,7 @@ import edu.baylor.flarn.security.JwtTokenProvider;
 import edu.baylor.flarn.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +46,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthenticationRequest data) {
+    public ResponseEntity login(@RequestBody @Valid AuthenticationRequest data) {
         try {
             String username = data.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
@@ -69,7 +71,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody UserRegistration data) throws EmailSendingException {
+    public User register(@RequestBody @Valid UserRegistration data) throws EmailSendingException {
         User user = userService.registerUser(data);
         userService.sendConfirmationCode(user);
         return user;
@@ -82,12 +84,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/confirm")
-    public User confirmAccount(@RequestBody ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+    public User confirmAccount(@RequestBody @Valid ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
         return userService.confirmUser(confirmUserRequest);
     }
 
     @PostMapping("/updatePassword")
-    public User updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+    public User updatePassword(@RequestBody @Valid  UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
         return userService.updatePassword(updatePasswordRequest);
     }
 
