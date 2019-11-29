@@ -34,11 +34,14 @@ public class DataInitializerProd implements CommandLineRunner {
     }
 
     private void createAdmin() {
-        if (userService.exists("admin@gm.com")) return;
+        String adminUsername = System.getenv("ADMIN_USERNAME");
+        String adminPassword = System.getenv("ADMIN_PASSWORD");
 
-        User admin = new User("admin@gm.com",
-                passwordEncoder.encode("admin"), "Admin Mock", "254567908", "part",
-                "temple", "AZ", "0000", "my story", null, null, UserType.ADMIN);
+        if (userService.exists(adminUsername)) return;
+
+        User admin = new User(adminUsername, passwordEncoder.encode(adminPassword), "Flarn Admin",
+                "254567908", "South 5th", "Waco", "TX", "76706",
+                "Proud admin of flarn project", null, null, UserType.ADMIN);
 
         admin.setEnabled(true);
         userService.saveUser(admin);
