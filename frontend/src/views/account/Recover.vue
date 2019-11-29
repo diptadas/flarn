@@ -46,7 +46,10 @@
                     </button>
                   </div>
 
-                  <form>
+                  <ValidationObserver v-slot="{ handleSubmit }">
+                    <form @submit.prevent="handleSubmit(submit)">
+
+                      <ValidationProvider v-slot="v" name="Activation Code" rules="required|digits:4">
                       <div class="form-group">
                         <div class="input-group input-group-alternative">
                           <div class="input-group-prepend">
@@ -61,8 +64,13 @@
                                   v-model="code"
                           />
                         </div>
+                        <small class="text-danger">
+                          {{ v.errors[0] }}
+                        </small>
                       </div>
+                      </ValidationProvider>
 
+                      <ValidationProvider v-slot="v" name="Password" rules="required|min:4" vid="confirmation">
                       <div class="form-group">
                         <div class="input-group input-group-alternative">
                           <div class="input-group-prepend">
@@ -77,7 +85,13 @@
                                   v-model="password"
                           />
                         </div>
+                        <small class="text-danger">
+                          {{ v.errors[0] }}
+                        </small>
                       </div>
+                      </ValidationProvider>
+
+                      <ValidationProvider v-slot="v" name="Password Confirmation" rules="confirmed:confirmation">
                       <div class="form-group">
                         <div class="input-group input-group-alternative">
                           <div class="input-group-prepend">
@@ -89,15 +103,19 @@
                                   class="form-control"
                                   placeholder="Confirm Password"
                                   type="password"
-                                  v-model="cpassword"
+                                  v-model="confirmation"
                           />
                         </div>
+                        <small class="text-danger">
+                          {{ v.errors[0] }}
+                        </small>
                       </div>
+                      </ValidationProvider>
+
                     <div class="text-center">
                       <button
-                              type="button"
+                              type="submit"
                               class="btn btn-primary mt-4"
-                              @click="submit"
                       >
                         Submit
                       </button>
@@ -110,6 +128,7 @@
                       </small>
                     </div>
                   </form>
+                  </ValidationObserver>
                 </div>
               </div>
             </div>
@@ -134,7 +153,7 @@
         code: "",
         email: "",
         password: "",
-        cpassword: "",
+        confirmation: "",
         error: {
           state: false,
           text: "",
@@ -159,7 +178,7 @@
                 })
                 .catch(err => {
                   console.log(err);
-                  this.error.text = err.response.data.message || "Unknown error occurred";
+                  this.error.text = this.errorMessage(err);
                   this.error.type = "error";
                   this.error.state = true;
                 });
@@ -184,14 +203,15 @@
                 })
                 .catch(err => {
                   console.log(err);
-                  this.error.text = err.response.data.message || "Unknown error occurred";
+                  this.error.text = this.errorMessage(err);;
                   this.error.type = "error";
                   this.error.state = true;
                 });
       }
     },
     created() {
-      this.email = this.$store.state.username
+      this.email = this.$store.state.username;
+      if(!this.email) return this.$router.replace({name: 'forgot'})
     }
   };
 </script>
