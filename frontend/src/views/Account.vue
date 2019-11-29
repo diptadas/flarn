@@ -28,9 +28,9 @@
             <div class="navbar-collapse-header">
               <div class="row">
                 <div class="col-6 collapse-brand">
-                  <a href="../index.html">
+                  <router-link :to="{name: 'home'}">
                     <img src="../assets/img/brand/blue.png" alt="brand" />
-                  </a>
+                  </router-link>
                 </div>
                 <div class="col-6 collapse-close">
                   <button
@@ -127,7 +127,7 @@
                 >
               </li>
               <li class="nav-item">
-                <router-link :to="{ name: 'about' }" class="nav-link"
+                <router-link :to="{ name: 'acc-about' }" class="nav-link"
                   >About Us</router-link
                 >
               </li>
