@@ -154,7 +154,7 @@ class UserServiceTest {
     @Test
     void sendConfirmationCode() {
 
-        
+
     }
 
     @Test

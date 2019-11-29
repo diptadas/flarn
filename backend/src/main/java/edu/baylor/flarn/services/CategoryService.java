@@ -31,7 +31,7 @@ public class CategoryService {
     }
 
     public ResponseBody deleteCategory(Long id) throws DefaultCategoryModificationException, RecordNotFoundException {
-        Category category = getCategory(id);
+        Category category = getCategoryById(id);
         if (category.getName() != null && category.getName().equals(Category.DEFAULT_CATEGORY_NAME)) {
             throw new DefaultCategoryModificationException();
         }
@@ -57,7 +57,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category getCategory(long id) throws RecordNotFoundException {
+    public Category getCategoryById(long id) throws RecordNotFoundException {
         Category category = categoryRepository.findById(id).orElse(null);
         if (category == null) {
             throw new RecordNotFoundException("Category not found with id: " + id);
@@ -69,6 +69,14 @@ public class CategoryService {
         Category category = categoryRepository.findByName(Category.DEFAULT_CATEGORY_NAME);
         if (category == null) {
             throw new RecordNotFoundException("Default category not found");
+        }
+        return category;
+    }
+
+    public Category getCategoryByName(String name) throws RecordNotFoundException {
+        Category category = categoryRepository.findByName(name);
+        if (category == null) {
+            throw new RecordNotFoundException(String.format("Category with name %s not  found: " , name));
         }
         return category;
     }
