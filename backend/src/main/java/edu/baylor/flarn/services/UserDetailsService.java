@@ -8,6 +8,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * User details service provides get operations on the User model.
+ * Unlike user service, user details service is exclusively used in authentication and security methods.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     private final UserRepository userRepository;

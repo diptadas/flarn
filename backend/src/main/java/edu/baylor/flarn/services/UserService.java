@@ -17,6 +17,15 @@ import java.util.Random;
 
 import static edu.baylor.flarn.models.ReviewType.STAR;
 
+/**
+ * User service provides CRUD operations on the User model.
+ * However, it doesn't allow the delete operation, instead it disables the user account.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 public class UserService {
 

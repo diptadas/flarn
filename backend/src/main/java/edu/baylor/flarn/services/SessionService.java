@@ -8,6 +8,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Session service includes the create operation for the Session model.
+ * Whenever a session is submitted, it also calculates the result and update the points of the user.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 @Slf4j
 public class SessionService {

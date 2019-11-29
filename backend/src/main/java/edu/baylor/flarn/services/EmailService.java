@@ -12,6 +12,16 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * Email service sends the verification email along with the confirmation code.
+ * The confirmation code will be used to enable the account after registration.
+ * It will also be used in case user forgets the password and wants to reset it.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 @Slf4j
 public class EmailService {

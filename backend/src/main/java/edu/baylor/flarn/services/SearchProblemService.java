@@ -12,6 +12,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Search problem service searches problems based on category, difficulty and title.
+ * It uses substring matching and also case insensitive matching for the title.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 @Slf4j
 public class SearchProblemService {

@@ -10,6 +10,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Activity service includes the create operation for the Activity model.
+ * It act as logs for different user operations.
+ * It provides the content for user's timeline.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 @Slf4j
 public class ActivityService {

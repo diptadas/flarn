@@ -15,6 +15,13 @@ import java.util.List;
 
 /**
  * Problem service includes CRUD operations for Problem model.
+ * However, it don't allow any delete operation.
+ * Instead it archives the problem.
+ * It excludes the archived problems whenever list of all problems are queried.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
 
 @Service
