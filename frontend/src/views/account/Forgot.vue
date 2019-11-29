@@ -47,9 +47,12 @@
                     </button>
                   </div>
 
-                  <form>
+                  <ValidationObserver v-slot="{ handleSubmit }">
+                  <form @submit.prevent="handleSubmit(submit)">
+
+                    <ValidationProvider v-slot="v" name="Email Address" rules="required|email">
                     <div class="form-group">
-                      <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group input-group-alternative">
                         <div class="input-group-prepend">
                           <span class="input-group-text"
                             ><i class="ni ni-email-83"></i
@@ -60,26 +63,32 @@
                           placeholder="Email"
                           type="email"
                           v-model="email"
+                          required
                         />
                       </div>
+                      <small class="text-danger">
+                        {{ v.errors[0] }}
+                      </small>
                     </div>
+                    </ValidationProvider>
+
                     <div class="text-center">
                       <button
-                        type="button"
+                        type="submit"
                         class="btn btn-primary mt-4"
-                        @click="submit"
                       >
                         Submit
                       </button>
                     </div>
                     <div class="text-center text-muted mt-4 text-underline">
-                      <small
-                        ><router-link :to="{ name: 'login' }"
-                          >or Login instead</router-link
-                        ></small
-                      >
+                      <small>
+                        <router-link :to="{ name: 'login' }">
+                          or Login instead
+                        </router-link>
+                      </small>
                     </div>
                   </form>
+                  </ValidationObserver>
                 </div>
               </div>
             </div>
@@ -126,7 +135,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          this.error.text = err.response.data.message || "Unknown error occurred";
+          this.error.text = this.errorMessage(err);;
           this.error.type = "error";
           this.error.state = true;
         });
