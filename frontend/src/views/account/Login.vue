@@ -147,10 +147,6 @@ export default {
         .then(res => {
           const data = res.data;
 
-          if (!data.enabled) {
-            return this.$router.replace({ name: "confirm" });
-          }
-
           this.$store.commit("SET_AUTH", {
             username: this.email,
             token: data.token,
@@ -166,11 +162,29 @@ export default {
           });
         })
         .catch(err => {
-          this.error.text = this.errorMessage(err);
+          if(err.error){
+            console.log(err.error)
+          }
+          const msg = this.errorMessage(err);
+          if(msg === 'Bad credentials') {
+            this.error.text = "Invalid username and password";
+          } else if (msg === 'User is disabled') {
+            this.$store.commit('SET_USERNAME', this.email);
+            return this.$router.replace({ name: "confirm" });
+          }else  {
+            this.error.text = msg;
+          }
           this.error.type = "error";
           this.error.state = true;
         })
         .finally(() => (this.loading = false));
+    }
+  },
+  created() {
+    if (this.message) {
+      this.error.text = this.message;
+      this.error.type = "info";
+      this.error.state = true;
     }
   }
 };

@@ -74,7 +74,11 @@ function errorMessage(error) {
     let mess = "";
     if (error.response) {
 
-      if(error.response.data) {
+      if(error.response.data.error) {
+        return error.response.data.error;
+      }
+
+      if(error.response.data && error.response.data.errors.length) {
         return error.response.data.errors[0].message
       }
 

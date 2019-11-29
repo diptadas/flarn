@@ -191,8 +191,9 @@
                 this.$http
                     .post(url, data)
                     .then(res => {
+                        this.$store.commit('SET_USERNAME', res.data.username);
                         this.$router.push({
-                            name: "login",
+                            name: "confirm",
                             params: {message: "Account registration success"}
                         });
                     })
