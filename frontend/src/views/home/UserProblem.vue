@@ -26,6 +26,7 @@
       :problems="problems"
       @category="getProblemsForCategory"
       @prob="showProblem"
+      @search="problems = $event"
       v-if="problems.length"
     >
       <div class="text-right">

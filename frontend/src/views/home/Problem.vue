@@ -165,7 +165,7 @@ export default {
       }
 
       this.$http.post(url, data).then(res => {
-        this.problems = res.data;
+        this.$emit('search', res.data)
       })
       .finally(() => (this.loadingSearch = false));
     },

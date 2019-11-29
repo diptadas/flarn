@@ -4,6 +4,7 @@
     <Problem
       :problems="problems"
       @prob="showProblem"
+      @search="problems = $event"
       @category="getProblemsForCategory"
       v-if="problems.length"
     >
