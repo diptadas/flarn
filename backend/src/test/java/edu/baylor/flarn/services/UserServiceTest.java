@@ -4,6 +4,7 @@ package edu.baylor.flarn.services;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.resources.ResponseBody;
 import edu.baylor.flarn.resources.UserRegistration;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +19,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
@@ -67,7 +66,7 @@ class UserServiceTest {
     // create,read,update,delete test
     @Test
     public void CRUDUser() throws RecordNotFoundException {
-        User user = new User("test"  + "@gm.com",
+        User user = new User("test2"  + "@gm.com",
                 passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
         user.setEnabled(true);
@@ -83,12 +82,9 @@ class UserServiceTest {
 
 
         //delete user
-        userService.deleteUser(saved.getId());
+        ResponseBody response =  userService.deleteUser(saved.getId());
         assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
 
-        //delete again
-        //userService.deleteUser(saved.getId());
-        //assertNull(userService.getUserByUsername(user.getUsername()));
     }
 
     @Test
