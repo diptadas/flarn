@@ -4,7 +4,6 @@ import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.AuthenticationRequest;
 import edu.baylor.flarn.resources.ConfirmUserRequest;
 import edu.baylor.flarn.resources.UpdatePasswordRequest;
@@ -13,13 +12,12 @@ import edu.baylor.flarn.security.JwtTokenProvider;
 import edu.baylor.flarn.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,18 +28,17 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserRepository users;
     private final UserService userService;
 
     public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
-                                    UserRepository users, UserService userService) {
+                                    UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.users = users;
         this.userService = userService;
     }
 
@@ -49,10 +46,9 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationRequest data) {
         try {
             String username = data.getUsername();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-            String token = jwtTokenProvider.createToken(username,
-                    this.users.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username +
-                            "not found")).getRoles());
+            String password = data.getPassword();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            String token = jwtTokenProvider.createToken(username, userService.getUserByUsername(username).getRoles());
 
             User user = userService.getUserByUsername(username);
 
@@ -64,8 +60,8 @@ public class AuthenticationController {
             model.put("userType", user.getUserType());
             return ok(model);
         } catch (AuthenticationException | RecordNotFoundException e) {
-            InvalidLogin invalidLogin = new InvalidLogin(data.getUsername(), data.getPassword(), "Invalid username and " +
-                    "password");
+            log.info("Authentication failed " + e.getMessage());
+            InvalidLogin invalidLogin = new InvalidLogin(data.getUsername(), data.getPassword(), e.getMessage());
             return new ResponseEntity<>(invalidLogin, HttpStatus.UNAUTHORIZED);
         }
     }
@@ -89,7 +85,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/updatePassword")
-    public User updatePassword(@RequestBody @Valid  UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
+    public User updatePassword(@RequestBody @Valid UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
         return userService.updatePassword(updatePasswordRequest);
     }
 
