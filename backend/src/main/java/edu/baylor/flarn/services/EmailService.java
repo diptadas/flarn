@@ -17,7 +17,7 @@ import java.io.IOException;
 public class EmailService {
 
     void sendVerificationEmail(String email, int confirmationCode) throws EmailSendingException {
-        Email from = new Email("flarn@example.com"); // just a fake sender email
+        Email from = new Email("admin@flarn.com"); // just a fake sender email
         Email to = new Email(email);
 
         String subject = "FLARN: Confirmation Code";
