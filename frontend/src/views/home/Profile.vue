@@ -384,9 +384,9 @@ export default {
               }
 
               if(res.data.data.thumb) {
-                this.user.dpLink = res.data.data.thumb.url;
+                this.user.avatarLink = res.data.data.thumb.url;
               } else {
-                this.user.dpLink = res.data.data.image.url;
+                this.user.avatarLink = res.data.data.image.url;
               }
 
               load(res.data.id);
