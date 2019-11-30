@@ -30,6 +30,16 @@
         <div class="card shadow">
           <div class="table-responsive min-h-full" v-if="users.length">
             <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">FullName</th>
+                <th scope="col">ROLE</th>
+                <th scope="col">POINTS</th>
+                <th scope="col">FOLLOWERS</th>
+                <th scope="col">FOLLOWING</th>
+                <th scope="col">ACTIONS</th>
+              </tr>
+              </thead>
               <tbody>
                 <person-item
                   v-for="(user, i) in users"
