@@ -26,19 +26,48 @@
                   <h3 class="mb-0">Problem Details</h3>
                 </div>
                 <div class="col-4 text-right">
-                  <a href="#!" class="btn btn-sm btn-primary">Clear</a>
+                  <a @click="importMode ? cancelUpload() : showUpload()" class="btn btn-info">
+                    <span class="btn-inner--icon mr-1">
+                      <i class="fas fa-upload" style="top: 0;"></i>
+                    </span>
+                    {{importMode ? 'Cancel import' : 'Import from file'}}
+                  </a>
                 </div>
               </div>
             </div>
             <div class="card-body">
               <form>
+
+                <div class="pl-lg-4" v-if="importMode">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="prob-file">
+                          Upload JSON File
+                        </label>
+                        <file-pond
+                                name="prob-file"
+                                id="prob-file"
+                                ref="pond"
+                                accepted-file-types="application/json"
+                                :server="uploadImage"
+                                :files="files"
+                                @init="handleFilePondInit"
+                                class="pointed"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="my-4" v-if="importMode" />
+
                 <div class="pl-lg-4">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-address"
-                          >Proble Title</label
-                        >
+                        <label class="form-control-label" for="problem-title">
+                          Problem Title
+                        </label>
                         <input
                           id="problem-title"
                           class="form-control form-control-alternative"
@@ -91,7 +120,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-city"
+                        <label class="form-control-label" for="difficulty"
                           >Difficulty</label
                         >
                         <select
@@ -111,20 +140,20 @@
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-country"
+                        <label class="form-control-label" for="category"
                           >Category</label
                         >
                         <select
                           class="form-control"
                           id="category"
-                          v-model="problem.category.id"
+                          v-model="problem.category.name"
                         >
                           <option value="">Select Category</option>
                           <option
                             v-for="opt in categories"
                             :key="opt.id"
                             :id="opt.id"
-                            :value="opt.id"
+                            :value="opt.name"
                             >{{ opt.name }}</option
                           >
                         </select>
@@ -132,23 +161,38 @@
                     </div>
                   </div>
                   <hr class="my-4" />
-                  <div class="text-right mt-4">
+                  <div class="mt-4 d-flex justify-content-between align-items-center">
                     <button
-                      type="button"
-                      class="btn btn-primary"
-                      @click="createProblem"
-                      :disabled="loading"
+                            type="button"
+                            class="btn btn-warning"
+                            @click="cancelProblem"
+                            :disabled="loading"
                     >
                       <span
-                        class="spinner-grow spinner-grow-sm"
-                        role="status"
-                        aria-hidden="true"
-                        v-if="loading"
+                              class="spinner-grow spinner-grow-sm"
+                              role="status"
+                              aria-hidden="true"
+                              v-if="loading"
+                      ></span>
+                      Cancel
+                    </button>
+
+                    <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="createProblem"
+                            :disabled="loading"
+                    >
+                      <span
+                              class="spinner-grow spinner-grow-sm"
+                              role="status"
+                              aria-hidden="true"
+                              v-if="loading"
                       ></span>
                       Add Problem
                     </button>
                   </div>
-                </div>
+                  </div>
               </form>
             </div>
           </div>
@@ -159,6 +203,14 @@
 </template>
 
 <script>
+  import vueFilePond from 'vue-filepond';
+
+  // Import image preview and file type validation plugins
+  import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+
+  // Create component
+  const FilePond = vueFilePond(FilePondPluginFileValidateType);
+
 import Question from "@/components/problem/Question.vue";
 export default {
   name: "CreateProblem",
@@ -173,21 +225,24 @@ export default {
         },
         questions: [
           {
+            content: "",
             options: ["", "", ""],
             answer: ""
           },
           {
+            content: "",
             options: ["", "", ""],
             answer: ""
           },
           {
+            content: "",
             options: ["", "", ""],
             answer: ""
           }
         ],
         description: "",
         category: {
-          id: ''
+          name: ''
         }
       },
       difficulties: [
@@ -207,10 +262,55 @@ export default {
           value: "EASY"
         }
       ],
-      categories: []
+      categories: [],
+      files: [],
+      uploadImage: {
+        process: this.processFile
+      },
+      importMode: false,
     };
   },
   methods: {
+    processFile (fieldName, file, metadata, load) {
+      const reader = new FileReader();
+      reader.onload = this.fileLoaded;
+      reader.readAsText(file);
+      load(true);
+    },
+    fileLoaded($event) {
+      const problem = JSON.parse($event.target.result);
+      this.problem.title =  problem.title;
+      this.problem.difficulty =  problem.difficulty;
+      this.problem.title =  problem.title;
+      this.problem.knowledgeSource.content = problem.knowledgeSource.content;
+      this.problem.description = problem.description;
+      this.problem.category.name = problem.category.name;
+
+      for (let i = 0; i < 3; i++) {
+        this.problem.questions[i].content = problem.questions[i].content;
+        this.problem.questions[i].answer = problem.questions[i].answer;
+
+        for (let j = 0; j < 3; j++) {
+          this.problem.questions[i].options.splice(j, 1, problem.questions[i].options[j]);
+        }
+      }
+
+      this.importMode = false;
+    },
+    showUpload(){
+      this.importMode = true
+    },
+    cancelUpload(){
+      this.importMode = false
+    },
+    handleFilePondInit() {
+      console.log('FilePond has initialized');
+
+      // FilePond instance methods are available on `this.$refs.pond`
+    },
+    cancelProblem() {
+      this.$router.replace({name: 'manage-problems'})
+    },
     createProblem() {
       if (this.loading) return false;
       this.loading = true;
