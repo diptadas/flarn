@@ -62,6 +62,11 @@ export default {
   },
   components: {
     Option
+  },
+  watch: {
+    value(oldVal, val) {
+      console.log(val, "question");
+    }
   }
 };
 </script>

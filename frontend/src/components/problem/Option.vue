@@ -5,8 +5,8 @@
       id="problem-title"
       class="form-control form-control-alternative"
       placeholder="Enter option for Problem"
-      v-model="content"
-      @change="$emit('input', content)"
+      :value="value"
+      @change="$emit('input', $event.target.value)"
       type="text"
     />
   </div>
@@ -15,11 +15,6 @@
 <script>
 export default {
   props: ["id", "value"],
-  name: "Option",
-  data() {
-    return {
-      content: this.value
-    };
-  }
+  name: "Option"
 };
 </script>

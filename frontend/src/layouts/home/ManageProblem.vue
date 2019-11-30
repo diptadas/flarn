@@ -4,6 +4,7 @@
     <Problem
       :problems="problems"
       @prob="showProblem"
+      @search="problems = $event"
       @category="getProblemsForCategory"
       v-if="problems.length"
     >
@@ -13,16 +14,30 @@
           class="btn btn-info"
           @click="$router.push({ name: 'create-problem' })"
         >
+          <span class="btn-inner--icon mr-1">
+            <i class="fas fa-plus" style="top: 0;"></i>
+          </span>
           Create New Problem
         </button>
       </div>
     </Problem>
-    <Empty v-else mess="problems" />
+    <Empty v-else mess="problems">
+      <button
+        type="button"
+        class="btn btn-info"
+        @click="$router.push({ name: 'create-problem' })"
+      >
+        <span class="btn-inner--icon mr-1">
+          <i class="fas fa-plus" style="top: 0;"></i>
+        </span>
+        Create New Problem
+      </button>
+    </Empty>
   </div>
 </template>
 
 <script>
-import Problem from "@/views/home/Problem";
+import Problem from "@/layouts/home/Problem";
 export default {
   name: "ManageProblem",
   data() {

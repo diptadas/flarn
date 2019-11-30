@@ -33,97 +33,92 @@ const routes = [
       {
         path: "stories",
         name: "stories",
-        component: () => import("../views/home/Stories.vue")
+        component: () => import("../layouts/home/Stories.vue")
       },
       {
         path: "activities",
         name: "activities",
-        component: () => import("../views/home/Activities.vue")
-      },
-      {
-        path: "my-account",
-        name: "my-account",
-        component: () => import("../views/home/MyAccount.vue")
+        component: () => import("../layouts/home/Activities.vue")
       },
       {
         path: "people",
         name: "people",
-        component: () => import("../views/home/People.vue")
+        component: () => import("../layouts/home/People.vue")
       },
       {
         path: "problems",
         name: "problems",
-        component: () => import("../views/home/UserProblem.vue")
+        component: () => import("../layouts/home/UserProblem.vue")
       },
       {
         path: "problems/:id",
         name: "problem-detail",
-        component: () => import("../views/home/ProblemDetail.vue"),
+        component: () => import("../layouts/home/ProblemDetail.vue"),
         props: true
       },
       {
         path: "problems/sessions/:id",
         name: "problem-session",
-        component: () => import("../views/home/ProblemSession.vue"),
+        component: () => import("../layouts/home/ProblemSession.vue"),
         props: true
       },
       {
         path: "ranks",
         name: "ranks",
-        component: () => import("../views/home/Ranks.vue")
+        component: () => import("../layouts/home/Ranks.vue")
       },
       {
         path: "profile",
         name: "profile",
-        component: () => import("../views/home/Profile.vue")
+        component: () => import("../layouts/home/Profile.vue")
       },
       {
         path: "people/profile/:id",
         name: "user-profile",
         props: true,
-        component: () => import("../views/home/UserProfile.vue")
+        component: () => import("../layouts/home/UserProfile.vue")
       },
       {
         path: "support",
         name: "support",
-        component: () => import("../views/utils/Support.vue")
+        component: () => import("../layouts/utils/Support.vue")
       },
       {
         path: "manage/problems",
         name: "manage-problems",
-        component: () => import("../views/home/ManageProblem.vue")
+        component: () => import("../layouts/home/ManageProblem.vue")
       },
       {
         path: "manage/problems/:id",
         name: "manage-problems-detail",
-        component: () => import("../views/home/ManageProblemDetail.vue"),
+        component: () => import("../layouts/home/ManageProblemDetail.vue"),
         props: true
       },
       {
         path: "manage/problems/edit/:id",
         name: "manage-problem-edit",
-        component: () => import("../views/home/EditProblem.vue"),
+        component: () => import("../layouts/home/EditProblem.vue"),
         props: true
       },
       {
         path: "manage/users",
         name: "manage-users",
-        component: () => import("../views/home/ManageUser.vue")
+        component: () => import("../layouts/home/ManageUser.vue")
       },
       {
         path: "manage/create/problem",
         name: "create-problem",
-        component: () => import("../views/home/CreateProblem.vue")
+        component: () => import("../layouts/home/CreateProblem.vue")
       },
       {
         path: "manage/categories",
         name: "manage-categories",
-        component: () => import("../views/home/ManageCategory.vue")
+        component: () => import("../layouts/home/ManageCategory.vue")
       },
       {
         path: "/about",
         name: "about",
-        component: () => import("../views/utils/About.vue")
+        component: () => import("../layouts/utils/About.vue")
       },
       {
         path: "/",
@@ -140,43 +135,43 @@ const routes = [
       {
         path: "/login",
         name: "login",
-        component: () => import("../views/account/Login.vue"),
+        component: () => import("../layouts/account/Login.vue"),
         props: true
       },
       {
         path: "/register",
         name: "register",
-        component: () => import("../views/account/Register.vue")
+        component: () => import("../layouts/account/Register.vue")
       },
       {
         path: "/confirm",
         name: "confirm",
-        component: () => import("../views/account/Confirm.vue")
+        component: () => import("../layouts/account/Confirm.vue")
       },
       {
         path: "/forgot",
         name: "forgot",
-        component: () => import("../views/account/Forgot.vue")
+        component: () => import("../layouts/account/Forgot.vue")
       },
       {
         path: "/recover",
         name: "recover",
-        component: () => import("../views/account/Recover.vue")
+        component: () => import("../layouts/account/Recover.vue")
       },
       {
         path: "/404",
         name: "404",
-        component: () => import("../views/utils/404.vue")
+        component: () => import("../layouts/utils/404.vue")
       },
       {
         path: "support",
         name: "acc-support",
-        component: () => import("../views/utils/Support.vue")
+        component: () => import("../layouts/utils/Support.vue")
       },
       {
         path: "about",
         name: "acc-about",
-        component: () => import("../views/utils/About.vue")
+        component: () => import("../layouts/utils/About.vue")
       }
     ]
   },

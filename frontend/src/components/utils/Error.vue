@@ -6,6 +6,7 @@
     aria-live="assertive"
     aria-atomic="true"
     style="position: absolute; top: 5rem; right: 2rem;"
+    v-if="shown"
   >
     <div class="toast-header">
       <div class="pulse red mr-4"></div>
@@ -29,11 +30,17 @@
 <script>
 export default {
   name: "Error",
+  data() {
+    return {
+      shown: false
+    };
+  },
   methods: {
     hide() {
       $("#element").toast("hide");
     },
     show() {
+      this.shown = true;
       $("#error-toast").toast("show");
     }
   },
@@ -47,6 +54,10 @@ export default {
   mounted() {
     $(".toast").toast({
       delay: 10000
+    });
+
+    $("#error-toast").on("hide.bs.toast", function() {
+      this.shown = false;
     });
   }
 };

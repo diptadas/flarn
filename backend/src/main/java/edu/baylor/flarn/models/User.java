@@ -19,6 +19,16 @@ import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * User class defines a user of the platform.
+ * A User is associated with a UserType that indicates his permissions on the system.
+ * A User can be association with other users using subscriptions.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Entity
 @Getter
 @Setter
@@ -56,9 +66,9 @@ public class User implements UserDetails {
     private String zip;
     private String biography;
     @URL
-    private String avatarLink;
+    private String avatarLink = "https://i.ibb.co/kgLYxgp/default-profile.png";
     @URL
-    private String dpLink; // display picture
+    private String dpLink = "https://i.ibb.co/kgLYxgp/default-profile.png"; // display picture
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

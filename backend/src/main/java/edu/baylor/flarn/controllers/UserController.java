@@ -45,12 +45,14 @@ public class UserController {
                 .collect(toList())
         );
         model.put("fullName", user.getFullName());
+        model.put("userId", user.getId());
+        model.put("avatarLink", user.getAvatarLink());
         return ok(model);
     }
 
     @GetMapping()
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        return userService.getAllActiveUsers();
     }
 
     @GetMapping("/type/{userType}")
@@ -64,10 +66,12 @@ public class UserController {
         return userService.updateUser(userDetails, user);
     }
 
+    // don't delete the user, instead deactivate the account
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id == #authUser.id")
-    public ResponseBody deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User authUser) {
-        return userService.deleteUser(id);
+    public ResponseBody deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User authUser) throws RecordNotFoundException {
+        deactivateCurrentUser(authUser);
+        return new ResponseBody(200, "Successful");
     }
 
     @PostMapping("/type")

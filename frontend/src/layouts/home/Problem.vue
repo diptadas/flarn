@@ -85,6 +85,9 @@
           @click="searchProblem"
           :disabled="loadingSearch"
         >
+          <span class="btn-inner--icon mr-1" v-if="!loadingSearch">
+            <i class="fas fa-search" style="top: 0;"></i>
+          </span>
           <span
             class="spinner-grow spinner-grow-sm"
             role="status"
@@ -164,10 +167,12 @@ export default {
         data["difficulty"] = this.selectedDiff;
       }
 
-      this.$http.post(url, data).then(res => {
-        this.problems = res.data;
-      })
-      .finally(() => (this.loadingSearch = false));
+      this.$http
+        .post(url, data)
+        .then(res => {
+          this.$emit("search", res.data);
+        })
+        .finally(() => (this.loadingSearch = false));
     },
     getCategories() {
       const url = "category";

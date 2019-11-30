@@ -222,13 +222,11 @@
                   <span class="avatar avatar-sm rounded-circle">
                     <img
                       alt="Image placeholder"
-                      src="../assets/img/theme/team-4-800x800.jpg"
+                      :src="user.avatarLink"
                     />
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold">{{
-                      user.fullName
-                    }}</span>
+                    <span class="mb-0 text-sm  font-weight-bold">{{user.fullName}}</span>
                   </div>
                 </div>
               </a>
@@ -321,7 +319,8 @@ export default {
     return {
       user: {
         fullName: "Test User",
-        roles: []
+        roles: [],
+        avatarLink: ""
       },
       navs: [
         {
@@ -413,6 +412,7 @@ export default {
         .get(url)
         .then(res => {
           this.user = res.data;
+          this.$store.commit('SET_AUTH', res.data)
         })
         .catch(err => {
           this.$router.replace({ name: "login" });

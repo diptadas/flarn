@@ -7,8 +7,19 @@ import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.ActivityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+/**
+ * Activity service includes the create operation for the Activity model.
+ * It act as logs for different user operations.
+ * It provides the content for user's timeline.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
 
 @Service
 @Slf4j
@@ -44,6 +55,13 @@ public class ActivityService {
         activity.setActivityType(ActivityType.FOLLOWED);
         activity.setFollowedUserId(followedUser.getId());
         activity.setFollowedUserFullName(followedUser.getFullName());
+        activity.setFollowedUserAvatarLink(followedUser.getAvatarLink());
+        activityRepository.save(activity);
+    }
+
+    public void saveRolesUpdatedActivity(User user) {
+        Activity activity = new Activity(user);
+        activity.setActivityType(ActivityType.ROLES_UPDATED);
         activityRepository.save(activity);
     }
 

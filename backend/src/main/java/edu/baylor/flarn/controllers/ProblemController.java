@@ -51,7 +51,7 @@ public class ProblemController {
 
     @PostMapping()
     @RolesAllowed(UserRoles.roleModerator)
-    public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
+    public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) throws RecordNotFoundException {
         log.info(user.getRoles().toString());
         return problemService.createProblem(problem, user);
     }
@@ -73,18 +73,12 @@ public class ProblemController {
         return problemService.archiveProblem(id);
     }
 
-    //Todo: Check moderator is owner or admin
+    // don't delete the problem, instead archive it
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseBody deleteProblem(@PathVariable("id") Long id) {
-        return problemService.deleteProblem(id);
-    }
-
-    //Todo: Check moderator sole owner or Admin
-    @DeleteMapping("/batch/{ids}")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseBody deleteBatchProblem(@PathVariable("ids") List<Long> ids) {
-        return problemService.deleteBatchProblem(ids);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseBody deleteProblem(@PathVariable("id") Long id) throws RecordNotFoundException {
+        archiveProblem(id);
+        return new ResponseBody(200, "Successful");
     }
 
     @GetMapping("/random")

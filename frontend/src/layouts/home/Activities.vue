@@ -1,10 +1,10 @@
 <template>
   <Feed :activities="activities" v-if="activities.length" />
-  <Empty v-else mess="stories" />
+  <Empty v-else mess="activities" />
 </template>
 
 <script>
-import Feed from "@/views/home/Feed.vue";
+import Feed from "@/layouts/home/Feed.vue";
 
 export default {
   name: "Activities",

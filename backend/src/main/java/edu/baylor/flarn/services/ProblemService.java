@@ -5,7 +5,6 @@ import edu.baylor.flarn.models.*;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;
-import edu.baylor.flarn.resources.ResponseBody;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manage problem service includes service for to add problems, delete problems etc.
+ * Problem service includes CRUD operations for Problem model.
+ * However, it don't allow any delete operation.
+ * Instead it archives the problem.
+ * It excludes the archived problems whenever list of all problems are queried.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
 
 @Service
@@ -22,16 +28,24 @@ public class ProblemService {
     private final KnowledgeSourceRepository knowledgeSourceRepository;
     private final QuestionRepository questionRepository;
     private final ActivityService activityService;
+    private final CategoryService categoryService;
 
     public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository,
-                          QuestionRepository questionRepository, ActivityService activityService) {
+                          QuestionRepository questionRepository, ActivityService activityService, CategoryService categoryService) {
         this.problemRepository = problemRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
         this.questionRepository = questionRepository;
         this.activityService = activityService;
+        this.categoryService = categoryService;
     }
 
-    public Problem createProblem(Problem problem, User user) {
+    public Problem createProblem(Problem problem, User user) throws RecordNotFoundException {
+        // get the category by name if id not present
+        if (problem.getCategory().getId() == null) {
+            Category category = categoryService.getCategoryByName(problem.getCategory().getName());
+            problem.setCategory(category);
+        }
+
         problem.setModerator(user);
 
         // save the knowledge source
@@ -73,15 +87,6 @@ public class ProblemService {
         return problem;
     }
 
-    public ResponseBody deleteProblem(Long problem) {
-        try {
-            problemRepository.deleteById(problem);
-            return new ResponseBody(200, "Successful");
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
-        }
-    }
-
     public Problem archiveProblem(Long problemId) throws RecordNotFoundException {
         Problem problem = getProblemById(problemId);
         problem.setArchived(true);
@@ -91,16 +96,6 @@ public class ProblemService {
 
     public Problem updateProblem(Problem problem) {
         return problemRepository.save(problem);
-    }
-
-    @Transactional
-    public ResponseBody deleteBatchProblem(List<Long> ids) {
-        try {
-            problemRepository.deleteByIdIn(ids);
-            return new ResponseBody(200, "Successful");
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
-        }
     }
 
     public List<Long> getSolvedProblemsIdsForUser(User user) {

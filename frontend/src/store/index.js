@@ -7,8 +7,8 @@ export default new Vuex.Store({
   state: {
     username: "",
     token: "",
+    fullName: "",
     userId: "",
-    currentHomePahe: "Timeline",
     error: {
       state: false,
       text: ""

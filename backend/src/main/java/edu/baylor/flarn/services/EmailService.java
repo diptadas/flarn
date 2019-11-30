@@ -9,6 +9,19 @@ import com.sendgrid.helpers.mail.objects.Email;
 import edu.baylor.flarn.exceptions.EmailSendingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+
+/**
+ * Email service sends the verification email along with the confirmation code.
+ * The confirmation code will be used to enable the account after registration.
+ * It will also be used in case user forgets the password and wants to reset it.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
 
 import java.io.IOException;
 

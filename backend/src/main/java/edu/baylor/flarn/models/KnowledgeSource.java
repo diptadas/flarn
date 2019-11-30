@@ -10,12 +10,21 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * KnowledgeSource class defines the lesson contents for the Problem model.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 public class KnowledgeSource {
     @NotNull
+    @Column(columnDefinition="TEXT")
     String content;
 
     @OneToOne

@@ -12,27 +12,10 @@
           }"
           >{{ activity.userFullName }}</router-link
         >
-        updated his profile
+        is now a {{ activity.userType }}
         <div class="date">
           {{ activity.date | formatDate }}
         </div>
-      </div>
-      <div class="extra text">
-        <router-link
-          :to="{
-            name: 'user-profile',
-            params: { id: $hash.encode(activity.userId) }
-          }"
-          >{{ activity.userFullName }}</router-link
-        >
-        has updated his profile, checkout his new
-        <router-link
-          :to="{
-            name: 'user-profile',
-            params: { id: $hash.encode(activity.userId) }
-          }"
-          >page</router-link
-        >
       </div>
       <div class="meta">
         <a class="like"> <i class="like icon"></i> 5 Likes </a>
@@ -50,7 +33,7 @@ export default {
       type: Object
     }
   },
-  name: "Followed",
+  name: "RolesUpdated",
   mixins: [formateDate]
 };
 </script>

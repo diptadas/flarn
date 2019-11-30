@@ -13,6 +13,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Session class indicates a user attempted a particular Problem.
+ * It includes the starting and submission time.
+ * It also includes the user answers.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Entity
 @Getter
 @Setter

@@ -4,7 +4,6 @@ import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
-import edu.baylor.flarn.repositories.CustomQueries;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
 import org.springframework.scheduling.annotation.Async;
@@ -18,21 +17,28 @@ import java.util.Random;
 
 import static edu.baylor.flarn.models.ReviewType.STAR;
 
+/**
+ * User service provides CRUD operations on the User model.
+ * However, it doesn't allow the delete operation, instead it disables the user account.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
-    private final CustomQueries customQueries;
     private final ActivityService activityService;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailService emailService,
-                       CustomQueries customQueries, ActivityService activityService) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
+                       EmailService emailService, ActivityService activityService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailService = emailService;
-        this.customQueries = customQueries;
         this.activityService = activityService;
     }
 
@@ -45,7 +51,7 @@ public class UserService {
     }
 
     public boolean exists(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByUsernameAndEnabledTrue(username);
         return user.isPresent();
     }
 
@@ -153,6 +159,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public List<User> getAllActiveUsers() {
+        return userRepository.findByEnabledTrue();
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -177,7 +187,7 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) throws RecordNotFoundException {
-        User user = userRepository.findByUsername(username).orElse(null);
+        User user = userRepository.findByUsernameAndEnabledTrue(username).orElse(null);
         if (user == null) {
             throw new RecordNotFoundException("User not found with username " + username);
         }
@@ -197,32 +207,12 @@ public class UserService {
             // also update the roles
             user.setRoles(UserRoles.rolesForUserType(userTypeUpdateRequest.getUserType()));
             userRepository.save(user);
+
+            // save the activity
+            activityService.saveRolesUpdatedActivity(user);
         }
+
         return user;
-    }
-
-    /**
-     * AS far as I know hibernate does not have an implementation for onCascade set null yet.
-     * So if we want to delete a user, we probably need to remove all his subscribers/subscriptions before proceeding.
-     *
-     * @param id
-     * @return
-     */
-    public ResponseBody deleteUser(Long id) {
-        try {
-            //Remove all subscription associations
-            ResponseBody responseBody = customQueries.deleteAssociations(id);
-
-            if (responseBody.getStatus() == 200) {
-                userRepository.deleteById(id);
-                return new ResponseBody(200, "Successful");
-            } else {
-                return responseBody;
-            }
-        } catch (Exception e) {
-            return new ResponseBody(500, e.getMessage());
-        }
-
     }
 
     public List<User> getSubscribers(long Id) {

@@ -5,6 +5,10 @@
     <p class="text-muted font-italic">
       No {{ mess }} yet, your {{ mess }} will appear here...
     </p>
+
+    <div class="d-flex justify-content-center align-content-center">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

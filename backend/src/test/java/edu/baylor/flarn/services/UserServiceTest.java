@@ -55,12 +55,14 @@ class UserServiceTest {
     }
 
     @Test
-    public void deleteUser() throws RecordNotFoundException {
+    void deactivateUser() throws RecordNotFoundException {
+
         User user = userService.findById(1L);
 
-        //delete user
-        userService.deleteUser(user.getId());
+        //deactivate user
+        userService.deactivateUser(user);
         assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
     }
 
     // create,read,update,delete test for user
@@ -82,9 +84,7 @@ class UserServiceTest {
         assertTrue(userService.exists(user.getUsername()));
 
 
-        //delete user
-        userService.deleteUser(saved.getId());
-        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        //deactivate user
 
     }
 
@@ -218,14 +218,12 @@ class UserServiceTest {
     }
 
     @Test
-    void deactivateUser() {
-    }
-
-    @Test
     void activityForCurrentUser() {
     }
 
     @Test
     void activityOfSubscriptionsForCurrentUser() {
     }
+
+
 }

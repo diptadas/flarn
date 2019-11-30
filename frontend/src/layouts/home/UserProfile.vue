@@ -17,8 +17,9 @@
                 <div class="card-profile-image">
                   <a href="#">
                     <img
-                      src="@/assets/img/theme/team-4-800x800.jpg"
+                      :src="user.dpLink"
                       class="rounded-circle img-fliud"
+                      style="height: 12rem;"
                     />
                   </a>
                 </div>
@@ -119,7 +120,14 @@ export default {
     };
   },
   methods: {
-    unSubscribeToUser() {},
+    unSubscribeToUser() {
+      const userId = this.$hash.decode(this.id);
+      const url = `users/current/unfollow/${userId}`;
+
+      this.$http.post(url).then(res => {
+        this.getUserProfile(userId);
+      });
+    },
     subscribeToUser() {
       const userId = this.$hash.decode(this.id);
       const url = `users/current/follow/${userId}`;

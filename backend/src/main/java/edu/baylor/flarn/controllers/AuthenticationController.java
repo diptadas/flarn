@@ -74,9 +74,10 @@ public class AuthenticationController {
     }
 
     @GetMapping("/sendConfirmationCode")
-    public void sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException, EmailSendingException {
+    public boolean sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException {
         User user = userService.getUserByUsername(username);
         userService.sendConfirmationCode(user);
+        return true;
     }
 
     @PostMapping("/confirm")
