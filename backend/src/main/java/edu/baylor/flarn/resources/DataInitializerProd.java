@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 public class DataInitializerProd implements CommandLineRunner {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final String image = "https://i.ibb.co/kgLYxgp/default-profile.png";
 
     public DataInitializerProd(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
@@ -35,7 +36,7 @@ public class DataInitializerProd implements CommandLineRunner {
         log.info("Initializing data");
         User admin = new User("admin@gm.com",
                 passwordEncoder.encode("admin"), "Admin Mock", "254567908", "part",
-                "temple", "AZ", "0000", "my story", null, null, UserType.ADMIN);
+                "temple", "AZ", "0000", "my story", image, image, UserType.ADMIN);
 
         admin.setEnabled(true);
         userService.saveUser(admin);
