@@ -25,7 +25,6 @@ import java.util.List;
  */
 
 @Service
-@Transactional
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProblemService problemService;

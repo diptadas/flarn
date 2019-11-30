@@ -23,7 +23,6 @@ import java.util.List;
  */
 
 @Service
-@Transactional
 public class ProblemService {
     private final ProblemRepository problemRepository;
     private final KnowledgeSourceRepository knowledgeSourceRepository;

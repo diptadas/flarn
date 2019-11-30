@@ -25,7 +25,6 @@ import java.io.IOException;
 
 @Service
 @Slf4j
-@Transactional
 public class EmailService {
 
     void sendVerificationEmail(String email, int confirmationCode) throws EmailSendingException {

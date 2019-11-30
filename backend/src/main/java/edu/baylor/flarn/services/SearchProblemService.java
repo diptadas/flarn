@@ -24,7 +24,6 @@ import java.util.List;
 
 @Service
 @Slf4j
-@Transactional
 public class SearchProblemService {
     private final ProblemRepository problemRepository;
     private final CategoryRepository categoryRepository;

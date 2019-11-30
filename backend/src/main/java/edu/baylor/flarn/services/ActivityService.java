@@ -23,7 +23,6 @@ import java.util.List;
 
 @Service
 @Slf4j
-@Transactional
 public class ActivityService {
     private final ActivityRepository activityRepository;
 
