@@ -44,6 +44,7 @@ public class ActivityService {
         activity.setActivityType(ActivityType.FOLLOWED);
         activity.setFollowedUserId(followedUser.getId());
         activity.setFollowedUserFullName(followedUser.getFullName());
+        activity.setFollowedUserAvatarLink(followedUser.getAvatarLink());
         activityRepository.save(activity);
     }
 
