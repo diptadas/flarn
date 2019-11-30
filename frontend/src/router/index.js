@@ -33,50 +33,50 @@ const routes = [
       {
         path: "stories",
         name: "stories",
-        component: () => import("../layouts/home/Stories.vue")
+        component: () => import("../layouts/feeds/Stories.vue")
       },
       {
         path: "activities",
         name: "activities",
-        component: () => import("../layouts/home/Activities.vue")
+        component: () => import("../layouts/feeds/Activities.vue")
       },
       {
         path: "people",
         name: "people",
-        component: () => import("../layouts/home/People.vue")
+        component: () => import("../layouts/users/People.vue")
       },
       {
         path: "problems",
         name: "problems",
-        component: () => import("../layouts/home/UserProblem.vue")
+        component: () => import("../layouts/problems/UserProblem.vue")
       },
       {
         path: "problems/:id",
         name: "problem-detail",
-        component: () => import("../layouts/home/ProblemDetail.vue"),
+        component: () => import("../layouts/problems/ProblemDetail.vue"),
         props: true
       },
       {
         path: "problems/sessions/:id",
         name: "problem-session",
-        component: () => import("../layouts/home/ProblemSession.vue"),
+        component: () => import("../layouts/problems/ProblemSession.vue"),
         props: true
       },
       {
         path: "ranks",
         name: "ranks",
-        component: () => import("../layouts/home/Ranks.vue")
+        component: () => import("../layouts/users/Ranks.vue")
       },
       {
         path: "profile",
         name: "profile",
-        component: () => import("../layouts/home/Profile.vue")
+        component: () => import("../layouts/users/Profile.vue")
       },
       {
         path: "people/profile/:id",
         name: "user-profile",
         props: true,
-        component: () => import("../layouts/home/UserProfile.vue")
+        component: () => import("../layouts/users/UserProfile.vue")
       },
       {
         path: "support",
@@ -86,34 +86,34 @@ const routes = [
       {
         path: "manage/problems",
         name: "manage-problems",
-        component: () => import("../layouts/home/ManageProblem.vue")
+        component: () => import("../layouts/problems/ManageProblem.vue")
       },
       {
         path: "manage/problems/:id",
         name: "manage-problems-detail",
-        component: () => import("../layouts/home/ManageProblemDetail.vue"),
+        component: () => import("../layouts/problems/ManageProblemDetail.vue"),
         props: true
       },
       {
         path: "manage/problems/edit/:id",
         name: "manage-problem-edit",
-        component: () => import("../layouts/home/EditProblem.vue"),
+        component: () => import("../layouts/problems/EditProblem.vue"),
         props: true
       },
       {
         path: "manage/users",
         name: "manage-users",
-        component: () => import("../layouts/home/ManageUser.vue")
+        component: () => import("../layouts/users/ManageUser.vue")
       },
       {
         path: "manage/create/problem",
         name: "create-problem",
-        component: () => import("../layouts/home/CreateProblem.vue")
+        component: () => import("../layouts/problems/CreateProblem.vue")
       },
       {
         path: "manage/categories",
         name: "manage-categories",
-        component: () => import("../layouts/home/ManageCategory.vue")
+        component: () => import("../layouts/categories/ManageCategory.vue")
       },
       {
         path: "/about",

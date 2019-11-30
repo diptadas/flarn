@@ -167,7 +167,7 @@ export default {
         username: '',
         newPassword: '',
         confirmationCode: ''
-      };
+      }
     };
   },
   methods: {

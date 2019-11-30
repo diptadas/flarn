@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import Feed from "@/layouts/home/Feed.vue";
+import Feed from "@/layouts/feeds/Feed.vue";
 
 export default {
   name: "Activities",

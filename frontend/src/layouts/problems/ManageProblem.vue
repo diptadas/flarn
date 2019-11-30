@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Problem from "@/layouts/home/Problem";
+import Problem from "@/layouts/problems/Problem";
 export default {
   name: "ManageProblem",
   data() {
