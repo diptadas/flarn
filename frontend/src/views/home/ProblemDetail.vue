@@ -228,6 +228,10 @@ export default {
       this.$http.get(url).then(res => {
         this.problem = res.data;
 
+        if(this.ownProblem()) {
+          return this.$router.replace({name: 'manage-problems-detail', params: {id: this.$hash.encode(id)}});
+        }
+
         this.hasAttemptedProbelm(this.problem.id);
         this.hasStaredProbelm(this.problem.id);
       });
@@ -256,6 +260,13 @@ export default {
       this.$http.get(url).then(res => {
         this.reviewComments = res.data;
       });
+    },
+    ownProblem() {
+      const userId = this.$store.state.userId;
+      const modId = this.problem.moderator;
+
+      return Number(userId) === Number(modId);
+
     }
   },
   computed: {
