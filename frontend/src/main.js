@@ -11,10 +11,8 @@ import jQuery from "jquery";
 import Popper from "popper.js";
 import "bootstrap";
 import Headroom from "headroom.js";
-
 // Vue Validation
-import { ValidationProvider, ValidationObserver, configure } from 'vee-validate';
-
+import {configure, ValidationObserver, ValidationProvider} from 'vee-validate';
 // Import validation rules
 import "./form-validation"
 
@@ -95,13 +93,13 @@ function errorMessage(error) {
     let mess = "";
     if (error.response) {
 
-      if(error.response.data.error) {
-        return error.response.data.error;
-      }
+        if (error.response.data.error) {
+            return error.response.data.error;
+        }
 
-      if(error.response.data && error.response.data.errors.length) {
-        return error.response.data.errors[0].message
-      }
+        if (error.response.data && error.response.data.errors.length) {
+            return error.response.data.errors[0].message
+        }
 
         const status = error.response.status;
         console.log(status);
@@ -142,6 +140,44 @@ Vue.mixin({
         errorMessage: errorMessage
     }
 });
+
+Vue.prototype.$merge = (baseValue, value) => {
+    // merge arrays
+    if (
+        Array.isArray(baseValue)
+        && Array.isArray(value)
+    ) {
+        for (let i = 0; i < value.length; i) {
+            let val = Vue.prototype.$merge(baseValue[i], value[i]);
+            if (val === undefined)
+                continue;
+            if (baseValue[i])
+                Vue.set(baseValue, i, val);
+            else
+                baseValue.push(val);
+        }
+    }
+    // merge objects
+    else if (
+        value
+        && baseValue
+        && typeof value === 'object'
+        && typeof object === 'object'
+    ) {
+        for (let key of Object.keys(value)) {
+            let val = Vue.prototype.$merge(baseValue[key], value[key]);
+            if (val === undefined)
+                continue;
+            Vue.set(baseValue, key, val);
+        }
+    }
+    // return value
+    else if (value !== undefined)
+        return value;
+    else
+        return baseValue;
+};
+
 
 new Vue({
     router,
