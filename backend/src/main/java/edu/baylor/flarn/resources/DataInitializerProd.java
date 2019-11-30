@@ -1,5 +1,6 @@
 package edu.baylor.flarn.resources;
 
+import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.services.CategoryService;
@@ -31,7 +32,7 @@ public class DataInitializerProd implements CommandLineRunner {
     public void run(String... args) {
         log.info("Initializing data");
         createAdmin();
-        categoryService.createDefaultCategory();
+        createDefaultCategory();
     }
 
     private void createAdmin() {
@@ -46,5 +47,13 @@ public class DataInitializerProd implements CommandLineRunner {
 
         admin.setEnabled(true);
         userService.saveUser(admin);
+    }
+
+    private void createDefaultCategory() {
+        try {
+            categoryService.getDefaultCategory();
+        } catch (RecordNotFoundException e) {
+            categoryService.createDefaultCategory();
+        }
     }
 }
