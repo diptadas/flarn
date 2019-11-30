@@ -30,12 +30,20 @@ class UserServiceTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /***
+     * Unit test for find user by Id
+     * @throws RecordNotFoundException
+     */
     @Test
     void findById() throws RecordNotFoundException {
         User user = userService.findById(1L);
         assertEquals(user.getFullName(), "Admin Mock");
     }
 
+    /***
+     * Unit test for user update
+     * @throws RecordNotFoundException
+     */
     @Test
     public void updateUser() throws RecordNotFoundException {
         User oldUser = userService.findById(1L);
@@ -44,6 +52,10 @@ class UserServiceTest {
         assertFalse(updateUser.equals(oldUser));
     }
 
+    /***
+     * Unit test for save user
+     * @throws RecordNotFoundException
+     */
     @Test
     public void saveUser() {
         User user = new User("test"  + "@gm.com",
@@ -54,6 +66,10 @@ class UserServiceTest {
         assertTrue(saved.equals(user));
     }
 
+    /***
+     * Unit test for deactivate user
+     * @throws RecordNotFoundException
+     */
     @Test
     void deactivateUser() throws RecordNotFoundException {
 
@@ -65,7 +81,10 @@ class UserServiceTest {
 
     }
 
-    // create,read,update,delete test for user
+    /***
+     * Integration test for user CRUD operation
+     * @throws RecordNotFoundException
+     */
     @Test
     public void CRUDUser() throws RecordNotFoundException {
         User user = new User("test2"  + "@gm.com",
@@ -85,9 +104,16 @@ class UserServiceTest {
 
 
         //deactivate user
+        userService.deactivateUser(user);
+        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
 
     }
 
+    /***
+     *  Unit test for subscribing
+     * @throws RecordNotFoundException
+     */
     @Test
     void follow() throws RecordNotFoundException {
         User subscriber = userService.findById(1L);
@@ -101,6 +127,10 @@ class UserServiceTest {
     }
 
     //lazy loading issue needs to be resolved
+    /***
+     *  Unit test for unsubscribing
+     * @throws RecordNotFoundException
+     */
     @Test
     void unfollow() throws RecordNotFoundException {
 
@@ -116,6 +146,10 @@ class UserServiceTest {
         assertFalse(subscribed.getSubscribers().contains(subscriber));
     }
 
+    /***
+     * Integration test for subscribe/unsubscribe
+     * @throws RecordNotFoundException
+     */
     @Test
     void followUnfollow() throws RecordNotFoundException {
 
@@ -137,8 +171,8 @@ class UserServiceTest {
     }
 
 
-    /**
-     * Test for user registration and registered user exit in database.
+    /***
+     * Unit test for user registration
      */
     @Test
     void registerUser() {
