@@ -15,7 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByUserType(@NotNull UserType userType);
 
-    Optional<User> findByUsername(String username);
+    List<User> findByEnabledTrue();
+
+    Optional<User> findByUsernameAndEnabledTrue(String username);
 
     @Query(value = "select subscribers from User u where u.id =:userId")
     List<User> findSubscribers(@Param("userId") long userId);
