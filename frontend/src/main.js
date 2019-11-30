@@ -30,7 +30,8 @@ configure({
         dirty: ['is-dirty', 'is-dirty'], // multiple classes per flag!
         // ...
     }
-})
+});
+
 
 Vue.config.productionTip = false;
 

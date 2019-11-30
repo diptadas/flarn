@@ -30,8 +30,9 @@
                 <div class="card-profile-image">
                   <a href="#">
                     <img
-                      src="@/assets/img/theme/team-4-800x800.jpg"
+                      :src="user.dpLink"
                       class="rounded-circle"
+                      alt="Profile Picture"
                     />
                   </a>
                 </div>
@@ -109,8 +110,26 @@
             <div class="card-body">
               <form>
                 <h6 class="heading-small text-muted mb-4">User information</h6>
+
+
                 <div class="pl-lg-4">
                   <div class="row">
+
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Profile Picture</label>
+                        <file-pond
+                                name="test"
+                                ref="pond"
+                                label-idle="Drop files here or click to Browse"
+                                accepted-file-types="image/jpeg, image/png"
+                                :server="uploadImage"
+                                :files="files"
+                                @init="handleFilePondInit"
+                                class="pointed"/>
+                      </div>
+                    </div>
+
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email"
@@ -285,7 +304,26 @@
 </template>
 
 <script>
+  // Image/File upload
+
+  import vueFilePond from 'vue-filepond';
+  import 'filepond/dist/filepond.min.css';
+
+  // Import image preview plugin styles
+  import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+
+  // Import image preview and file type validation plugins
+  import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+  import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+
+  // Create component
+  const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
+
 import Delete from "@/components/utils/Delete.vue";
+import axios from 'axios';
+
+const imageUploadToken = process.env.VUE_APP_FILE_UPLOAD;
+
 export default {
   name: "Profile",
   data() {
@@ -298,10 +336,59 @@ export default {
         subscribers: []
       },
       deleteContent: {},
-      deleteAction: null
+      deleteAction: null,
+      files: [],
+      userId: '',
+      uploadImage: {
+        process: this.processImage
+      }
     };
   },
   methods: {
+    processImage (fieldName, file, metadata, load, error, progress, abort, transfer, options) {
+    const token = imageUploadToken;
+    const url = "https://api.imgbb.com/1/upload";
+    const ext = file.name.split('.').pop();
+    const fileName = this.$store.state.username + "." + ext;
+
+    const data = new FormData();
+    data.append('key', token);
+    data.append('name', fileName);
+    data.append('image', file);
+
+      const config = {
+        onUploadProgress: function(progressEvent) {
+          progress(progressEvent.lengthComputable, progressEvent.loaded, progressEvent.total);
+        },
+      };
+
+      // request.onload = function() {
+      //   if (request.status >= 200 && request.status < 300) {
+      //     // the load method accepts either a string (id) or an object
+      //     load(request.responseText);
+      //   }
+      //   else {
+      //     // Can call the error method if something is wrong, should exit after
+      //     error('oh no');
+      //   }
+      // };
+
+    axios.post(url, data, config)
+            .then(res => {
+              this.user.dpLink = res.data.data.medium.url;
+              this.user.avatarLink = res.data.data.thumb.url;
+              load(res.data.id);
+            })
+            .catch(err => {
+              console.log(err)
+              error("Error uploading file")
+            })
+  },
+    handleFilePondInit() {
+      console.log('FilePond has initialized');
+
+      // FilePond instance methods are available on `this.$refs.pond`
+    },
     deleteAccount() {
       this.deleteContent = {
         name: this.user.fullName
@@ -339,11 +426,12 @@ export default {
     }
   },
   created() {
-    const userId = Number(this.$store.state.userId);
-    this.getUserProfile(userId);
+    this.userId = Number(this.$store.state.userId);
+    this.getUserProfile(this.userId);
   },
   components: {
-    Delete
+    Delete,
+    FilePond
   }
 };
 </script>
