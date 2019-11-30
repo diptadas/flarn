@@ -32,8 +32,6 @@
       </div>
 
       <div class="d-flex-column justify-content-start px-4">
-        <div>Knowledge Source Here</div>
-
         <hr class="my-4" />
 
         <div>

@@ -24,9 +24,7 @@
         <small class="text-muted text-left">Created by: {{ moderator }}</small>
       </div>
 
-      <div class="d-flex-column justify-content-start px-4">
-        <div>Knowledge Source Here</div>
-
+      <div class="d-flex-column justify-content-start px-4 mt-4">
         <hr class="my-4" />
 
         <div>
