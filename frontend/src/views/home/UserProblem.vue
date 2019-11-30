@@ -37,11 +37,6 @@
     </Problem>
 
     <Empty v-else mess="problems" >
-      <div class="text-right">
-        <button type="button" class="btn btn-info" @click="getRandomProblem">
-          Random Problem
-        </button>
-      </div>
     </Empty>
   </div>
 </template>
