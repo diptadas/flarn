@@ -18,7 +18,15 @@
         </button>
       </div>
     </Problem>
-    <Empty v-else mess="problems" />
+    <Empty v-else mess="problems">
+      <button
+              type="button"
+              class="btn btn-info"
+              @click="$router.push({ name: 'create-problem' })"
+      >
+        Create New Problem
+      </button>
+    </Empty>
   </div>
 </template>
 
