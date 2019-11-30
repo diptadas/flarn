@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       shown: false
-    }
+    };
   },
   methods: {
     hide() {
@@ -56,9 +56,9 @@ export default {
       delay: 10000
     });
 
-    $('#error-toast').on('hide.bs.toast', function () {
+    $("#error-toast").on("hide.bs.toast", function() {
       this.shown = false;
-    })
+    });
   }
 };
 </script>

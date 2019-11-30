@@ -65,7 +65,7 @@ export default {
   },
   watch: {
     value(oldVal, val) {
-      console.log(val, 'question')
+      console.log(val, "question");
     }
   }
 };

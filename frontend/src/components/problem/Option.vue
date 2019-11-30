@@ -15,6 +15,6 @@
 <script>
 export default {
   props: ["id", "value"],
-  name: "Option",
+  name: "Option"
 };
 </script>

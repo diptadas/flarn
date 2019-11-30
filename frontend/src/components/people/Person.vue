@@ -3,10 +3,7 @@
     <th scope="row" @click="goToProfile">
       <div class="media align-items-center">
         <a href="#" class="avatar rounded-circle mr-3">
-          <img
-            alt="Image placeholder"
-            :src="user.avatarLink"
-          />
+          <img alt="Image placeholder" :src="user.avatarLink" />
         </a>
         <div class="media-body">
           <span class="mb-0 text-sm">{{ user.fullName }}</span>

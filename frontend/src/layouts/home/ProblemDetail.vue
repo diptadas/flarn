@@ -228,8 +228,11 @@ export default {
       this.$http.get(url).then(res => {
         this.problem = res.data;
 
-        if(this.ownProblem()) {
-          return this.$router.replace({name: 'manage-problems-detail', params: {id: this.$hash.encode(id)}});
+        if (this.ownProblem()) {
+          return this.$router.replace({
+            name: "manage-problems-detail",
+            params: { id: this.$hash.encode(id) }
+          });
         }
 
         this.hasAttemptedProbelm(this.problem.id);
@@ -266,7 +269,6 @@ export default {
       const modId = this.problem.moderator;
 
       return Number(userId) === Number(modId);
-
     }
   },
   computed: {

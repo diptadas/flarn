@@ -15,21 +15,21 @@
           @click="$router.push({ name: 'create-problem' })"
         >
           <span class="btn-inner--icon mr-1">
-                      <i class="fas fa-plus" style="top: 0;"></i>
-                    </span>
+            <i class="fas fa-plus" style="top: 0;"></i>
+          </span>
           Create New Problem
         </button>
       </div>
     </Problem>
     <Empty v-else mess="problems">
       <button
-              type="button"
-              class="btn btn-info"
-              @click="$router.push({ name: 'create-problem' })"
+        type="button"
+        class="btn btn-info"
+        @click="$router.push({ name: 'create-problem' })"
       >
         <span class="btn-inner--icon mr-1">
-                      <i class="fas fa-plus" style="top: 0;"></i>
-                    </span>
+          <i class="fas fa-plus" style="top: 0;"></i>
+        </span>
         Create New Problem
       </button>
     </Empty>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Problem from "@/views/home/Problem";
+import Problem from "@/layouts/home/Problem";
 export default {
   name: "ManageProblem",
   data() {

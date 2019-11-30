@@ -1,9 +1,11 @@
 <template>
   <div class="ui feed">
-    <component v-for="act in activities"
-               v-bind:is="act.activityType"
-               :key="act.id"
-               :activity="act" />
+    <component
+      v-for="act in activities"
+      v-bind:is="act.activityType"
+      :key="act.id"
+      :activity="act"
+    />
   </div>
 </template>
 

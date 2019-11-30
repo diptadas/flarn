@@ -36,13 +36,12 @@
       </div>
     </Problem>
 
-    <Empty v-else mess="problems" >
-    </Empty>
+    <Empty v-else mess="problems"> </Empty>
   </div>
 </template>
 
 <script>
-import Problem from "@/views/home/Problem";
+import Problem from "@/layouts/home/Problem";
 export default {
   name: "UserProblem",
   data() {

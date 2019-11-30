@@ -1,0 +1,330 @@
+<template>
+  <div>
+    <main>
+      <section class="section section-shaped section-lg">
+        <div class="shape shape-style-1 bg-gradient-default">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="container pt-lg-md h-screen">
+          <div class="row justify-content-center">
+            <div class="col-lg-7">
+              <div class="card bg-secondary shadow border-0">
+                <div class="card-body px-lg-5 py-lg-5">
+                  <div class="text-center text-muted mb-4">
+                    <small>Or sign up with credentials</small>
+                  </div>
+
+                  <div
+                    :class="
+                      error.type === 'error' ? 'alert-danger' : 'alert-default'
+                    "
+                    class="alert alert-dismissible fade show"
+                    role="alert"
+                    v-if="error.state"
+                  >
+                    <span class="alert-inner--icon">
+                      <i class="ni ni-like-2"></i>
+                    </span>
+                    <span class="alert-inner--text">{{ error.text }}</span>
+                    <button
+                      @click="error.state = false"
+                      aria-label="Close"
+                      class="close"
+                      data-dismiss="alert"
+                      type="button"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+                  <ValidationObserver v-slot="{ handleSubmit }">
+                    <form @submit.prevent="handleSubmit(registerUser)">
+                      <ValidationProvider
+                        v-slot="v"
+                        name="Full Name"
+                        rules="required|alpha_spaces"
+                      >
+                        <div class="form-group">
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="ni ni-hat-3"></i
+                              ></span>
+                            </div>
+                            <input
+                              class="form-control"
+                              placeholder="Full Name"
+                              type="text"
+                              required
+                              v-model="name"
+                            />
+                          </div>
+                          <small class="text-danger">
+                            {{ v.errors[0] }}
+                          </small>
+                        </div>
+                      </ValidationProvider>
+
+                      <ValidationProvider
+                        v-slot="v"
+                        name="Email Address"
+                        rules="required|email"
+                      >
+                        <div class="form-group">
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="ni ni-email-83"></i
+                              ></span>
+                            </div>
+                            <input
+                              class="form-control"
+                              placeholder="Email"
+                              type="email"
+                              required
+                              v-model="email"
+                            />
+                          </div>
+                          <small class="text-danger">
+                            {{ v.errors[0] }}
+                          </small>
+                        </div>
+                      </ValidationProvider>
+
+                      <ValidationProvider
+                        v-slot="v"
+                        name="Password"
+                        rules="required|min:4"
+                        vid="confirmation"
+                      >
+                        <div class="form-group">
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="ni ni-lock-circle-open"></i
+                              ></span>
+                            </div>
+                            <input
+                              class="form-control"
+                              placeholder="Password"
+                              type="password"
+                              required
+                              minlength="4"
+                              v-model="password"
+                            />
+                          </div>
+                          <small class="text-danger">
+                            {{ v.errors[0] }}
+                          </small>
+                        </div>
+                      </ValidationProvider>
+
+                      <ValidationProvider
+                        v-slot="v"
+                        name="Password Confirmation"
+                        rules="confirmed:confirmation"
+                      >
+                        <div class="form-group">
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="ni ni-lock-circle-open"></i
+                              ></span>
+                            </div>
+                            <input
+                              class="form-control"
+                              placeholder="Confirm Password"
+                              type="password"
+                              required
+                              v-model="confirmation"
+                            />
+                          </div>
+                          <small class="text-danger">
+                            {{ v.errors[0] }}
+                          </small>
+                        </div>
+                      </ValidationProvider>
+
+                      <div class="text-muted">
+                        <small
+                          >password strength:
+                          <span class="font-weight-700" :class="passColor"
+                            >{{ passStrength }}
+                          </span></small
+                        >
+                      </div>
+                      <div class="row my-4">
+                        <ValidationProvider
+                          v-slot="v"
+                          name="Terms"
+                          rules="required"
+                        >
+                          <div class="col-12">
+                            <div
+                              class="custom-control custom-control-alternative custom-checkbox"
+                            >
+                              <input
+                                class="custom-control-input"
+                                id="customCheckRegister"
+                                type="checkbox"
+                                required
+                                v-model="terms"
+                              />
+                              <label
+                                class="custom-control-label"
+                                for="customCheckRegister"
+                                ><span
+                                  >I agree with the
+                                  <a href="#">Privacy Policy</a></span
+                                ></label
+                              >
+                            </div>
+                            <small class="text-danger">
+                              {{ v.errors[0] }}
+                            </small>
+                          </div>
+                        </ValidationProvider>
+                      </div>
+                      <div class="text-center">
+                        <button
+                          :disabled="loading"
+                          class="btn btn-primary mt-4"
+                          type="submit"
+                        >
+                          <span
+                            aria-hidden="true"
+                            class="spinner-grow spinner-grow-sm"
+                            role="status"
+                            v-if="loading"
+                          ></span>
+                          Create account
+                        </button>
+                      </div>
+                      <div class="text-center text-muted mt-4 text-underline">
+                        <small>
+                          <router-link :to="{ name: 'login' }">
+                            Login instead
+                          </router-link>
+                        </small>
+                      </div>
+                    </form>
+                  </ValidationObserver>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Register",
+  data() {
+    return {
+      loading: false,
+      name: "",
+      email: "",
+      password: "",
+      confirmation: "",
+      terms: false,
+      error: {
+        state: false,
+        text: "",
+        type: false
+      },
+      passStrength: "",
+      passColor: "danger"
+    };
+  },
+  watch: {
+    password(old, value) {
+      this.checkPassStrength(value);
+    }
+  },
+  methods: {
+    registerUser() {
+      if (this.loading) return false;
+      this.loading = true;
+      // validate data
+
+      const url = "auth/register";
+      const data = {
+        username: this.email,
+        fullName: this.name,
+        password: this.password
+      };
+
+      this.$http
+        .post(url, data)
+        .then(res => {
+          this.$store.commit("SET_USERNAME", res.data.username);
+          this.$router.push({
+            name: "confirm",
+            params: { message: "Account registration success" }
+          });
+        })
+        .catch(err => {
+          const mess = this.errorMessage(err);
+          this.error.text = mess;
+          this.error.type = "error";
+          this.error.state = true;
+        })
+        .finally(() => (this.loading = false));
+    },
+    scorePassword(pass) {
+      let score = 0;
+      if (!pass) return score;
+
+      // award every unique letter until 5 repetitions
+      let letters = {};
+      for (var i = 0; i < pass.length; i++) {
+        letters[pass[i]] = (letters[pass[i]] || 0) + 1;
+        score += 5.0 / letters[pass[i]];
+      }
+
+      // bonus points for mixing it up
+      let variations = {
+        digits: /\d/.test(pass),
+        lower: /[a-z]/.test(pass),
+        upper: /[A-Z]/.test(pass),
+        nonWords: /\W/.test(pass)
+      };
+
+      let variationCount = 0;
+      for (var check in variations) {
+        variationCount += variations[check] === true ? 1 : 0;
+      }
+      score += (variationCount - 1) * 10;
+
+      return parseInt(score);
+    },
+    checkPassStrength(pass) {
+      let score = this.scorePassword(pass);
+
+      if (score > 80) {
+        this.passStrength = "strong";
+        this.passColor = "text-success";
+      } else if (score > 60) {
+        this.passStrength = "good";
+        this.passColor = "text-info";
+      } else if (score >= 30) {
+        this.passStrength = "weak";
+        this.passColor = "text-warning";
+      } else {
+        this.passStrength = "bad";
+        this.passColor = "text-danger";
+      }
+    }
+  }
+};
+</script>

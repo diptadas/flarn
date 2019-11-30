@@ -44,75 +44,82 @@
                 </div>
 
                 <ValidationObserver v-slot="{ handleSubmit }">
-                <form @submit.prevent="handleSubmit(loginUser)">
-
-                  <ValidationProvider v-slot="v" name="Email Address" rules="required|email">
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"
-                          ><i class="ni ni-email-83"></i
-                        ></span>
-                      </div>
-                      <input
-                        class="form-control"
-                        placeholder="Email"
-                        type="email"
-                        v-model="email"
-                        required
-                      />
-                    </div>
-                    <small class="text-danger">
-                      {{ v.errors[0] }}
-                    </small>
-                  </div>
-                  </ValidationProvider>
-
-                  <ValidationProvider v-slot="v" name="Password" rules="required">
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"
-                          ><i class="ni ni-lock-circle-open"></i
-                        ></span>
-                      </div>
-                      <input
-                        class="form-control"
-                        placeholder="Password"
-                        type="password"
-                        v-model="password"
-                        required
-                      />
-                    </div>
-                    <small class="text-danger">
-                      {{ v.errors[0] }}
-                    </small>
-                  </div>
-                  </ValidationProvider>
-
-                  <div class="text-center">
-                    <button
-                      type="submit"
-                      class="btn btn-primary mt-4"
-                      :disabled="loading"
+                  <form @submit.prevent="handleSubmit(loginUser)">
+                    <ValidationProvider
+                      v-slot="v"
+                      name="Email Address"
+                      rules="required|email"
                     >
-                      <span
-                        class="spinner-grow spinner-grow-sm"
-                        role="status"
-                        aria-hidden="true"
-                        v-if="loading"
-                      ></span>
-                      Login To Account
-                    </button>
-                  </div>
-                  <div class="text-center text-muted mt-4 text-underline">
-                    <small
-                      ><router-link :to="{ name: 'forgot' }"
-                        >Forgot my password</router-link
-                      ></small
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="ni ni-email-83"></i
+                            ></span>
+                          </div>
+                          <input
+                            class="form-control"
+                            placeholder="Email"
+                            type="email"
+                            v-model="email"
+                            required
+                          />
+                        </div>
+                        <small class="text-danger">
+                          {{ v.errors[0] }}
+                        </small>
+                      </div>
+                    </ValidationProvider>
+
+                    <ValidationProvider
+                      v-slot="v"
+                      name="Password"
+                      rules="required"
                     >
-                  </div>
-                </form>
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="ni ni-lock-circle-open"></i
+                            ></span>
+                          </div>
+                          <input
+                            class="form-control"
+                            placeholder="Password"
+                            type="password"
+                            v-model="password"
+                            required
+                          />
+                        </div>
+                        <small class="text-danger">
+                          {{ v.errors[0] }}
+                        </small>
+                      </div>
+                    </ValidationProvider>
+
+                    <div class="text-center">
+                      <button
+                        type="submit"
+                        class="btn btn-primary mt-4"
+                        :disabled="loading"
+                      >
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          v-if="loading"
+                        ></span>
+                        Login To Account
+                      </button>
+                    </div>
+                    <div class="text-center text-muted mt-4 text-underline">
+                      <small
+                        ><router-link :to="{ name: 'forgot' }"
+                          >Forgot my password</router-link
+                        ></small
+                      >
+                    </div>
+                  </form>
                 </ValidationObserver>
               </div>
             </div>
@@ -178,16 +185,16 @@ export default {
           });
         })
         .catch(err => {
-          if(err.error){
-            console.log(err.error)
+          if (err.error) {
+            console.log(err.error);
           }
           const msg = this.errorMessage(err);
-          if(msg === 'Bad credentials') {
+          if (msg === "Bad credentials") {
             this.error.text = "Invalid username and password";
-          } else if (msg === 'User is disabled') {
-            this.$store.commit('SET_USERNAME', this.email);
+          } else if (msg === "User is disabled") {
+            this.$store.commit("SET_USERNAME", this.email);
             return this.$router.replace({ name: "confirm" });
-          }else  {
+          } else {
             this.error.text = msg;
           }
           this.error.type = "error";
