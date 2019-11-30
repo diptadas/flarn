@@ -48,9 +48,9 @@ public class AuthenticationController {
             String username = data.getUsername();
             String password = data.getPassword();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            String token = jwtTokenProvider.createToken(username, userService.getUserByUsername(username).getRoles());
+            String token = jwtTokenProvider.createToken(username, userService.getUserByUsernameAll(username).getRoles());
 
-            User user = userService.getUserByUsername(username);
+            User user = userService.getUserByUsernameAll(username);
 
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
@@ -75,7 +75,7 @@ public class AuthenticationController {
 
     @GetMapping("/sendConfirmationCode")
     public boolean sendConfirmationCode(@RequestParam String username) throws RecordNotFoundException {
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserByUsernameAll(username);
         userService.sendConfirmationCode(user);
         return true;
     }

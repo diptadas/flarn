@@ -1,9 +1,11 @@
 package edu.baylor.flarn.services;
 
 
+import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.resources.ConfirmUserRequest;
 import edu.baylor.flarn.resources.UserRegistration;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
@@ -99,7 +101,7 @@ class UserServiceTest {
 
         //deactivate user
         userService.deactivateUser(user);
-        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
 
     }
 
@@ -114,20 +116,20 @@ class UserServiceTest {
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
         user.setEnabled(true);
 
-        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
 
         //save User
         User saved = userService.saveUser(user);
 
         //Test record
         assertEquals(saved,user);
-        assertNotNull(userService.getUserByUsername(user.getUsername()));
+        assertNotNull(userService.getUserByUsernameActive(user.getUsername()));
         assertTrue(userService.exists(user.getUsername()));
 
 
         //deactivate user
         userService.deactivateUser(user);
-        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
 
 
     }
@@ -199,7 +201,7 @@ class UserServiceTest {
      * @throws RecordNotFoundException
      */
     @Test
-    void registerUser() throws RecordNotFoundException {
+    void registerUser() {
 
         UserRegistration user = new UserRegistration("thelma@gmail.com","acadia","Thelma Peters"
                 ,"255487901","700 S 7th Street","Waco","Texas","76707");
@@ -210,27 +212,68 @@ class UserServiceTest {
         assertTrue(userService.exists(user.getUsername()));
 
         //User is not active/enabled
-        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
 
     }
 
     /***
-     * Unit test for user registration
-     *
+     * Unit test for user confirmation
+     * @throws InvalidConfirmationCodeException
      * @throws RecordNotFoundException
      */
     @Test
-    void confirmUser() {
+    void confirmUser() throws InvalidConfirmationCodeException, RecordNotFoundException {
+        User user = new User("test2"  + "@gm.com",
+                passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
+                "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
+        user.setConfirmationCode(9090);
+
+        ConfirmUserRequest confirmUserRequest = new ConfirmUserRequest();
+        confirmUserRequest.setConfirmationCode(1234);
+        confirmUserRequest.setUsername(user.getUsername());
+
+        assertThatThrownBy(() -> userService.confirmUser(confirmUserRequest)).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
 
     }
 
     /***
      * Integration test for full registration
-     *
+     * @throws InvalidConfirmationCodeException
      * @throws RecordNotFoundException
      */
     @Test
-    void registration() {
+    void registration() throws RecordNotFoundException, InvalidConfirmationCodeException {
+
+        UserRegistration registration = new UserRegistration("thelma@gmail.com","acadia","Thelma Peters"
+                ,"255487901","700 S 7th Street","Waco","Texas","76707");
+
+        userService.registerUser(registration);
+
+        //User record exist in database
+        assertTrue(userService.exists(registration.getUsername()));
+        User user = userService.getUserByUsernameAll(registration.getUsername());
+
+        //User is not active/enabled
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
+        //set user confirmation code
+        user.setConfirmationCode(9090);
+        userService.saveUser(user);
+
+        //user confirmation details
+        ConfirmUserRequest confirmUserRequest = new ConfirmUserRequest();
+        confirmUserRequest.setUsername(user.getUsername());
+
+        //wrong confirmation
+        confirmUserRequest.setConfirmationCode(1234);
+        assertThatThrownBy(() -> userService.confirmUser(confirmUserRequest)).isInstanceOf(InvalidConfirmationCodeException.class);
+
+        //correct confirmation
+        confirmUserRequest.setConfirmationCode(9090);
+        userService.confirmUser(confirmUserRequest);
+        //user now enabled
+        assertNotNull(userService.getUserByUsernameActive(user.getUsername()));
 
     }
 
@@ -244,6 +287,7 @@ class UserServiceTest {
 
     @Test
     void updatePassword() {
+
     }
 
     @Test
@@ -260,6 +304,9 @@ class UserServiceTest {
 
     @Test
     void getUserByType() {
+
+
+
     }
 
     @Test
