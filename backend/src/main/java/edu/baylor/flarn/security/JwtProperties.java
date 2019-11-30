@@ -12,6 +12,6 @@ public class JwtProperties {
     @Value("${jwt.secret_key}")
     private String secretKey;
 
-    @Value("${jwt.validity_ms}")
+    @Value("${jwt.validity}")
     private long validity; // 1h
 }

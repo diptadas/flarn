@@ -186,7 +186,9 @@ export default {
           }
         ],
         description: "",
-        category: ""
+        category: {
+          id: ''
+        }
       },
       difficulties: [
         {
