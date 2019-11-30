@@ -62,7 +62,7 @@
                               class="form-control"
                               placeholder="Activation Code"
                               type="number"
-                              v-model="code"
+                              v-model="recover.confirmationCode"
                             />
                           </div>
                           <small class="text-danger">
@@ -88,7 +88,7 @@
                               class="form-control"
                               placeholder="Password"
                               type="password"
-                              v-model="password"
+                              v-model="recover.newPassword"
                             />
                           </div>
                           <small class="text-danger">
@@ -157,15 +157,17 @@ export default {
   },
   data() {
     return {
-      code: "",
-      email: "",
-      password: "",
       confirmation: "",
       error: {
         state: false,
         text: "",
         type: false
-      }
+      },
+      recover: {
+        username: '',
+        newPassword: '',
+        confirmationCode: ''
+      };
     };
   },
   methods: {
@@ -194,13 +196,9 @@ export default {
       // validate data
 
       const url = "auth/updatePassword";
-      const data = {
-        username: this.email,
-        newPassword: this.password,
-        confirmationCode: this.code
-      };
+
       this.$http
-        .post(url, data)
+        .post(url, this.recover)
         .then(res => {
           this.$router.push({
             name: "login",
@@ -216,8 +214,8 @@ export default {
     }
   },
   created() {
-    this.email = this.$store.state.username;
-    if (!this.email) return this.$router.replace({ name: "forgot" });
+    this.recover.username = this.$store.state.username;
+    if (!this.recover.username) return this.$router.replace({ name: "forgot" });
   }
 };
 </script>
