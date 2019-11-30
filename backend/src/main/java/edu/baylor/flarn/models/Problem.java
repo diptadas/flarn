@@ -14,6 +14,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Problem class defines a problem that users can attempt.
+ * Each problem is associated with a moderator (a User) who created the problem.
+ * A problem is also associated with a category and a difficulty level.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Getter
 @Setter
 @Entity

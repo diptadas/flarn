@@ -9,6 +9,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Review class includes the users reviews for the Problem model.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Getter
 @Setter
 @Entity
