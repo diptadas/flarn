@@ -377,13 +377,13 @@ export default {
     axios.post(url, data, config)
             .then(res => {
 
-              if(res.data.data.medium.url) {
+              if(res.data.data.medium) {
                 this.user.dpLink = res.data.data.medium.url;
               } else {
                 this.user.dpLink = res.data.data.image.url;
               }
 
-              if(res.data.data.thumb.url) {
+              if(res.data.data.thumb) {
                 this.user.dpLink = res.data.data.thumb.url;
               } else {
                 this.user.dpLink = res.data.data.image.url;
