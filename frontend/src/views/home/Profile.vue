@@ -88,6 +88,9 @@
         </div>
 
         <button v-if="!edit" class="btn btn-info" @click="edit = true">
+          <span class="btn-inner--icon mr-1">
+                      <i class="fas fa-edit" style="top: 0;"></i>
+                    </span>
           Edit profile
         </button>
 
@@ -122,7 +125,6 @@
                         <file-pond
                                 name="test"
                                 ref="pond"
-                                label-idle="Drop files here or click to Browse"
                                 accepted-file-types="image/jpeg, image/png"
                                 :server="uploadImage"
                                 :files="files"
@@ -305,13 +307,7 @@
 </template>
 
 <script>
-  // Image/File upload
-
   import vueFilePond from 'vue-filepond';
-  import 'filepond/dist/filepond.min.css';
-
-  // Import image preview plugin styles
-  import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
   // Import image preview and file type validation plugins
   import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
@@ -346,7 +342,7 @@ export default {
     };
   },
   methods: {
-    processImage (fieldName, file, metadata, load, error, progress, abort, transfer, options) {
+    processImage (fieldName, file, metadata, load, error, progress) {
     const token = imageUploadToken;
     const url = "https://api.imgbb.com/1/upload";
     const ext = file.name.split('.').pop();
@@ -362,17 +358,6 @@ export default {
           progress(progressEvent.lengthComputable, progressEvent.loaded, progressEvent.total);
         },
       };
-
-      // request.onload = function() {
-      //   if (request.status >= 200 && request.status < 300) {
-      //     // the load method accepts either a string (id) or an object
-      //     load(request.responseText);
-      //   }
-      //   else {
-      //     // Can call the error method if something is wrong, should exit after
-      //     error('oh no');
-      //   }
-      // };
 
     axios.post(url, data, config)
             .then(res => {

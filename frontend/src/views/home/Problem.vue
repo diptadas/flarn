@@ -85,6 +85,9 @@
           @click="searchProblem"
           :disabled="loadingSearch"
         >
+          <span class="btn-inner--icon mr-1" v-if="!loadingSearch">
+                      <i class="fas fa-search" style="top: 0;"></i>
+                    </span>
           <span
             class="spinner-grow spinner-grow-sm"
             role="status"
