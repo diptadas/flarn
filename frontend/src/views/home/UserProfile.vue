@@ -19,6 +19,7 @@
                     <img
                       :src="user.dpLink"
                       class="rounded-circle img-fliud"
+                      style="height: 12rem;"
                     />
                   </a>
                 </div>

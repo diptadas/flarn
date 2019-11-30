@@ -33,6 +33,7 @@
                       :src="user.dpLink"
                       class="rounded-circle"
                       alt="Profile Picture"
+                      style="height: 12rem;"
                     />
                   </a>
                 </div>
