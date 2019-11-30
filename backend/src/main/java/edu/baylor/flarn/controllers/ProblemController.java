@@ -51,7 +51,7 @@ public class ProblemController {
 
     @PostMapping()
     @RolesAllowed(UserRoles.roleModerator)
-    public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) {
+    public Problem createProblem(@RequestBody Problem problem, @AuthenticationPrincipal User user) throws RecordNotFoundException {
         log.info(user.getRoles().toString());
         return problemService.createProblem(problem, user);
     }

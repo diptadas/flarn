@@ -82,6 +82,14 @@ public class CategoryService {
         return category;
     }
 
+    public Category getCategoryByName(String name) throws RecordNotFoundException {
+        Category category = categoryRepository.findByName(name);
+        if (category == null) {
+            throw new RecordNotFoundException("Category not found with name: " + name);
+        }
+        return category;
+    }
+
     public Category getDefaultCategory() throws RecordNotFoundException {
         Category category = categoryRepository.findByName(Category.DEFAULT_CATEGORY_NAME);
         if (category == null) {

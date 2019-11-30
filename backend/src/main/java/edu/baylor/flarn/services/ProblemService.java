@@ -1,10 +1,7 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.Problem;
-import edu.baylor.flarn.models.Question;
-import edu.baylor.flarn.models.Session;
-import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.models.*;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;
@@ -30,16 +27,24 @@ public class ProblemService {
     private final KnowledgeSourceRepository knowledgeSourceRepository;
     private final QuestionRepository questionRepository;
     private final ActivityService activityService;
+    private final CategoryService categoryService;
 
     public ProblemService(ProblemRepository problemRepository, KnowledgeSourceRepository knowledgeSourceRepository,
-                          QuestionRepository questionRepository, ActivityService activityService) {
+                          QuestionRepository questionRepository, ActivityService activityService, CategoryService categoryService) {
         this.problemRepository = problemRepository;
         this.knowledgeSourceRepository = knowledgeSourceRepository;
         this.questionRepository = questionRepository;
         this.activityService = activityService;
+        this.categoryService = categoryService;
     }
 
-    public Problem createProblem(Problem problem, User user) {
+    public Problem createProblem(Problem problem, User user) throws RecordNotFoundException {
+        // get the category by name if id not present
+        if (problem.getCategory().getId() == null) {
+            Category category = categoryService.getCategoryByName(problem.getCategory().getName());
+            problem.setCategory(category);
+        }
+
         problem.setModerator(user);
 
         // save the knowledge source
