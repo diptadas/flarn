@@ -51,7 +51,7 @@ public class UserService {
     }
 
     public boolean exists(String username) {
-        Optional<User> user = userRepository.findByUsernameAndEnabledTrue(username);
+        Optional<User> user = userRepository.findByUsername(username);
         return user.isPresent();
     }
 

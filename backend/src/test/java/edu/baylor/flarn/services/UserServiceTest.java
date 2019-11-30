@@ -5,12 +5,17 @@ import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.resources.UserRegistration;
+import org.hamcrest.core.Is;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -19,6 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
+/**
+ * Contains the unit test for user service
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,6 +51,16 @@ class UserServiceTest {
         User user = userService.findById(1L);
         assertEquals(user.getFullName(), "Admin Mock");
     }
+
+    /***
+     * Unit test for active users
+     */
+    @Test
+    void getAllActiveUsers() {
+        List<User> activeUsers = userService.getAllActiveUsers();
+        activeUsers.forEach(user -> Assert.assertThat(user.isEnabled(), Is.is(true)));
+    }
+
 
     /***
      * Unit test for user update
@@ -173,16 +195,43 @@ class UserServiceTest {
 
     /***
      * Unit test for user registration
+     *
+     * @throws RecordNotFoundException
      */
     @Test
-    void registerUser() {
+    void registerUser() throws RecordNotFoundException {
 
         UserRegistration user = new UserRegistration("thelma@gmail.com","acadia","Thelma Peters"
                 ,"255487901","700 S 7th Street","Waco","Texas","76707");
 
         userService.registerUser(user);
 
+        //User record exist in database
         assertTrue(userService.exists(user.getUsername()));
+
+        //User is not active/enabled
+        assertThatThrownBy(() -> userService.getUserByUsername(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+
+    }
+
+    /***
+     * Unit test for user registration
+     *
+     * @throws RecordNotFoundException
+     */
+    @Test
+    void confirmUser() {
+
+    }
+
+    /***
+     * Integration test for full registration
+     *
+     * @throws RecordNotFoundException
+     */
+    @Test
+    void registration() {
+
     }
 
     @Test
@@ -191,9 +240,7 @@ class UserServiceTest {
 
     }
 
-    @Test
-    void confirmUser() {
-    }
+
 
     @Test
     void updatePassword() {
@@ -258,6 +305,5 @@ class UserServiceTest {
     @Test
     void activityOfSubscriptionsForCurrentUser() {
     }
-
 
 }
