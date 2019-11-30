@@ -10,6 +10,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Activity service includes CRUD operations for the Category model.
+ * It prevents any kind of modification of the default category (Other).
+ * It throws DefaultCategoryModificationException whenever such modification is attempted.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 public class CategoryService {
 
@@ -24,6 +34,13 @@ public class CategoryService {
             throw new DefaultCategoryModificationException();
         }
         return categoryRepository.save(category);
+    }
+
+    // only called from data initializer
+    public void createDefaultCategory() {
+        Category category = new Category();
+        category.setName(Category.DEFAULT_CATEGORY_NAME);
+        categoryRepository.save(category);
     }
 
     public List<Category> getAllCategories() {

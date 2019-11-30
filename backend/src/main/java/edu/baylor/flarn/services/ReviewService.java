@@ -11,6 +11,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Review service includes CRUD operations for Review model.
+ * Currently, deleting comments are not allowed to prevent any misuse of this educational platform.
+ * Unstar simply works by deleting the associated star review.
+ * It prevents staring a problem if the user already stared the problem.
+ * It throws AlreadyStaredException for such attempt.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
