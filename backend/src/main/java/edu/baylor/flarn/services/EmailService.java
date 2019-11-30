@@ -9,6 +9,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import edu.baylor.flarn.exceptions.EmailSendingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -24,6 +25,7 @@ import java.io.IOException;
 
 @Service
 @Slf4j
+@Transactional
 public class EmailService {
 
     void sendVerificationEmail(String email, int confirmationCode) throws EmailSendingException {

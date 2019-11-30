@@ -8,6 +8,7 @@ import edu.baylor.flarn.models.ReviewType;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProblemService problemService;

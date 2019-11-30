@@ -7,6 +7,7 @@ import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.ActivityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@Transactional
 public class ActivityService {
     private final ActivityRepository activityRepository;
 

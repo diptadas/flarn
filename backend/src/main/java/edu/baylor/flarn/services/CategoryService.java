@@ -7,6 +7,7 @@ import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.repositories.CategoryRepository;
 import edu.baylor.flarn.resources.ResponseBody;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
