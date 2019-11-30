@@ -41,6 +41,7 @@ public class Activity {
     @NotNull
     String userFullName;
     String userAvatarLink;
+    String userType;
 
     Long followedUserId;
     String followedUserFullName;
@@ -54,6 +55,7 @@ public class Activity {
         this.userId = user.getId();
         this.userFullName = user.getFullName();
         this.userAvatarLink = user.getAvatarLink();
+        this.userType = user.getUserType().toString();
         this.date = new Date();
     }
 

@@ -58,6 +58,12 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
+    public void saveRolesUpdatedActivity(User user) {
+        Activity activity = new Activity(user);
+        activity.setActivityType(ActivityType.ROLES_UPDATED);
+        activityRepository.save(activity);
+    }
+
     public void saveAttemptedProblemActivity(User user, Problem problem) {
         Activity activity = new Activity(user, problem);
         activity.setActivityType(ActivityType.ATTEMPTED_PROBLEM);

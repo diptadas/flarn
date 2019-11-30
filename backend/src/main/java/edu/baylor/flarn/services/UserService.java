@@ -203,7 +203,11 @@ public class UserService {
             // also update the roles
             user.setRoles(UserRoles.rolesForUserType(userTypeUpdateRequest.getUserType()));
             userRepository.save(user);
+
+            // save the activity
+            activityService.saveRolesUpdatedActivity(user);
         }
+
         return user;
     }
 

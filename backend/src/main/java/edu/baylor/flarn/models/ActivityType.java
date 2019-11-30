@@ -12,6 +12,7 @@ public enum ActivityType {
     JOINED,
     UPDATED_PROFILE,
     FOLLOWED,
+    ROLES_UPDATED,
     ATTEMPTED_PROBLEM,
     CREATED_PROBLEM,
     STARED,
