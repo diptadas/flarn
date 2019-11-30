@@ -50,6 +50,11 @@
             </button>
             <span style="color: #4385b1;">{{ comments.length }} comments</span>
           </div>
+
+          <div class="ml-4" v-if="attempted === true">
+            <router-link style="color: #4385b1;" :to="{name: 'session-result', params: {id: $hash.encode(sessionId)}}" class="text-underline">View submission</router-link>
+          </div>
+
         </div>
 
         <div class="text-right mt-4" v-if="attempted === false">
@@ -155,7 +160,8 @@ export default {
       },
       attempted: null,
       hasStarred: null,
-      commentContent: ""
+      commentContent: "",
+      sessionId: -1
     };
   },
   asyncComputed: {
@@ -235,11 +241,11 @@ export default {
           });
         }
 
-        this.hasAttemptedProbelm(this.problem.id);
-        this.hasStaredProbelm(this.problem.id);
+        this.hasAttemptedProblem(this.problem.id);
+        this.hasStaredProblem(this.problem.id);
       });
     },
-    hasAttemptedProbelm(pId) {
+    hasAttemptedProblem(pId) {
       const url = `users/current/hasAttempted?problemId=${pId}`;
 
       this.$http.get(url).then(res => {
@@ -247,10 +253,18 @@ export default {
 
         if (this.attempted === true) {
           this.getComments(pId);
+          this.getSession(pId);
         }
       });
     },
-    hasStaredProbelm(pId) {
+    getSession(pId){
+      const url = `sessions/problems?problemId=${pId}`;
+
+      this.$http.get(url).then(res => {
+        this.sessionId = res.data;
+      });
+    },
+    hasStaredProblem(pId) {
       const url = `reviews/hasStared?problemId=${pId}`;
 
       this.$http.get(url).then(res => {
