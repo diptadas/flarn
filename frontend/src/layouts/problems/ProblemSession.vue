@@ -118,7 +118,7 @@ export default {
     };
   },
   methods: {
-    submit(cb) {
+    submit() {
       if (this.submitting) return false;
       this.submitting = true;
 
@@ -137,13 +137,8 @@ export default {
         .post(url, data)
         .then(res => {
           this.editing = false;
-          if (this.isFunction(cb)) {
-            cb();
-          } else {
-            this.$router.replace({ name: "problems" });
-          }
+          this.$router.replace({ name: "session-result", params: {id: this.$hash.encode(res.data)} });
         })
-        .finally(() => (this.submitting = false));
     },
     isFunction(functionToCheck) {
       return (
@@ -226,7 +221,7 @@ export default {
       if (!window.confirm("You still have some time left.")) {
         return;
       }
-      this.submit(next);
+      this.submit();
     } else {
       next();
     }

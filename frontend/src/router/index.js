@@ -63,6 +63,12 @@ const routes = [
         props: true
       },
       {
+        path: "problems/sessions-result/:id",
+        name: "session-result",
+        component: () => import("../layouts/problems/SessionResult.vue"),
+        props: true
+      },
+      {
         path: "ranks",
         name: "ranks",
         component: () => import("../layouts/users/Ranks.vue")
