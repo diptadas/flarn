@@ -41,11 +41,6 @@ const routes = [
         component: () => import("../views/home/Activities.vue")
       },
       {
-        path: "my-account",
-        name: "my-account",
-        component: () => import("../views/home/MyAccount.vue")
-      },
-      {
         path: "people",
         name: "people",
         component: () => import("../views/home/People.vue")
