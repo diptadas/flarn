@@ -376,12 +376,23 @@ export default {
 
     axios.post(url, data, config)
             .then(res => {
-              this.user.dpLink = res.data.data.medium.url;
-              this.user.avatarLink = res.data.data.thumb.url;
+
+              if(res.data.data.medium.url) {
+                this.user.dpLink = res.data.data.medium.url;
+              } else {
+                this.user.dpLink = res.data.data.image.url;
+              }
+
+              if(res.data.data.thumb.url) {
+                this.user.dpLink = res.data.data.thumb.url;
+              } else {
+                this.user.dpLink = res.data.data.image.url;
+              }
+
               load(res.data.id);
             })
             .catch(err => {
-              console.log(err)
+              console.log(err);
               error("Error uploading file")
             })
   },
