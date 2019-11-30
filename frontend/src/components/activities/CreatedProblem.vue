@@ -31,7 +31,7 @@
             name: 'problem-detail',
             params: { id: $hash.encode(activity.problemId) }
           }"
-          >{{ sactivity.problemTitle }}</router-link
+          >{{ activity.problemTitle }}</router-link
         >
       </div>
       <div class="meta">
