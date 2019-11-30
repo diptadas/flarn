@@ -17,7 +17,7 @@
                 <div class="card-profile-image">
                   <a href="#">
                     <img
-                      src="@/assets/img/theme/team-4-800x800.jpg"
+                      :src="user.dpLink"
                       class="rounded-circle img-fliud"
                     />
                   </a>

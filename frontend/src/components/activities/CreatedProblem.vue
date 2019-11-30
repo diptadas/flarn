@@ -1,7 +1,7 @@
 <template>
   <div class="event">
     <div class="label">
-      <img src="../../assets/img/theme/team-4-800x800.jpg" />
+      <img :src="activity.userAvatarLink" />
     </div>
     <div class="content">
       <div class="summary">
