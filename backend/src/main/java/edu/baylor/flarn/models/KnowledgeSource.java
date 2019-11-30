@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class KnowledgeSource {
     @NotNull
+    @Column(columnDefinition="text")
     String content;
 
     @OneToOne
