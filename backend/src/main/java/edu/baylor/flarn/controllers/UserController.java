@@ -45,6 +45,8 @@ public class UserController {
                 .collect(toList())
         );
         model.put("fullName", user.getFullName());
+        model.put("userId", user.getId());
+        model.put("avatarLink", user.getAvatarLink());
         return ok(model);
     }
 
