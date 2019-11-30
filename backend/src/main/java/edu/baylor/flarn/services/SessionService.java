@@ -33,6 +33,23 @@ public class SessionService {
         this.activityService = activityService;
     }
 
+    public Session findById(Long id) throws RecordNotFoundException {
+        Session session = sessionRepository.findById(id).orElse(null);
+        if (session == null) {
+            throw new RecordNotFoundException("can not fetch current user");
+        }
+        return session;
+    }
+
+    public Long getSessionIdForProblemAndUser(Long problemId, Long userId) throws RecordNotFoundException {
+        log.debug(problemId.toString() + " " + userId.toString());
+        Session session = sessionRepository.findByProblemIdAndUserId(problemId, userId);
+        if (session == null) {
+            throw new RecordNotFoundException("can not fetch current user");
+        }
+        return session.getId();
+    }
+
     public Session createSession(Session session, User user) throws RecordNotFoundException {
         if (session.getUser() == null) { // set current logged in user
             session.setUser(user);

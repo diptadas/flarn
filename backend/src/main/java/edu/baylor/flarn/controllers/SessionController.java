@@ -5,10 +5,9 @@ import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.services.SessionService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/sessions")
@@ -20,8 +19,19 @@ public class SessionController {
         this.sessionService = sessionService;
     }
 
+    @GetMapping("/{id}")
+    public Session getSession(@PathVariable long id) throws RecordNotFoundException {
+        return sessionService.findById(id);
+    }
+
     @PostMapping
-    public Session createSession(@RequestBody Session session, @AuthenticationPrincipal User user) throws RecordNotFoundException {
-        return sessionService.createSession(session, user);
+    public Long createSession(@RequestBody Session session, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        return sessionService.createSession(session, user).getId();
+    }
+
+    @GetMapping("/problems")
+    public Long getSessionForProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException {
+        System.out.println(problemId);
+        return sessionService.getSessionIdForProblemAndUser(problemId, user.getId());
     }
 }
