@@ -56,9 +56,9 @@ public class User implements UserDetails {
     private String zip;
     private String biography;
     @URL
-    private String avatarLink;
+    private String avatarLink = "https://i.ibb.co/kgLYxgp/default-profile.png";
     @URL
-    private String dpLink; // display picture
+    private String dpLink = "https://i.ibb.co/kgLYxgp/default-profile.png"; // display picture
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
