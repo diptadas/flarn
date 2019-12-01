@@ -80,7 +80,7 @@ public class ProblemService {
     }
 
     public Problem getProblemById(long id) throws RecordNotFoundException {
-        Problem problem = problemRepository.findById(id).orElse(null);
+        Problem problem = problemRepository.findByIdAndArchivedFalse(id).orElse(null);
         if (problem == null) {
             throw new RecordNotFoundException("Problem not found with id: " + id);
         }

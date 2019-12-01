@@ -1,6 +1,6 @@
 package edu.baylor.flarn.services;
 
-import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
+
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
 import org.hamcrest.core.Is;
@@ -16,6 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -116,30 +117,23 @@ class ProblemServiceTest {
 
     @Test
     void getAllUnarchivedProblems() {
+        List<Problem> problems = problemService.getAllUnarchivedProblems();
+        problems.forEach(problem -> Assert.assertThat(problem.isArchived(), Is.is(false)));
     }
 
-    @Test
-    void getProblemById() {
-    }
 
     @Test
-    void deleteProblem() {
-    }
+    void archiveProblem() throws RecordNotFoundException {
+        Problem problem = problemService.getProblemById(1L);
 
-    @Test
-    void archiveProblem() {
+        //deactivate user
+        problemService.archiveProblem(problem.getId());
+        assertThatThrownBy(() -> problemService.getProblemById(problem.getId())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Problem not found with id: "+problem.getId());
+
     }
 
     @Test
     void updateProblem() {
-    }
-
-    @Test
-    void deleteBatchProblem() {
-    }
-
-    @Test
-    void getSolvedProblemsIdsForUser() {
     }
 
     @Test
