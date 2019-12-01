@@ -2,17 +2,17 @@
   <div class="col col-md-8">
     <div v-if="problem.id">
       <div
-        class="d-flex-column justify-content-start p-4"
-        @click="showProblem(problem.id)"
+              class="d-flex-column justify-content-start p-4"
+              @click="showProblem(problem.id)"
       >
         <div class="d-flex justify-content-between align-items-center">
-          <h4>
+          <h4 class="text-primary">
             {{ problem.title }}
           </h4>
           <a
-            href="#"
-            class="badge badge-primary text-right"
-            @click.stop="getProlemsInCategory(problem.category.id)"
+                  href="#"
+                  class="badge badge-primary text-right"
+                  @click.stop="getProlemsInCategory(problem.category.id)"
           >
             {{ problem.category.name }}
           </a>
@@ -24,14 +24,104 @@
         <small class="text-muted text-left">Created by: {{ moderator }}</small>
       </div>
 
-      <div class="d-flex-column justify-content-start px-4 mt-4">
-        <hr class="my-4" />
+      <hr class="my-4" />
+
+      <div class="ml-4">
+        <p class="text-primary font-weight-500">Reviews:</p>
+
+        <div class="d-flex justify-content-start align-items-center mt-4">
+          <div>
+            <button
+                    class="btn btn-icon btn-2 btn-outline-secondary p-0"
+                    type="button"
+            >
+              <span class="btn-inner--icon"
+              ><i class="fas fa-star" style="top: 0;"></i
+              ></span>
+            </button>
+            <span style="color: #4385b1;">{{ stars.length }} stars</span>
+          </div>
+
+          <div class="ml-4">
+            <button
+                    class="btn btn-icon btn-2 btn-outline-secondary p-0"
+                    type="button"
+            >
+              <span class="btn-inner--icon"
+              ><i class="fas fa-comment" style="top: 0;"></i
+              ></span>
+            </button>
+            <span style="color: #4385b1;">{{ comments.length }} comments</span>
+          </div>
+
+        </div>
+
+        <div class="mt-4">
+          <div>
+            <div class="ui comments">
+              <h3 class="ui dividing header">Comments</h3>
+              <div
+                      class="comment"
+                      v-for="(comment, ci) in reviewComments"
+                      :key="comment.id"
+              >
+                <a class="avatar">
+                  <img :src="commentUsers[ci].avatarLink" />
+                </a>
+                <div class="content">
+                  <a class="author">{{commentUsers[ci].fullName}}</a>
+                  <div class="metadata">
+                    <span class="date">Today at 5:42PM</span>
+                  </div>
+                  <div class="text">
+                    {{ comment.commentContent }}
+                  </div>
+                </div>
+              </div>
+
+              <form class="text-right">
+                <textarea
+                        class="form-control mt-4"
+                        rows="3"
+                        placeholder="Add your comment here..."
+                        v-model="commentContent"
+                ></textarea>
+
+                <button
+                        type="button"
+                        class="btn btn-primary mt-4 text-right"
+                        @click="addComment(problem.id)"
+                        :disabled="commentLoading"
+                >
+                  <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          v-if="commentLoading"
+                  ></span>
+                  Add Comment
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+
+      <div class="d-flex-column justify-content-start px-4 mt-2">
+        <p class="text-primary font-weight-500">Reading:</p>
+
+        <p class="mt-2 pl-4">{{problem.knowledgeSource.content}}</p>
+      </div>
+
+      <div class="d-flex-column justify-content-start p-4 mt-2">
 
         <div>
-          <h4 class="mb-4">Questions:</h4>
+          <h4 class="mb-4 text-primary">Questions:</h4>
 
-          <div v-for="(que, i) in problem.questions" :key="que.id" class="mb-4">
-            {{ i + 1 }}. {{ que.content }}
+          <div v-for="(que, qi) in problem.questions" :key="que.id" class="mb-4">
+            {{ qi + 1 }}. {{ que.content }}
 
             <div
               class="custom-control custom-radio my-3 ml-4"
@@ -39,14 +129,16 @@
               :key="i"
             >
               <input
-                name="category"
+                :name="`radio-${qi}`"
                 class="custom-control-input"
-                :id="`category-radio-${i}`"
+                :id="`category-radio-${qi}-${i}`"
                 type="radio"
-                v-model="answers[i]"
+                v-model="answers[qi]"
                 :value="i"
+                disabled
               />
-              <label class="custom-control-label" :for="`category-radio-${i}`">
+              <label class="custom-control-label"
+                     :for="`category-radio-${qi}-${i}`">
                 {{ opt }}
               </label>
             </div>
@@ -110,11 +202,17 @@ export default {
       archLoading: false,
       editLoading: false,
       answers: [],
-      problem: {},
+      problem: {
+        reviews: []
+      },
       dateStarted: "",
       dateSubmitted: "",
       deleteContent: {},
-      deleteAction: null
+      deleteAction: null,
+      commentLoading: false,
+      commentContent: "",
+      reviewComments: [],
+      commentUsers: [],
     };
   },
   methods: {
@@ -149,10 +247,35 @@ export default {
       this.$http.get(url).then(res => {
         this.problem = res.data;
       });
-    }
+    },
+    getComments(pId) {
+      const url = `reviews/comments?problemId=${pId}`;
+
+      this.$http.get(url).then(res => {
+        const comments = res.data;
+        for (let i = 0; i < comments.length; i++) {
+          this.commentUsers.push({});
+          this.getUser(comments[i].user, i);
+        }
+        this.reviewComments = comments;
+      });
+    },
+    getUser(userId, index) {
+      const url = `users/${userId}`;
+      return this.$http
+              .get(url)
+              .then(res => {
+                this.commentUsers.splice(index, 1, res.data);
+              })
+              .catch(err => {
+                return err;
+              });
+    },
   },
   created() {
-    this.getProblem(this.$hash.decode(this.id)[0]);
+    const pId = this.$hash.decode(this.id)[0];
+    this.getProblem(pId);
+    this.getComments(pId);
   },
   asyncComputed: {
     moderator: {
@@ -169,6 +292,14 @@ export default {
           });
       },
       default: "Moderator"
+    }
+  },
+  computed: {
+    comments() {
+      return this.problem.reviews.filter(rev => rev.reviewType === "COMMENT");
+    },
+    stars() {
+      return this.problem.reviews.filter(rev => rev.reviewType === "STAR");
     }
   },
   components: {
