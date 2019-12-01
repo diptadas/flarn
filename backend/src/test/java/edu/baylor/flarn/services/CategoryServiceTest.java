@@ -54,14 +54,6 @@ class CategoryServiceTest {
         assertEquals(categories.size(), 4);
     }
 
-
-    //Todo
-    @Test
-    void updateCategory() {
-
-    }
-
-
     @Test
     void getCategoryByName() throws RecordNotFoundException {
         String categoryName = Category.DEFAULT_CATEGORY_NAME;

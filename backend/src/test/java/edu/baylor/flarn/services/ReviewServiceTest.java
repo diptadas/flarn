@@ -61,19 +61,4 @@ class ReviewServiceTest {
         reviewService.unstarProblem(problem.getId(),user);
     }
 
-    @Test
-    void hasStared() {
-    }
-
-    @Test
-    void commentOnProblem() {
-    }
-
-    @Test
-    void countStarsForProblem() {
-    }
-
-    @Test
-    void commentsForProblem() {
-    }
 }

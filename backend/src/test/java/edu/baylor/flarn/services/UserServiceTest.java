@@ -3,6 +3,7 @@ package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.models.Problem;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.models.UserType;
 import edu.baylor.flarn.resources.ConfirmUserRequest;
@@ -304,30 +305,13 @@ class UserServiceTest {
 
     }
 
-
-
     @Test
-    void searchUserByName() {
+    void getSolvedProblemsForUser() throws RecordNotFoundException {
+        User user = userService.findById(1L);
+        List<Problem> problems = userService.getSolvedProblemsForUser(user);
+        problems.forEach(problem -> Assert.assertThat(userService.hasAttempted(problem.getId(),user), Is.is(true)));
     }
 
-    @Test
-    void getSolvedProblemsForUser() {
-    }
 
-    @Test
-    void getStaredProblemsForUser() {
-    }
-
-    @Test
-    void hasAttempted() {
-    }
-
-    @Test
-    void activityForCurrentUser() {
-    }
-
-    @Test
-    void activityOfSubscriptionsForCurrentUser() {
-    }
 
 }
