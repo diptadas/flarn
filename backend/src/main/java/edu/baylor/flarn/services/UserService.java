@@ -1,8 +1,10 @@
 package edu.baylor.flarn.services;
 
+import com.sendgrid.helpers.mail.Mail;
 import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
+import edu.baylor.flarn.jms.Sender;
 import edu.baylor.flarn.models.*;
 import edu.baylor.flarn.repositories.ContactRepository;
 import edu.baylor.flarn.repositories.UserRepository;
@@ -35,14 +37,16 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final ActivityService activityService;
+    private final Sender jmsSender;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
-                       ContactRepository contactRepository, EmailService emailService, ActivityService activityService) {
+                       EmailService emailService, ActivityService activityService, Sender jmsSender, ContactRepository contactRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.contactRepository = contactRepository;
         this.emailService = emailService;
         this.activityService = activityService;
+        this.jmsSender = jmsSender;
     }
 
     public User findById(Long id) throws RecordNotFoundException {
@@ -123,13 +127,16 @@ public class UserService {
     }
 
     // associate a confirmation code and send it to email
-    @Async // somehow browser has issues if this method is not async.
     public void sendConfirmationCode(User user) throws EmailSendingException {
         int code = new Random().nextInt(9000) + 1000; // 4 digit code
         user.setConfirmationCode(code);
         userRepository.save(user);
 
-        emailService.sendVerificationEmail(user.getUsername(), code); // username is email
+        // prepare the email
+        Mail mail = emailService.prepareVerificationEmail(user.getUsername(), code); // username is email
+
+        // push it to JMS queue
+        jmsSender.send(mail);
     }
 
     // enable user after email verification

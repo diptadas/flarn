@@ -10,7 +10,6 @@ import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.models.Contact;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -28,21 +27,16 @@ import java.io.IOException;
 @Slf4j
 public class EmailService {
 
-    void sendVerificationEmail(String email, int confirmationCode) throws EmailSendingException {
+    Mail prepareVerificationEmail(String email, int confirmationCode) throws EmailSendingException {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(email);
 
         String subject = "FLARN: Confirmation Code";
         Content content = new Content("text/plain", "Your confirmation code is " + confirmationCode);
 
-        Mail mail = new Mail(from, subject, to, content);
         log.info("Sending verification email to " + email);
 
-        try {
-            sendEmail(mail);
-        } catch (IOException e) {
-            throw new EmailSendingException(e);
-        }
+        return new Mail(from, subject, to, content);
     }
 
     void sendSupportEmail(String email, Contact contact) throws EmailSendingException {
@@ -101,7 +95,7 @@ public class EmailService {
         }
     }
 
-    private void sendEmail(Mail mail) throws IOException {
+    public void sendEmail(Mail mail) throws IOException {
         SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
         Request request = new Request();
         request.setMethod(Method.POST);
