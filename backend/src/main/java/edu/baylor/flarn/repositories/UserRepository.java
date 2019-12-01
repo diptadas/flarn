@@ -37,4 +37,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByIdInOrderByPointsDesc(@NotNull List<Long> userIds);
 
+
+
+
 }

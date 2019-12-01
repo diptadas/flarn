@@ -10,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -54,13 +55,13 @@ class CategoryServiceTest {
         Category savedCategory = categoryService.createCategory(category);
 
         //Test record
-        assertEquals(savedCategory,category);
+        assertEquals(savedCategory, category);
         assertNotNull(categoryService.getCategoryByName(category.getName()));
 
 
         //delete category
         categoryService.deleteCategory(savedCategory.getId());
-        assertThatThrownBy(() -> categoryService.getCategoryByName(category.getName())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining(String.format("Category with name %s not  found: " , category.getName()));
+        assertThatThrownBy(() -> categoryService.getCategoryByName(category.getName())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining(String.format("Category with name %s not  found: ", category.getName()));
 
     }
 }
