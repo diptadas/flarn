@@ -17,19 +17,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
- * Contains the unit  & Integration test for user service
+ * The {@link UserServiceTest} contains the unit & integration tests for the {@link UserService}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -75,21 +73,18 @@ class UserServiceTest {
     @Test
     public void updateUser() throws RecordNotFoundException {
 
-        //fetch user
+        // fetch user
         User oldUser = userService.findById(1L);
         System.out.println(oldUser.getFullName());
-        UserRegistration userUpdate= new UserRegistration(oldUser.getUsername(),passwordEncoder.encode("0000" ),"newName","90897281","Old town road","Nebraska","Al","78978");
+        UserRegistration userUpdate = new UserRegistration(oldUser.getUsername(), passwordEncoder.encode("0000"), "newName", "90897281", "Old town road", "Nebraska", "Al", "78978");
 
-        //need to detach
+        // need to detach
 
-
-        User updatedUser = userService.updateUser(userUpdate,oldUser);
-
-
+        User updatedUser = userService.updateUser(userUpdate, oldUser);
 
         assertFalse(updatedUser.getFullName().equals(oldUser.getFullName()) && updatedUser.getPassword().equals(oldUser.getPassword())
-        && updatedUser.getPhoneNumber().equals(oldUser.getPhoneNumber()) && updatedUser.getStreet().equals(oldUser.getStreet())
-        && updatedUser.getCity().equals(oldUser.getCity())  && updatedUser.getState().equals(oldUser.getState())
+                && updatedUser.getPhoneNumber().equals(oldUser.getPhoneNumber()) && updatedUser.getStreet().equals(oldUser.getStreet())
+                && updatedUser.getCity().equals(oldUser.getCity()) && updatedUser.getState().equals(oldUser.getState())
                 && updatedUser.getZip().equals(oldUser.getZip()));
     }
 
@@ -99,8 +94,8 @@ class UserServiceTest {
      */
     @Test
     public void saveUser() {
-        User user = new User("test"  + "@gm.com",
-                passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
+        User user = new User("test" + "@gm.com",
+                passwordEncoder.encode("moderator"), "Moderator", "254567908", "part",
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
         user.setEnabled(true);
         User saved = userService.saveUser(user);
@@ -118,7 +113,7 @@ class UserServiceTest {
 
         //deactivate user
         userService.deactivateUser(user);
-        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username " + user.getUsername());
 
     }
 
@@ -128,25 +123,25 @@ class UserServiceTest {
      */
     @Test
     public void CRUDUser() throws RecordNotFoundException {
-        User user = new User("test2"  + "@gm.com",
-                passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
+        User user = new User("test2" + "@gm.com",
+                passwordEncoder.encode("moderator"), "Moderator", "254567908", "part",
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
         user.setEnabled(true);
 
-        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username " + user.getUsername());
 
         //save User
         User saved = userService.saveUser(user);
 
         //Test record
-        assertEquals(saved,user);
+        assertEquals(saved, user);
         assertNotNull(userService.getUserByUsernameActive(user.getUsername()));
         assertTrue(userService.exists(user.getUsername()));
 
 
         //deactivate user
         userService.deactivateUser(user);
-        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username " + user.getUsername());
 
 
     }
@@ -241,8 +236,8 @@ class UserServiceTest {
     @Test
     void registration() throws RecordNotFoundException, InvalidConfirmationCodeException {
 
-        UserRegistration registration = new UserRegistration("Thess@gmail.com","serendipity","Thesseare Peters"
-                ,"7826701","700 S 7th Street","Waco","Texas","76707");
+        UserRegistration registration = new UserRegistration("Thess@gmail.com", "serendipity", "Thesseare Peters"
+                , "7826701", "700 S 7th Street", "Waco", "Texas", "76707");
 
         userService.registerUser(registration);
 
@@ -251,7 +246,7 @@ class UserServiceTest {
         User user = userService.getUserByUsernameAll(registration.getUsername());
 
         //User is not active/enabled
-        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username "+user.getUsername());
+        assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username " + user.getUsername());
 
         //set user confirmation code
         user.setConfirmationCode(9090);
@@ -291,8 +286,8 @@ class UserServiceTest {
     void changeUserType() throws RecordNotFoundException {
 
         //New user with type learner
-        User user = new User("test2"  + "@gm.com",
-                passwordEncoder.encode("moderator" ), "Moderator" , "254567908", "part",
+        User user = new User("test2" + "@gm.com",
+                passwordEncoder.encode("moderator"), "Moderator", "254567908", "part",
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
 
         //confirm usertype
@@ -309,9 +304,8 @@ class UserServiceTest {
     void getSolvedProblemsForUser() throws RecordNotFoundException {
         User user = userService.findById(1L);
         List<Problem> problems = userService.getSolvedProblemsForUser(user);
-        problems.forEach(problem -> Assert.assertThat(userService.hasAttempted(problem.getId(),user), Is.is(true)));
+        problems.forEach(problem -> Assert.assertThat(userService.hasAttempted(problem.getId(), user), Is.is(true)));
     }
-
 
 
 }

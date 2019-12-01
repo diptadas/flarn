@@ -18,12 +18,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Contains the unit & Integration for SearchProblemService
+ * The {@link SearchProblemServiceTest} contains the unit & integration tests for the SearchProblemService.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
  * @author Frimpong Boadu
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -43,7 +44,7 @@ class SearchProblemServiceTest {
         problemSearchRequest.setTitle("");
 
         List<Problem> problems = searchProblemService.searchProblem(problemSearchRequest);
-        //using ""; so return not null
+        // using title "", so it should not return null
         assertNotNull(problems);
         problems.forEach(problem -> Assert.assertThat(problem.getCategory(), Is.is(Category.DEFAULT_CATEGORY_NAME)));
         problems.forEach(problem -> Assert.assertThat(problem.getDifficulty(), Is.is(Difficulty.HARD.name())));

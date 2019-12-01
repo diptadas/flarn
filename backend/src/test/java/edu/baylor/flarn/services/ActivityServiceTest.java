@@ -18,12 +18,13 @@ import java.util.Set;
 
 
 /**
- * Contains the unit test for Activity
+ * The {@link ActivityServiceTest} contains the unit tests for the {@link ActivityService}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
  * @author Frimpong Boadu
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -43,11 +44,11 @@ class ActivityServiceTest {
     }
 
     @Test
-    void getActivitiesForUserSubscriptions(){
+    void getActivitiesForUserSubscriptions() {
         Set<User> subscriptions = userService.getUser(1L).getSubscriptions();
         List<Long> subscriptionIds = new ArrayList<>();
 
-        for(User user: subscriptions){
+        for (User user : subscriptions) {
             subscriptionIds.add(user.getId());
         }
 
@@ -55,5 +56,4 @@ class ActivityServiceTest {
         activities.forEach(activity -> Assert.assertTrue(subscriptionIds.contains(activity.getUserId())));
     }
 
-    
 }

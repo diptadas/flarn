@@ -12,23 +12,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Contains the unit test for problem service
- * & Integration test for problem,category,knowledge source,moderator,review,sessions,questions
+ * {@link ProblemServiceTest} contains the unit tests for the {@link ProblemService}.
+ * Also integrations test for problem, category, knowledge-source, moderator, review, sessions, and questions.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
  * @author Frimpong Boadu
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -57,7 +57,7 @@ class ProblemServiceTest {
 
         //Knowledge Source
         KnowledgeSource knowledgeSource = new KnowledgeSource();
-        knowledgeSource.setContent("Test Knowleged source");
+        knowledgeSource.setContent("Test Knowledge source");
 
         //Category
         Category category = categoryService.getDefaultCategory();
@@ -65,7 +65,7 @@ class ProblemServiceTest {
         //Question
         Question question = new Question();
         question.setContent("Which of these is not a programming language");
-        question.setOptions(new ArrayList<String>(){
+        question.setOptions(new ArrayList<String>() {
             {
                 add("Java");
                 add("C++");
@@ -92,20 +92,20 @@ class ProblemServiceTest {
         problem.setKnowledgeSource(knowledgeSource);
         problem.setCategory(category);
         problem.getQuestions().add(question);
-        problem.setReviews(new HashSet<Review>(){
+        problem.setReviews(new HashSet<Review>() {
             {
                 add(star);
                 add(comment);
             }
         });
 
-        Problem saved = problemService.createProblem(problem,moderator);
+        Problem saved = problemService.createProblem(problem, moderator);
 
-        assertEquals(saved,problem);
+        assertEquals(saved, problem);
         assertNotNull(problemService.getProblemById(saved.getId()));
 
-        assertTrue(knowledgeSource.getProblem().equals(saved));
-        assertTrue(question.getProblem().equals(saved));
+        assertEquals(knowledgeSource.getProblem(), saved);
+        assertEquals(question.getProblem(), saved);
     }
 
     @Test
@@ -126,7 +126,7 @@ class ProblemServiceTest {
 
         //deactivate user
         problemService.archiveProblem(problem.getId());
-        assertThatThrownBy(() -> problemService.getProblemById(problem.getId())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Problem not found with id: "+problem.getId());
+        assertThatThrownBy(() -> problemService.getProblemById(problem.getId())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Problem not found with id: " + problem.getId());
 
     }
 

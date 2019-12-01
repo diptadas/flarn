@@ -1,6 +1,12 @@
 package edu.baylor.flarn.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
+/**
+ * The {@link UserControllerTest} contains the tests for the {@link UserController}.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
 
 class UserControllerTest {
 

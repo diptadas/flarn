@@ -18,12 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
- * Contains the unit  & Integration test for category service
+ * The {@link CategoryServiceTest} contains the unit & integration tests for the {@link CategoryService}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
  * @author Frimpong Boadu
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -64,7 +65,7 @@ class CategoryServiceTest {
     @Test
     void deleteCategory() throws RecordNotFoundException, DefaultCategoryModificationException {
         categoryService.deleteCategory(10L);
-        assertThatThrownBy(() -> categoryService.getCategoryById(10L)).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Category not found with id: "+10);
+        assertThatThrownBy(() -> categoryService.getCategoryById(10L)).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Category not found with id: " + 10);
     }
 
     @Test
@@ -73,6 +74,7 @@ class CategoryServiceTest {
         assertEquals(category.getName(), Category.DEFAULT_CATEGORY_NAME);
     }
 
+    // integration test
     // create,read,update,delete test for Category
     @Test
     public void CRUDCategory() throws RecordNotFoundException, DefaultCategoryModificationException {

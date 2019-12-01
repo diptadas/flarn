@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
- * Contains the unit  & Integration test for ReviewServiceTest
+ * The {@link ReviewServiceTest} contains the unit tests for the {@link ReviewService}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -40,25 +40,24 @@ class ReviewServiceTest {
 
     @Test
     void starProblem() throws RecordNotFoundException, AlreadyStaredException {
-        //get problem
+        // get problem
         Problem problem = problemService.getProblemById(1L);
         User user = userService.findById(1L);
 
-        Review review = reviewService.starProblem(problem.getId(),user);
+        Review review = reviewService.starProblem(problem.getId(), user);
 
         assertNotNull(review);
 
-        assertThatThrownBy(() -> reviewService.starProblem(problem.getId(),user)).isInstanceOf(AlreadyStaredException.class).hasMessageContaining("Already stared problem "+problem.getId());
+        assertThatThrownBy(() -> reviewService.starProblem(problem.getId(), user)).isInstanceOf(AlreadyStaredException.class).hasMessageContaining("Already stared problem " + problem.getId());
     }
 
     @Test
     void unstarProblem() throws RecordNotFoundException {
-
-        //get problem
+        // get problem
         Problem problem = problemService.getProblemById(1L);
         User user = userService.findById(1L);
 
-        reviewService.unstarProblem(problem.getId(),user);
+        reviewService.unstarProblem(problem.getId(), user);
     }
 
 }
