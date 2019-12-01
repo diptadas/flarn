@@ -143,7 +143,12 @@ class ProblemServiceTest {
     }
 
     @Test
-    void getRandomProblem() {
-        assertNotNull(problemService.getAllProblems());
+    void getRandomProblem() throws RecordNotFoundException {
+        //get User
+        User user = userService.getUserByUsernameActive("moderator1@gm.com");
+
+        Problem problem = problemService.getRandomProblem(user);
+        assertNotNull(problem);
+        assertFalse(problem.isArchived());
     }
 }

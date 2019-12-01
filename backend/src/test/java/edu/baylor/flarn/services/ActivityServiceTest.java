@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * Contains the unit test for Activity
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 class ActivityServiceTest {
 
     @Autowired
@@ -42,6 +51,7 @@ class ActivityServiceTest {
 
     @Test
     void saveJoinedActivity() {
+
 
     }
 
