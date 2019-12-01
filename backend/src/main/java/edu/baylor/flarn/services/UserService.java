@@ -4,6 +4,7 @@ import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.repositories.ContactRepository;
 import edu.baylor.flarn.repositories.UserRepository;
 import edu.baylor.flarn.resources.*;
 import org.springframework.scheduling.annotation.Async;
@@ -30,14 +31,16 @@ import static edu.baylor.flarn.models.ReviewType.STAR;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ContactRepository contactRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final ActivityService activityService;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository,
-                       EmailService emailService, ActivityService activityService) {
+                       ContactRepository contactRepository, EmailService emailService, ActivityService activityService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.contactRepository = contactRepository;
         this.emailService = emailService;
         this.activityService = activityService;
     }
@@ -266,5 +269,17 @@ public class UserService {
         user.getSubscriptions().forEach(e -> subscriptionIds.add(e.getId()));
 
         return activityService.getActivitiesForUserSubscriptions(subscriptionIds);
+    }
+
+    @Async
+    public void contactSupport(Contact contact) {
+        contactRepository.save(contact);
+
+        // reply email
+        emailService.replySupportEmail(contact);
+
+        // email all admins
+        List<User> admins = getUserByType(UserType.ADMIN);
+        admins.forEach(admin -> emailService.sendSupportEmail(admin.getUsername(), contact));
     }
 }
