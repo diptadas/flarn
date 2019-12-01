@@ -42,7 +42,6 @@ public class SessionService {
     }
 
     public Long getSessionIdForProblemAndUser(Long problemId, Long userId) throws RecordNotFoundException {
-        log.debug(problemId.toString() + " " + userId.toString());
         Session session = sessionRepository.findByProblemIdAndUserId(problemId, userId);
         if (session == null) {
             throw new RecordNotFoundException("can not fetch current user");

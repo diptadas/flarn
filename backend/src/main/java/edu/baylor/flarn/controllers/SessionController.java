@@ -31,7 +31,6 @@ public class SessionController {
 
     @GetMapping("/problems")
     public Long getSessionForProblem(@RequestParam("problemId") Long problemId, @AuthenticationPrincipal User user) throws RecordNotFoundException {
-        System.out.println(problemId);
         return sessionService.getSessionIdForProblemAndUser(problemId, user.getId());
     }
 }
