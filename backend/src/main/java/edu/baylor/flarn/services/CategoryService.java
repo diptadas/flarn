@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Activity service includes CRUD operations for the Category model.
+ * Category service includes CRUD operations for the Category model.
  * It prevents any kind of modification of the default category (Other).
  * It throws DefaultCategoryModificationException whenever such modification is attempted.
  *

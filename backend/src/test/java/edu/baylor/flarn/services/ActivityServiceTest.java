@@ -6,6 +6,7 @@ class ActivityServiceTest {
 
     @Test
     void getActivitiesForUser() {
+
     }
 
     @Test

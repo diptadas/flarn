@@ -55,6 +55,7 @@ class CategoryServiceTest {
     }
 
 
+    //Todo
     @Test
     void updateCategory() {
 
@@ -71,7 +72,7 @@ class CategoryServiceTest {
     @Test
     void deleteCategory() throws RecordNotFoundException, DefaultCategoryModificationException {
         categoryService.deleteCategory(10L);
-        assertThatThrownBy(() -> categoryService.getCategoryById(10L)).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Category not found with id "+10);
+        assertThatThrownBy(() -> categoryService.getCategoryById(10L)).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Category not found with id: "+10);
     }
 
     @Test
