@@ -18,6 +18,7 @@ export default {
 @import "./assets/scss/fontawesome/solid";
 @import "./assets/scss/fontawesome/brands";
 @import "./assets/scss/semantic-feed";
+@import "./assets/scss/semantic-comment";
 
 /* Filepond */
 @import "~filepond/dist/filepond.min.css";
