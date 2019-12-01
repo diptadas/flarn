@@ -12,6 +12,14 @@ import org.springframework.jms.support.converter.MessageType;
 
 import javax.jms.ConnectionFactory;
 
+/**
+ * JmsConfig class configures Spring's inbuilt JMS queue.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Configuration
 @EnableJms
 public class JmsConfig {
@@ -30,13 +38,4 @@ public class JmsConfig {
         converter.setTypeIdPropertyName("_type");
         return converter;
     }
-
-    /*@Bean(initMethod = "start", destroyMethod = "stop")
-    public BrokerService broker() throws Exception {
-        final BrokerService broker = new BrokerService();
-        broker.addConnector("tcp://localhost:61616");
-        broker.addConnector("vm://localhost");
-        broker.setPersistent(false);
-        return broker;
-    }*/
 }

@@ -23,8 +23,6 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     List<Problem> findByTitleContainingIgnoreCaseAndArchivedFalse(@NotNull String title);
 
-    void deleteByIdIn(List<Long> ids);
-
     @Query(nativeQuery = true, value = "SELECT * FROM Problem as e WHERE e.archived = FALSE AND e.id NOT IN (:ids) ORDER BY RANDOM() LIMIT 1")
     Problem findUnsolvedRandom(@Param("ids") List<Long> ids);
 

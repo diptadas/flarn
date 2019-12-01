@@ -8,6 +8,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Receiver class listens the JMS queue.
+ * Whenever it receives the Mail object it sends the email using EmailService.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Component
 @Slf4j
 public class Receiver {

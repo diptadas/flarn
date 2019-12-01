@@ -5,6 +5,14 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+/**
+ * WsConfig class configures the endpoint for websocket connection and assigns a handler for WS operations.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Configuration
 @EnableWebSocket
 public class WsConfig implements WebSocketConfigurer {

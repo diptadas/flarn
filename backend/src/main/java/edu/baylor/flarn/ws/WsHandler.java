@@ -16,6 +16,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * WsHandler class defines a handler for different WS operations.
+ * It handles the activities when user attempts a problem.
+ * <p>
+ * Our server to client connections will be one to one, unlike typical chat applications.
+ * So we don't need to save the list of sessions.
+ * Instead we will always communicate to the client from which we have received a message.
+ * We only need to map the sessionId with wsSessionId.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Component
 @Slf4j
 public class WsHandler extends TextWebSocketHandler {
@@ -25,10 +39,6 @@ public class WsHandler extends TextWebSocketHandler {
         this.sessionService = sessionService;
     }
 
-    // our server to client connections will be one to one, unlike typical chat applications
-    // so we don't need to save the list of sessions
-    // instead we will always communicate to the client from which we have received a message
-    // we only need to map the sessionId with wsSessionId
     Map<String, Long> sessionMap = new HashMap<>();
 
     @Override
