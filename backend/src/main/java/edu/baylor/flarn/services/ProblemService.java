@@ -113,4 +113,8 @@ public class ProblemService {
         return problemRepository.findUnsolved(problemIds);
     }
 
+    public List<Problem> getModeratorProblems(User user) {
+        return problemRepository.findAllByModeratorId(user.getId());
+    }
+
 }

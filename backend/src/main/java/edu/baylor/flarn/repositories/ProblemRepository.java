@@ -28,4 +28,5 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM Problem as e WHERE e.archived = FALSE AND e.id NOT IN (:ids) ORDER BY RAND() LIMIT 1")
     Problem findUnsolved(@Param("ids") List<Long> ids);
 
+    List<Problem> findAllByModeratorId(@NotNull Long id);
 }
