@@ -93,14 +93,14 @@
               <h3 class="ui dividing header">Comments</h3>
               <div
                 class="comment"
-                v-for="comment in comments"
+                v-for="(comment, ci) in reviewComments"
                 :key="comment.id"
               >
                 <a class="avatar">
-                  <img src="../../assets/img/theme/team-4-800x800.jpg" />
+                  <img :src="commentUsers[ci].avatarLink" />
                 </a>
                 <div class="content">
-                  <a class="author">Mark</a>
+                  <a class="author">{{commentUsers[ci].fullName}}</a>
                   <div class="metadata">
                     <span class="date">Today at 5:42PM</span>
                   </div>
@@ -161,7 +161,9 @@ export default {
       attempted: null,
       hasStarred: null,
       commentContent: "",
-      sessionId: -1
+      sessionId: -1,
+      reviewComments: [],
+      commentUsers: []
     };
   },
   asyncComputed: {
@@ -182,6 +184,17 @@ export default {
     }
   },
   methods: {
+    getUser(userId, index) {
+      const url = `users/${userId}`;
+      return this.$http
+              .get(url)
+              .then(res => {
+                this.commentUsers.splice(index, 1, res.data);
+              })
+              .catch(err => {
+                return err;
+              });
+    },
     addComment(pId) {
       if (this.commentLoading) return;
       this.commentLoading = true;
@@ -199,6 +212,11 @@ export default {
         .then(res => {
           this.commentContent = "";
           this.problem.reviews.push(res.data);
+
+          this.commentUsers.push({});
+          const index = this.commentUsers.length - 1;
+          this.getUser(res.data.user, index);
+          this.reviewComments.push(res.data);
         })
         .finally(() => (this.commentLoading = false));
     },
@@ -275,7 +293,12 @@ export default {
       const url = `reviews/comments?problemId=${pId}`;
 
       this.$http.get(url).then(res => {
-        this.reviewComments = res.data;
+        const comments = res.data;
+        for (let i = 0; i < comments.length; i++) {
+          this.commentUsers.push({});
+          this.getUser(comments[i].user, i);
+        }
+        this.reviewComments = comments;
       });
     },
     ownProblem() {
