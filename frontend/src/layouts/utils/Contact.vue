@@ -19,12 +19,10 @@
             <div class="row">
               <div class="col-lg-6">
                 <h1 class="display-3  text-white">
-                  A beautiful Design System<span>completed with examples</span>
+                  Got A Question?<span>Contact Flarn</span>
                 </h1>
                 <p class="lead  text-white">
-                  The design system comes with four pre-built pages to help you
-                  get started faster. You can change the text and images and
-                  you're good to go.
+                  We're here to help and answer any questions you might have. We look forward to hearing from you &#128539;
                 </p>
               </div>
             </div>
@@ -54,54 +52,122 @@
         <div class="row justify-content-center mt--300">
           <div class="col-lg-8">
             <div class="card bg-gradient-secondary shadow">
+              <div class="card-header bg-white border-0" v-if="error.state">
+                <div
+                        class="alert alert-dismissible fade show"
+                        role="alert"
+                        :class="error.type === 'error' ? 'alert-danger' : 'alert-default'">
+                    <span class="alert-inner--icon"
+                    ><i class="ni ni-like-2"></i
+                    ></span>
+                  <span class="alert-inner--text">{{ error.text }}</span>
+                  <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                          @click="error.state = false"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
               <div class="card-body p-lg-5">
                 <h4 class="mb-1">Want to work with us?</h4>
                 <p class="mt-0">Your project is very important to us.</p>
-                <div class="form-group mt-5">
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"
-                        ><i class="ni ni-user-run"></i
-                      ></span>
-                    </div>
-                    <input
-                      class="form-control"
-                      placeholder="Your name"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"
-                        ><i class="ni ni-email-83"></i
-                      ></span>
-                    </div>
-                    <input
-                      class="form-control"
-                      placeholder="Email address"
-                      type="email"
-                    />
-                  </div>
-                </div>
-                <div class="form-group mb-4">
-                  <textarea
-                    class="form-control form-control-alternative"
-                    name="name"
-                    rows="4"
-                    cols="80"
-                    placeholder="Type a message..."
-                  ></textarea>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    class="btn btn-default btn-round btn-block btn-lg"
+
+                <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(submit)">
+
+                  <ValidationProvider
+                          v-slot="v"
+                          name="Your name"
+                          rules="required"
                   >
-                    Send Message
-                  </button>
-                </div>
+                  <div class="form-group mt-5">
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text"
+                      ><i class="ni ni-user-run"></i
+                      ></span>
+                      </div>
+                      <input
+                              class="form-control"
+                              placeholder="Your name"
+                              type="text"
+                              required
+                              v-model="payload.name"
+                      />
+                    </div>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
+                  </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                          v-slot="v"
+                          name="Email address"
+                          rules="required|email"
+                  >
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text"
+                      ><i class="ni ni-email-83"></i
+                      ></span>
+                      </div>
+                      <input
+                              class="form-control"
+                              placeholder="Email address"
+                              type="email"
+                              required
+                              v-model="payload.email"
+                      />
+                    </div>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
+                  </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                          v-slot="v"
+                          name="Message"
+                          rules="required"
+                  >
+                  <div class="form-group mb-4">
+                  <textarea
+                          class="form-control form-control-alternative"
+                          name="name"
+                          rows="4"
+                          cols="80"
+                          placeholder="Type a message..."
+                          v-model="payload.message"
+                          required
+                  ></textarea>
+                    <small class="text-danger">
+                      {{ v.errors[0] }}
+                    </small>
+                  </div>
+                  </ValidationProvider>
+
+                  <div>
+                    <button
+                            type="submit"
+                            class="btn btn-default btn-round btn-block btn-lg"
+                    >
+                       <span
+                               class="spinner-grow spinner-grow-sm"
+                               role="status"
+                               aria-hidden="true"
+                               v-if="loading"
+                       ></span>
+                      Send Message
+                    </button>
+                  </div>
+                </form>
+                </ValidationObserver>
               </div>
             </div>
           </div>
@@ -113,6 +179,44 @@
 
 <script>
 export default {
-  name: "Support"
+  name: "Contact",
+  data() {
+    return {
+      loading: false,
+      payload: {
+        name: '',
+        email: '',
+        message: ''
+      },
+      error: {
+        state: false,
+        text: "",
+        type: false
+      },
+    }
+  },
+  methods: {
+    submit(){
+      if(this.loading) return;
+      this.loading = true;
+
+      const url = `auth/contact`;
+
+      this.$http
+              .post(url, this.payload)
+              .then(res => {
+                this.error.text = "We've received your message. Thank you.";
+                this.error.type = "info";
+                this.error.state = true;
+              })
+              .catch(err => {
+                console.log(err);
+                this.error.text = this.errorMessage(err);
+                this.error.type = "error";
+                this.error.state = true;
+              })
+      .finally(() => this.loading =  false);
+    }
+  }
 };
 </script>

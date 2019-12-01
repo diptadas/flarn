@@ -85,7 +85,7 @@
               </a>
               <a href="./examples/profile.html" class="dropdown-item">
                 <i class="ni ni-support-16"></i>
-                <span>Support</span>
+                <span>Contact</span>
               </a>
               <div class="dropdown-divider"></div>
               <a href="#!" class="dropdown-item">
@@ -391,9 +391,9 @@ export default {
         },
         {
           id: 10,
-          text: "Support",
-          value: "support",
-          icon: "question"
+          text: "Contact",
+          value: "contact",
+          icon: "envelope-open-text"
         },
         {
           id: 11,
@@ -405,25 +405,25 @@ export default {
     };
   },
   methods: {
-    authenticate() {
-      const url = "users/current";
-
-      this.$http
-        .get(url)
-        .then(res => {
-          this.user = res.data;
-          this.$store.commit('SET_AUTH', res.data)
-        })
-        .catch(err => {
-          this.$router.replace({ name: "login" });
-        });
-    },
     formatNavText(string) {
       return string.split("-").join(" ");
     }
   },
-  created() {
-    this.authenticate();
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const url = "users/current";
+
+      vm.$http
+              .get(url)
+              .then(res => {
+                vm.user = res.data;
+                vm.$store.commit('SET_AUTH', res.data);
+                next();
+              })
+              .catch(err => {
+                next({name: 'login'});
+              });
+    })
   },
   computed: {
     activeHomePage() {

@@ -85,9 +85,9 @@ const routes = [
         component: () => import("../layouts/users/UserProfile.vue")
       },
       {
-        path: "support",
-        name: "support",
-        component: () => import("../layouts/utils/Support.vue")
+        path: "contact",
+        name: "contact",
+        component: () => import("../layouts/utils/Contact.vue")
       },
       {
         path: "manage/problems",
@@ -170,9 +170,9 @@ const routes = [
         component: () => import("../layouts/utils/404.vue")
       },
       {
-        path: "support",
-        name: "acc-support",
-        component: () => import("../layouts/utils/Support.vue")
+        path: "contact",
+        name: "acc-contact",
+        component: () => import("../layouts/utils/Contact.vue")
       },
       {
         path: "about",
