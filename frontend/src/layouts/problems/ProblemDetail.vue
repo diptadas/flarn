@@ -90,7 +90,7 @@
 
           <div class="mt-4">
             <div class="ui comments">
-              <h3 class="ui dividing header">Comments</h3>
+              <h3 class="ui dividing header text-primary">Comments</h3>
               <div
                 class="comment"
                 v-for="(comment, ci) in reviewComments"
@@ -251,14 +251,6 @@ export default {
 
       this.$http.get(url).then(res => {
         this.problem = res.data;
-
-        if (this.ownProblem()) {
-          return this.$router.replace({
-            name: "manage-problems-detail",
-            params: { id: this.$hash.encode(id) }
-          });
-        }
-
         this.hasAttemptedProblem(this.problem.id);
         this.hasStaredProblem(this.problem.id);
       });
@@ -317,11 +309,13 @@ export default {
     }
   },
   created() {
+    if (this.ownProblem()) {
+      return this.$router.replace({
+        name: "manage-problems-detail",
+        params: { id: this.$hash.encode(id) }
+      });
+    }
     this.getProblem(this.$hash.decode(this.id)[0]);
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../assets/scss/semantic-comment";
-</style>
