@@ -25,7 +25,7 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     void deleteByIdIn(List<Long> ids);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Problem as e WHERE e.archived = FALSE AND e.id NOT IN (:ids) ORDER BY RAND() LIMIT 1")
+    @Query(nativeQuery = true, value = "SELECT TOP 1 * FROM Problem as e WHERE e.archived = FALSE AND e.id NOT IN (:ids) ORDER BY newid()")
     Problem findUnsolved(@Param("ids") List<Long> ids);
 
     List<Problem> findAllByModeratorId(@NotNull Long id);
