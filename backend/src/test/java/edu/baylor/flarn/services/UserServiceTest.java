@@ -75,17 +75,15 @@ class UserServiceTest {
 
         // fetch user
         User oldUser = userService.findById(1L);
-        System.out.println(oldUser.getFullName());
-        UserRegistration userUpdate = new UserRegistration(oldUser.getUsername(), passwordEncoder.encode("0000"), "newName", "90897281", "Old town road", "Nebraska", "Al", "78978");
 
-        // need to detach
+        // update the fullName and state
+        UserRegistration userUpdate = new UserRegistration(oldUser.getUsername(), oldUser.getPassword(), "newName", oldUser.getPhoneNumber(),
+                oldUser.getStreet(), oldUser.getCity(), "NY", oldUser.getZip());
 
         User updatedUser = userService.updateUser(userUpdate, oldUser);
 
-        assertFalse(updatedUser.getFullName().equals(oldUser.getFullName()) && updatedUser.getPassword().equals(oldUser.getPassword())
-                && updatedUser.getPhoneNumber().equals(oldUser.getPhoneNumber()) && updatedUser.getStreet().equals(oldUser.getStreet())
-                && updatedUser.getCity().equals(oldUser.getCity()) && updatedUser.getState().equals(oldUser.getState())
-                && updatedUser.getZip().equals(oldUser.getZip()));
+        assertEquals(updatedUser.getFullName(), "newName");
+        assertEquals(updatedUser.getState(), "NY");
     }
 
     /***
