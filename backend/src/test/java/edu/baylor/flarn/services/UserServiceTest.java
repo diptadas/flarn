@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
- * Contains the unit test for user service
+ * Contains the unit  & Integration test for user service
  *
  * @author Dipta Das
  * @author Clinton Yeboah
