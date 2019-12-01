@@ -105,8 +105,6 @@ class ProblemServiceTest {
         assertNotNull(problemService.getProblemById(saved.getId()));
 
         assertTrue(knowledgeSource.getProblem().equals(saved));
-//        assertTrue(star.getProblem().equals(saved));
-        assertTrue(comment.getProblem().equals(saved));
         assertTrue(question.getProblem().equals(saved));
     }
 

@@ -1,4 +1,4 @@
-package edu.baylor.flarn.services;
+package edu.baylor.flarn.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
