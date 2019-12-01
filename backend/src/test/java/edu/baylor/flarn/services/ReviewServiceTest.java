@@ -13,7 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
@@ -47,10 +48,6 @@ class ReviewServiceTest {
         Review review = reviewService.starProblem(problem.getId(),user);
 
         assertNotNull(review);
-
-        Problem problem2 = problemService.getProblemById(1L);
-
-        assertTrue(problem2.getReviews().contains(review));
 
         assertThatThrownBy(() -> reviewService.starProblem(problem.getId(),user)).isInstanceOf(AlreadyStaredException.class).hasMessageContaining("Already stared problem "+problem.getId());
     }

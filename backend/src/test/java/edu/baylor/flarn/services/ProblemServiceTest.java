@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Contains the unit for problem service
+ * Contains the unit test for problem service
  * & Integration test for problem,category,knowledge source,moderator,review,sessions,questions
  *
  * @author Dipta Das
