@@ -53,7 +53,7 @@ class ProblemServiceTest {
 
         //get Users; learner and moderator
         User moderator = userService.getUserByUsernameActive("moderator1@gm.com");
-        assertThat(moderator.getUserType(), Is.is(UserType.MODERATOR));
+        assertThat("User has moderator role",moderator.getUserType(), Is.is(UserType.MODERATOR));
         User reviewer = userService.getUserByUsernameActive("admin@gm.com");
 
         //Knowledge Source
