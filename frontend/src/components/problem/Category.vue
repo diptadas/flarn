@@ -12,11 +12,6 @@
         <i class="bg-warning"></i> {{ cat.problems.length }} problems
       </span>
     </td>
-    <td @click="goToProblems">
-      <div class="d-flex align-items-center">
-        <span class="">700 points</span>
-      </div>
-    </td>
     <td class="text-right">
       <div class="dropdown">
         <button
