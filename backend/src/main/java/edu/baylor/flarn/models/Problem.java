@@ -69,7 +69,7 @@ public class Problem {
     Set<Session> sessions = new HashSet<>();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
