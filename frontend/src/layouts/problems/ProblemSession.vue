@@ -207,9 +207,21 @@
                     event.returnValue = "";
                 }
             },
+            authenticate(cb) {
+                const token = localStorage.getItem("auth_token");
+                const userId = this.$store.state.userId;
+
+                const data = {
+                    token,
+                    userId
+                };
+
+                this.socket.send(JSON.stringify(data));
+                cb(true);
+            },
             connectionOpened($event) {
                 console.log('connected');
-                this.startTimer(fiveMinutes);
+                this.authenticate(() => this.startTimer(fiveMinutes));
             },
             connectionClosed($event) {
                 console.log('closed')
