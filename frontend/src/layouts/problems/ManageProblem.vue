@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import Problem from "@/layouts/home/Problem";
+import Problem from "@/layouts/problems/Problem";
 export default {
   name: "ManageProblem",
   data() {
     return {
-      problems: []
+      problems: [],
     };
   },
   methods: {
@@ -60,12 +60,12 @@ export default {
       });
     },
     getProblems() {
-      const url = "problems";
+      const url = "problems/created";
 
       this.$http.get(url).then(res => {
         this.problems = res.data;
       });
-    }
+    },
   },
   created() {
     this.getProblems();

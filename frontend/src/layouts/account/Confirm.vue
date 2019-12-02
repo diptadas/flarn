@@ -62,7 +62,7 @@
                             class="form-control"
                             placeholder="Email"
                             type="email"
-                            v-model="email"
+                            v-model="conf.username"
                             required
                           />
                         </div>
@@ -88,7 +88,7 @@
                             class="form-control"
                             placeholder="Activation Code"
                             type="number"
-                            v-model="code"
+                            v-model="conf.confirmationCode"
                             required
                           />
                         </div>
@@ -141,9 +141,12 @@ export default {
   },
   data() {
     return {
+      conf: {
+        username: '',
+        confirmationCode: ''
+
+      },
       loading: false,
-      email: "",
-      code: "",
       error: {
         state: false,
         text: "",
@@ -177,13 +180,9 @@ export default {
       // validate data
 
       const url = "auth/confirm";
-      const data = {
-        username: this.email,
-        confirmationCode: this.code
-      };
 
       this.$http
-        .post(url, data)
+        .post(url, this.conf)
         .then(res => {
           const data = res.data;
 

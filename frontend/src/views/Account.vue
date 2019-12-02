@@ -61,13 +61,13 @@
               </li>
               <li class="nav-item dropdown">
                 <router-link
-                  :to="{ name: 'acc-support' }"
+                  :to="{ name: 'acc-contact' }"
                   class="nav-link"
                   data-toggle="dropdown"
                   role="button"
                 >
                   <i class="ni ni-collection d-lg-none"></i>
-                  <span class="nav-link-inner--text">Support</span>
+                  <span class="nav-link-inner--text">Contact</span>
                 </router-link>
               </li>
             </ul>

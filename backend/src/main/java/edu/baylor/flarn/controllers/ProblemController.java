@@ -88,6 +88,12 @@ public class ProblemController {
         user = userService.findById(user.getId());
         return problemService.getRandomProblem(user);
     }
+
+    @GetMapping("/created")
+    @RolesAllowed(UserRoles.roleModerator)
+    public List<Problem> getCreatedProblems(@AuthenticationPrincipal User user) {
+        return problemService.getModeratorProblems(user);
+    }
 }
 
 

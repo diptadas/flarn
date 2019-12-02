@@ -61,7 +61,7 @@
                             class="form-control"
                             placeholder="Email"
                             type="email"
-                            v-model="email"
+                            v-model="user.username"
                             required
                           />
                         </div>
@@ -87,7 +87,7 @@
                             class="form-control"
                             placeholder="Password"
                             type="password"
-                            v-model="password"
+                            v-model="user.password"
                             required
                           />
                         </div>
@@ -141,9 +141,11 @@ export default {
   },
   data() {
     return {
+      user: {
+        username: "",
+        password: "",
+      },
       loading: false,
-      email: "",
-      password: "",
       error: {
         state: false,
         text: "",
@@ -158,15 +160,9 @@ export default {
       // validate data
 
       const url = "auth/login";
-      const data = {
-        username: this.email,
-        password: this.password
-      };
-
-      console.log(data);
 
       this.$http
-        .post(url, data)
+        .post(url, this.user)
         .then(res => {
           const data = res.data;
 

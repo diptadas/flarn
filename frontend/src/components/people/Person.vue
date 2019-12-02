@@ -17,7 +17,21 @@
     </td>
     <td @click="goToProfile">
       <div class="d-flex align-items-center">
-        <span class="">700 points</span>
+        <span class="">{{user.points}} points</span>
+      </div>
+    </td>
+    <td>
+      <div class="avatar-group">
+        <router-link :to="{name: 'user-profile', params: { id: $hash.encode(user.id)}}" class="avatar avatar-sm" data-toggle="tooltip" data-placement="top" :title="user.fullName" :data-original-title="user.fullName" v-for="user in followers" :key="user.id">
+          <img alt="Image placeholder" :src="user.avatarLink" class="rounded-circle">
+        </router-link>
+      </div>
+    </td>
+    <td>
+      <div class="avatar-group">
+        <router-link :to="{name: 'user-profile', params: { id: $hash.encode(user.id)}}" class="avatar avatar-sm" data-toggle="tooltip" data-placement="top" :title="user.fullName"  :data-original-title="user.fullName" v-for="user in following" :key="user.id">
+          <img alt="Image placeholder" :src="user.avatarLink" class="rounded-circle">
+        </router-link>
       </div>
     </td>
     <td class="text-right" v-if="action">
@@ -55,13 +69,41 @@ export default {
     }
   },
   name: "Person",
+  data(){
+    return {
+      followers: [],
+      following: []
+    }
+  },
   methods: {
     goToProfile() {
       this.$router.push({
         name: "user-profile",
         params: { id: this.$hash.encode(this.user.id) }
       });
+    },
+    getFollowers(userId) {
+      const url = `users/${userId}/subscribers`;
+
+      this.$http
+              .get(url)
+              .then(res => {
+                this.followers = res.data.slice(0, 5);
+              })
+    },
+    getFollowing(userId) {
+      const url = `users/${userId}/subscriptions`;
+
+      this.$http
+              .get(url)
+              .then(res => {
+                this.following = res.data.slice(0, 5);
+              })
     }
+  },
+  created() {
+    this.getFollowers(this.user.id);
+    this.getFollowing(this.user.id);
   }
 };
 </script>

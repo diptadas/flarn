@@ -39,6 +39,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // only permit /auth and swagger endpoints without authentication
                 .antMatchers("/").permitAll()
+                .antMatchers("/wsSession").permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/resources/**").permitAll()

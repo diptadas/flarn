@@ -63,7 +63,7 @@
                               placeholder="Full Name"
                               type="text"
                               required
-                              v-model="name"
+                              v-model="reg.fullName"
                             />
                           </div>
                           <small class="text-danger">
@@ -89,7 +89,7 @@
                               placeholder="Email"
                               type="email"
                               required
-                              v-model="email"
+                              v-model="reg.username"
                             />
                           </div>
                           <small class="text-danger">
@@ -117,7 +117,7 @@
                               type="password"
                               required
                               minlength="4"
-                              v-model="password"
+                              v-model="reg.password"
                             />
                           </div>
                           <small class="text-danger">
@@ -232,9 +232,6 @@ export default {
   data() {
     return {
       loading: false,
-      name: "",
-      email: "",
-      password: "",
       confirmation: "",
       terms: false,
       error: {
@@ -243,8 +240,13 @@ export default {
         type: false
       },
       passStrength: "",
-      passColor: "danger"
-    };
+      passColor: "danger",
+      reg: {
+        username: this.email,
+        fullName: this.name,
+        password: this.password
+      }
+    }
   },
   watch: {
     password(old, value) {
@@ -258,14 +260,9 @@ export default {
       // validate data
 
       const url = "auth/register";
-      const data = {
-        username: this.email,
-        fullName: this.name,
-        password: this.password
-      };
 
       this.$http
-        .post(url, data)
+        .post(url, this.reg)
         .then(res => {
           this.$store.commit("SET_USERNAME", res.data.username);
           this.$router.push({

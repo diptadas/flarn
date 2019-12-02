@@ -26,15 +26,6 @@ import "./form-validation";
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 
-configure({
-  classes: {
-    valid: "valid",
-    invalid: "invalid",
-    dirty: ["is-dirty", "is-dirty"] // multiple classes per flag!
-    // ...
-  }
-});
-
 Vue.config.productionTip = false;
 
 window.jQuery = window.$ = jQuery;

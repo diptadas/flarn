@@ -5,7 +5,7 @@
         Time Remaining: {{ timeleft }}
       </p>
     </div>
-    <hr class="my-4" />
+    <hr class="my-2" />
 
     <div v-if="problem.id">
       <div
@@ -13,7 +13,7 @@
         @click="showProblem(problem.id)"
       >
         <div class="d-flex justify-content-between align-items-center">
-          <h4>
+          <h4 class="text-primary">
             {{ problem.title }}
           </h4>
           <a
@@ -31,13 +31,18 @@
         <small class="text-muted text-left">Created by: {{ moderator }}</small>
       </div>
 
-      <div class="d-flex-column justify-content-start px-4">
-        <div>Knowledge Source Here</div>
+      <hr class="my-2" />
 
-        <hr class="my-4" />
+      <div class="d-flex-column justify-content-start px-4 mt-2">
+        <p class="text-primary font-weight-500">Reading:</p>
+
+        <p class="mt-2 pl-4">{{problem.knowledgeSource.content}}</p>
+      </div>
+
+      <div class="d-flex-column justify-content-start p-4 mt-4  ">
 
         <div>
-          <h4 class="mb-4">Questions:</h4>
+          <h4 class="mb-4 text-primary">Questions:</h4>
 
           <div
             v-for="(que, qi) in problem.questions"
@@ -120,7 +125,7 @@ export default {
     };
   },
   methods: {
-    submit(cb) {
+    submit() {
       if (this.submitting) return false;
       this.submitting = true;
 
@@ -139,13 +144,8 @@ export default {
         .post(url, data)
         .then(res => {
           this.editing = false;
-          if (this.isFunction(cb)) {
-            cb();
-          } else {
-            this.$router.replace({ name: "problems" });
-          }
+          this.$router.replace({ name: "session-result", params: {id: this.$hash.encode(res.data)} });
         })
-        .finally(() => (this.submitting = false));
     },
     isFunction(functionToCheck) {
       return (
@@ -228,7 +228,7 @@ export default {
       if (!window.confirm("You still have some time left.")) {
         return;
       }
-      this.submit(next);
+      this.submit();
     } else {
       next();
     }
