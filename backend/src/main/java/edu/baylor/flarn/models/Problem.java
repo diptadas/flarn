@@ -28,8 +28,11 @@ import java.util.Set;
 @Setter
 @Entity
 @NoArgsConstructor
-@SequenceGenerator(name = "sequence", initialValue = 1, allocationSize = 1)
 public class Problem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @NotNull
     String title;
 
@@ -67,10 +70,6 @@ public class Problem {
             property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     Set<Session> sessions = new HashSet<>();
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
