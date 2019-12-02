@@ -8,7 +8,6 @@ import edu.baylor.flarn.models.ReviewType;
 import edu.baylor.flarn.models.User;
 import edu.baylor.flarn.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
