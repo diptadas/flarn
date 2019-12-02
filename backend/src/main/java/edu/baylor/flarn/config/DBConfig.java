@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+/***
+ * Database configuration class.
+ */
 @Configuration
 public class DBConfig {
     @Value("${spring.datasource.url}")

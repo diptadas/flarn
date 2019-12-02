@@ -47,6 +47,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public ResponseBody deleteCategory(Long id) throws DefaultCategoryModificationException, RecordNotFoundException {
         Category category = getCategoryById(id);
         if (category.getName() != null && category.getName().equals(Category.DEFAULT_CATEGORY_NAME)) {
