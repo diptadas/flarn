@@ -93,5 +93,7 @@ public class WsHandler extends TextWebSocketHandler {
         } catch (RecordNotFoundException e) {
             e.printStackTrace();
         }
+
+        sessionMap.remove(wsSession.getId());
     }
 }
