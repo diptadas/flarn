@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile("prod")
 @Component
 @Slf4j
+/***
+ *
+ */
 public class DataInitializerProd implements CommandLineRunner {
     private final UserService userService;
     private final CategoryService categoryService;
