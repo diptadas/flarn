@@ -39,27 +39,27 @@ class CategoryServiceTest {
         category.setName("Test Category");
 
         Category saved = categoryService.createCategory(category);
-        assertEquals(saved, category);
+        assertEquals(saved, category,"Saved category equal created category");
 
     }
 
     @Test
     void getCategoryById() throws RecordNotFoundException {
         Category category = categoryService.getCategoryById(8L);
-        assertEquals(category.getName(), "Other");
+        assertEquals(category.getName(), "Other","Category found");
     }
 
     @Test
     void getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
-        assertEquals(categories.size(), 4);
+        assertEquals(categories.size(), 4,"Category size 4");
     }
 
     @Test
     void getCategoryByName() throws RecordNotFoundException {
         String categoryName = Category.DEFAULT_CATEGORY_NAME;
         Category category = categoryService.getCategoryByName(categoryName);
-        assertEquals(category.getName(), categoryName);
+        assertEquals(category.getName(), categoryName,"");
     }
 
     @Test
@@ -71,7 +71,7 @@ class CategoryServiceTest {
     @Test
     void getDefaultCategory() throws RecordNotFoundException {
         Category category = categoryService.getDefaultCategory();
-        assertEquals(category.getName(), Category.DEFAULT_CATEGORY_NAME);
+        assertEquals(category.getName(), Category.DEFAULT_CATEGORY_NAME,"");
     }
 
     // integration test
@@ -89,8 +89,8 @@ class CategoryServiceTest {
         Category savedCategory = categoryService.createCategory(category);
 
         //Test record
-        assertEquals(savedCategory, category);
-        assertNotNull(categoryService.getCategoryByName(category.getName()));
+        assertEquals(savedCategory, category,savedCategory.getName()+" expected");
+        assertNotNull(categoryService.getCategoryByName(category.getName()),"Should not be null");
 
 
         //delete category

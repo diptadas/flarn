@@ -101,16 +101,16 @@ class ProblemServiceTest {
 
         Problem saved = problemService.createProblem(problem, moderator);
 
-        assertEquals(saved, problem);
-        assertNotNull(problemService.getProblemById(saved.getId()));
+        assertEquals(saved, problem,saved.getTitle()+" Expected");
+        assertNotNull(problemService.getProblemById(saved.getId()),"Should not be null");
 
-        assertEquals(knowledgeSource.getProblem(), saved);
-        assertEquals(question.getProblem(), saved);
+        assertEquals(knowledgeSource.getProblem(), saved,"");
+        assertEquals(saved,question.getProblem(),saved.getTitle()+ " expected");
     }
 
     @Test
     void getAllProblems() {
-        assertNotNull(problemService.getAllProblems());
+        assertNotNull(problemService.getAllProblems(),"Should not be null");
     }
 
     @Test
@@ -140,7 +140,7 @@ class ProblemServiceTest {
         User user = userService.getUserByUsernameActive("moderator1@gm.com");
 
         Problem problem = problemService.getRandomProblem(user);
-        assertNotNull(problem);
-        assertFalse(problem.isArchived());
+        assertNotNull(problem,"Should not be null");
+        assertFalse(problem.isArchived(),"Should return false");
     }
 }

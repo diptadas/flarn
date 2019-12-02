@@ -46,7 +46,7 @@ class ReviewServiceTest {
 
         Review review = reviewService.starProblem(problem.getId(), user);
 
-        assertNotNull(review);
+        assertNotNull(review," review object should not be null");
 
         assertThatThrownBy(() -> reviewService.starProblem(problem.getId(), user)).isInstanceOf(AlreadyStaredException.class).hasMessageContaining("Already stared problem " + problem.getId());
     }
