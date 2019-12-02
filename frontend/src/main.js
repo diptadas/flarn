@@ -6,6 +6,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Empty from "./layouts/utils/Empty";
+import underscore from 'underscore';
 
 // Boostrap JS Files
 import jQuery from "jquery";
@@ -118,6 +119,8 @@ Vue.prototype.$http = _axios;
 
 // Hashing URLS for display
 Vue.prototype.$hash = new Hashids();
+
+Vue.prototype.$_ = underscore;
 
 Vue.use(AsyncComputed);
 
