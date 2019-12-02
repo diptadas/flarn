@@ -38,7 +38,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public Category getCategory(@PathVariable long id) throws RecordNotFoundException {
-        return categoryService.getCategory(id);
+        return categoryService.getCategoryById(id);
     }
 
     // don't allow updating "other" category

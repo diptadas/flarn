@@ -6,7 +6,6 @@ import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +79,7 @@ public class ProblemService {
     }
 
     public Problem getProblemById(long id) throws RecordNotFoundException {
-        Problem problem = problemRepository.findById(id).orElse(null);
+        Problem problem = problemRepository.findByIdAndArchivedFalse(id).orElse(null);
         if (problem == null) {
             throw new RecordNotFoundException("Problem not found with id: " + id);
         }

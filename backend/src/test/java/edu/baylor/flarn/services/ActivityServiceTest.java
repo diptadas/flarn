@@ -1,52 +1,59 @@
 package edu.baylor.flarn.services;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
-public class ActivityServiceTest {
+import edu.baylor.flarn.models.Activity;
+import edu.baylor.flarn.models.User;
+import org.hamcrest.core.Is;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-    @Before
-    public void setUp() throws Exception {
-    }
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-    @After
-    public void tearDown() throws Exception {
+
+/**
+ * The {@link ActivityServiceTest} contains the unit tests for the {@link ActivityService}.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
+class ActivityServiceTest {
+
+    @Autowired
+    private ActivityService activityService;
+
+    @Autowired
+    private UserService userService;
+
+
+    @Test
+    void getActivitiesForUser() {
+        List<Activity> userActivities = activityService.getActivitiesForUser(1L);
+        userActivities.forEach(activity -> Assert.assertThat(activity.getUserId(), Is.is(1L)));
     }
 
     @Test
-    public void getActivitiesForUser() {
+    void getActivitiesForUserSubscriptions() {
+        Set<User> subscriptions = userService.getUser(1L).getSubscriptions();
+        List<Long> subscriptionIds = new ArrayList<>();
+
+        for (User user : subscriptions) {
+            subscriptionIds.add(user.getId());
+        }
+
+        List<Activity> activities = activityService.getActivitiesForUserSubscriptions(subscriptionIds);
+        activities.forEach(activity -> Assert.assertTrue(subscriptionIds.contains(activity.getUserId())));
     }
 
-    @Test
-    public void getActivitiesForUserSubscriptions() {
-    }
-
-    @Test
-    public void saveJoinedActivity() {
-    }
-
-    @Test
-    public void saveUpdatedProfileActivity() {
-    }
-
-    @Test
-    public void saveFollowedActivity() {
-    }
-
-    @Test
-    public void saveAttemptedProblemActivity() {
-    }
-
-    @Test
-    public void saveCreatedProblemActivity() {
-    }
-
-    @Test
-    public void saveStaredActivity() {
-    }
-
-    @Test
-    public void saveCommentedActivity() {
-    }
 }

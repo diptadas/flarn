@@ -7,12 +7,11 @@ import edu.baylor.flarn.models.Category;
 import edu.baylor.flarn.repositories.CategoryRepository;
 import edu.baylor.flarn.resources.ResponseBody;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * Activity service includes CRUD operations for the Category model.
+ * Category service includes CRUD operations for the Category model.
  * It prevents any kind of modification of the default category (Other).
  * It throws DefaultCategoryModificationException whenever such modification is attempted.
  *
@@ -49,7 +48,7 @@ public class CategoryService {
     }
 
     public ResponseBody deleteCategory(Long id) throws DefaultCategoryModificationException, RecordNotFoundException {
-        Category category = getCategory(id);
+        Category category = getCategoryById(id);
         if (category.getName() != null && category.getName().equals(Category.DEFAULT_CATEGORY_NAME)) {
             throw new DefaultCategoryModificationException();
         }
@@ -75,18 +74,10 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category getCategory(long id) throws RecordNotFoundException {
+    public Category getCategoryById(long id) throws RecordNotFoundException {
         Category category = categoryRepository.findById(id).orElse(null);
         if (category == null) {
             throw new RecordNotFoundException("Category not found with id: " + id);
-        }
-        return category;
-    }
-
-    public Category getCategoryByName(String name) throws RecordNotFoundException {
-        Category category = categoryRepository.findByName(name);
-        if (category == null) {
-            throw new RecordNotFoundException("Category not found with name: " + name);
         }
         return category;
     }
@@ -95,6 +86,14 @@ public class CategoryService {
         Category category = categoryRepository.findByName(Category.DEFAULT_CATEGORY_NAME);
         if (category == null) {
             throw new RecordNotFoundException("Default category not found");
+        }
+        return category;
+    }
+
+    public Category getCategoryByName(String name) throws RecordNotFoundException {
+        Category category = categoryRepository.findByName(name);
+        if (category == null) {
+            throw new RecordNotFoundException(String.format("Category with name %s not  found: " , name));
         }
         return category;
     }

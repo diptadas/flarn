@@ -141,7 +141,8 @@ public class UserService {
 
     // enable user after email verification
     public User confirmUser(ConfirmUserRequest confirmUserRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
-        User user = getUserByUsername(confirmUserRequest.getUsername());
+        //can filter only inactive users
+        User user = getUserByUsernameAll(confirmUserRequest.getUsername());
 
         if (user.getConfirmationCode() == null || !user.getConfirmationCode().equals(confirmUserRequest.getConfirmationCode())) {
             throw new InvalidConfirmationCodeException();
@@ -158,7 +159,7 @@ public class UserService {
     }
 
     public User updatePassword(UpdatePasswordRequest updatePasswordRequest) throws RecordNotFoundException, InvalidConfirmationCodeException {
-        User user = getUserByUsername(updatePasswordRequest.getUsername());
+        User user = getUserByUsernameActive(updatePasswordRequest.getUsername());
 
         if (user.getConfirmationCode() == null || !user.getConfirmationCode().equals(updatePasswordRequest.getConfirmationCode())) {
             throw new InvalidConfirmationCodeException();
@@ -167,6 +168,10 @@ public class UserService {
         user.setConfirmationCode(null); // reset confirmation code
         user.setPassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
         return userRepository.save(user);
+    }
+
+    public List<User> getAllActiveUsers() {
+        return userRepository.findByEnabledTrue();
     }
 
     public List<User> getAllUsers() {
@@ -192,8 +197,16 @@ public class UserService {
         return userRepository.findById(Id).orElse(null);
     }
 
-    public User getUserByUsername(String username) throws RecordNotFoundException {
+    public User getUserByUsernameAll(String username) throws RecordNotFoundException {
         User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            throw new RecordNotFoundException("User not found with username " + username);
+        }
+        return user;
+    }
+
+    public User getUserByUsernameActive(String username) throws RecordNotFoundException {
+        User user = userRepository.findByUsernameAndEnabledTrue(username).orElse(null);
         if (user == null) {
             throw new RecordNotFoundException("User not found with username " + username);
         }

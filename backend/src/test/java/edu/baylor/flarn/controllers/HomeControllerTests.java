@@ -1,4 +1,4 @@
-package edu.baylor.flarn;
+package edu.baylor.flarn.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +12,14 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+/**
+ * The {@link HomeControllerTests} contains the tests for the {@link HomeController}.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

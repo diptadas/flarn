@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping()
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        return userService.getAllActiveUsers();
     }
 
     @GetMapping("/type/{userType}")

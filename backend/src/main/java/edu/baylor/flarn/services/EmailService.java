@@ -23,6 +23,8 @@ import java.io.IOException;
  * @author Frimpong Boadu
  */
 
+import java.io.IOException;
+
 @Service
 @Slf4j
 public class EmailService {

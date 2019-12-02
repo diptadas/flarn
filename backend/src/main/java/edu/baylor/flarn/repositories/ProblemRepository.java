@@ -9,11 +9,14 @@ import org.springframework.data.repository.query.Param;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     List<Problem> findByArchivedFalse();
+
+    Optional<Problem> findByIdAndArchivedFalse(Long id);
 
     List<Problem> findByDifficultyAndCategoryAndTitleContainingIgnoreCaseAndArchivedFalse(@NotNull Difficulty difficulty, Category category, @NotNull String title);
 
