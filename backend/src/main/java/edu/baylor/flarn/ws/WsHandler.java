@@ -56,7 +56,7 @@ public class WsHandler extends TextWebSocketHandler {
         try {
             session = sessionService.saveSessionForWsClient(session);
         } catch (RecordNotFoundException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
 
         // remember the associated sessionID for new session
@@ -65,7 +65,7 @@ public class WsHandler extends TextWebSocketHandler {
         try {
             broadcastToSpecificClient(session.getId(), wsSession);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class WsHandler extends TextWebSocketHandler {
         try {
             sessionService.updateUserPointForWsClient(sessionMap.get(wsSession.getId()));
         } catch (RecordNotFoundException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
 
         sessionMap.remove(wsSession.getId());
