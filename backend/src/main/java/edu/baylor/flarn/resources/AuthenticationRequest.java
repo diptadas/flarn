@@ -8,6 +8,14 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/**
+ * {@link AuthenticationRequest} class defines the user login request.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Data
 @Builder
 @NoArgsConstructor

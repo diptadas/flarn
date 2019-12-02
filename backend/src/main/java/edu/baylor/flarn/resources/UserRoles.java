@@ -5,6 +5,15 @@ import edu.baylor.flarn.models.UserType;
 
 import java.util.List;
 
+/**
+ * {@link UserRoles} class defines set of user roles based on {@link UserType}.
+ * It is used to enforce role based authentication in the controller layer.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 public class UserRoles {
     // create static fields to be used everywhere
     public static final String roleUser = "ROLE_USER";

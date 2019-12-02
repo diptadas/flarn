@@ -9,6 +9,16 @@ import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+/**
+ * {@link UserRegistration} class defines the request for registering a new user.
+ * It trims some association fields from the {@link User} madel.
+ * It also provides a helper method to convert {@link UserRegistration} to {@link User}.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Data
 public class UserRegistration {
     @Email(message = "username.invalid")

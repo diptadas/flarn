@@ -6,6 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * {@link UserUniqueValidator} class enforces an unique email validation logic for the {@link edu.baylor.flarn.models.User} model.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 public class UserUniqueValidator implements ConstraintValidator<Unique, String> {
 
     @Autowired
