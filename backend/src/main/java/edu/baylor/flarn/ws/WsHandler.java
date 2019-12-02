@@ -3,6 +3,8 @@ package edu.baylor.flarn.ws;
 import com.google.gson.Gson;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Session;
+import edu.baylor.flarn.resources.WsAuth;
+import edu.baylor.flarn.security.JwtTokenProvider;
 import edu.baylor.flarn.services.SessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,38 +36,60 @@ import java.util.Map;
 @Slf4j
 public class WsHandler extends TextWebSocketHandler {
     private final SessionService sessionService;
+    private final JwtTokenProvider tokenProvider;
 
-    public WsHandler(SessionService sessionService) {
+    public WsHandler(SessionService sessionService, JwtTokenProvider tokenProvider) {
         this.sessionService = sessionService;
+        this.tokenProvider = tokenProvider;
     }
 
-    Map<String, Long> sessionMap = new HashMap<>();
+    private Map<String, Long> sessionMap = new HashMap<>();
+    private Map<String, Boolean> authMap = new HashMap<>();
 
     @Override
     @Transactional
     public void handleTextMessage(WebSocketSession wsSession, TextMessage message) {
         log.info("Received message from ws client:\n" + message.getPayload());
 
-        // convert json text to session object
-        Session session = new Gson().fromJson(message.getPayload(), Session.class);
+        // check if user is already authenticated
+        // if not this must be an authentication request
+        // or else close client's connection
+        if (!authMap.containsKey(wsSession.getId())) {
+            WsAuth auth = new Gson().fromJson(message.getPayload(), WsAuth.class);
+            // validate token
+            boolean res = tokenProvider.validateToken(auth.getToken());
+            if(res) {
+                authMap.put(wsSession.getId(), true);
+                log.info("New User authenticated");
+            } else {
+                try {
+                    wsSession.close();
+                } catch (IOException e) {
+                    log.info(e.getMessage());
+                }
+            }
+        } else {
+            // convert json text to session object
+            Session session = new Gson().fromJson(message.getPayload(), Session.class);
 
-        // set sessionID if ongoing session
-        session.setId(sessionMap.getOrDefault(wsSession.getId(), null));
+            // set sessionID if ongoing session
+            session.setId(sessionMap.getOrDefault(wsSession.getId(), null));
 
-        // create or update the session
-        try {
-            session = sessionService.saveSessionForWsClient(session);
-        } catch (RecordNotFoundException e) {
-            log.info(e.getMessage());
-        }
+            // create or update the session
+            try {
+                session = sessionService.saveSessionForWsClient(session);
+            } catch (RecordNotFoundException e) {
+                log.info(e.getMessage());
+            }
 
-        // remember the associated sessionID for new session
-        sessionMap.putIfAbsent(wsSession.getId(), session.getId());
+            // remember the associated sessionID for new session
+            sessionMap.putIfAbsent(wsSession.getId(), session.getId());
 
-        try {
-            broadcastToSpecificClient(session.getId(), wsSession);
-        } catch (IOException e) {
-            log.info(e.getMessage());
+            try {
+                broadcastToSpecificClient(session.getId(), wsSession);
+            } catch (IOException e) {
+                log.info(e.getMessage());
+            }
         }
     }
 
@@ -95,5 +119,6 @@ public class WsHandler extends TextWebSocketHandler {
         }
 
         sessionMap.remove(wsSession.getId());
+        authMap.remove(wsSession.getId());
     }
 }
