@@ -11,6 +11,13 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * {@link ProblemRepository} class defines the DB operations for {@link Problem} model.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
 

@@ -10,9 +10,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-/***
+/**
+ * {@link UserRepository} class defines the DB operations for {@link User} model.
  *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByUserType(@NotNull UserType userType);
@@ -36,8 +41,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByOrderByPointsDesc();
 
     List<User> findByIdInOrderByPointsDesc(@NotNull List<Long> userIds);
-
-
-
-
+    
 }
