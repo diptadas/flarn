@@ -7,8 +7,6 @@ import edu.baylor.flarn.services.SessionService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {

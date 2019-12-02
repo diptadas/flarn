@@ -3,8 +3,6 @@ package edu.baylor.flarn.exceptions;
 import me.alidg.errors.annotation.ExceptionMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**

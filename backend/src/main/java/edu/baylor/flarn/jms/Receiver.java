@@ -34,7 +34,7 @@ public class Receiver {
         try {
             emailService.sendEmail(mail);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
     }
 }
