@@ -155,7 +155,7 @@ class UserServiceTest {
 
         subscriber = userService.follow(subscriber, subscribed.getId());
 
-        assertThat(subscriber.getSubscriptions(), contains(subscribed));
+        assertThat("Subscriber is in subscription",subscriber.getSubscriptions(), contains(subscribed));
     }
 
     //lazy loading issue needs to be resolved
@@ -289,12 +289,12 @@ class UserServiceTest {
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
 
         //confirm usertype
-        assertThat(user.getUserType(), Is.is(UserType.LEARNER));
+        assertThat("User is a learner",user.getUserType(), Is.is(UserType.LEARNER));
 
         user.setUserType(UserType.MODERATOR);
 
         //confirm change
-        assertThat(user.getUserType(), Is.is(UserType.MODERATOR));
+        assertThat("User is moderator",user.getUserType(), Is.is(UserType.MODERATOR));
 
     }
 

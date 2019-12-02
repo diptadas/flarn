@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.Assert.assertThat;
@@ -52,7 +53,7 @@ class ProblemServiceTest {
 
         //get Users; learner and moderator
         User moderator = userService.getUserByUsernameActive("moderator1@gm.com");
-        assertThat(moderator.getUserType(), Is.is(UserType.MODERATOR));
+        assertThat("User has moderator role",moderator.getUserType(), Is.is(UserType.MODERATOR));
         User reviewer = userService.getUserByUsernameActive("admin@gm.com");
 
         //Knowledge Source
@@ -65,13 +66,11 @@ class ProblemServiceTest {
         //Question
         Question question = new Question();
         question.setContent("Which of these is not a programming language");
-        question.setOptions(new ArrayList<String>() {
-            {
-                add("Java");
-                add("C++");
-                add("realm");
-            }
-        });
+        List<String> options = new ArrayList<>();
+        options.add("Java");
+        options.add("C++");
+        options.add("realm");
+        question.setOptions(options);
         question.setAnswer(2);
 
         Review star = new Review();
@@ -92,12 +91,10 @@ class ProblemServiceTest {
         problem.setKnowledgeSource(knowledgeSource);
         problem.setCategory(category);
         problem.getQuestions().add(question);
-        problem.setReviews(new HashSet<Review>() {
-            {
-                add(star);
-                add(comment);
-            }
-        });
+        Set<Review> review = new HashSet<Review>();
+        review.add(star);
+        review.add(comment);
+        problem.setReviews(review);
 
         Problem saved = problemService.createProblem(problem, moderator);
 

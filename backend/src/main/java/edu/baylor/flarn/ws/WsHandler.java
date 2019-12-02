@@ -58,7 +58,7 @@ public class WsHandler extends TextWebSocketHandler {
             WsAuth auth = new Gson().fromJson(message.getPayload(), WsAuth.class);
             // validate token
             boolean res = tokenProvider.validateToken(auth.getToken());
-            if(res) {
+            if (res) {
                 authMap.put(wsSession.getId(), true);
                 log.info("New User authenticated");
             } else {
@@ -79,7 +79,7 @@ public class WsHandler extends TextWebSocketHandler {
             try {
                 session = sessionService.saveSessionForWsClient(session);
             } catch (RecordNotFoundException e) {
-                log.info(e.getMessage());
+                log.error(e.getMessage());
             }
 
             // remember the associated sessionID for new session
@@ -88,7 +88,7 @@ public class WsHandler extends TextWebSocketHandler {
             try {
                 broadcastToSpecificClient(session.getId(), wsSession);
             } catch (IOException e) {
-                log.info(e.getMessage());
+                log.error(e.getMessage());
             }
         }
     }
@@ -115,7 +115,7 @@ public class WsHandler extends TextWebSocketHandler {
         try {
             sessionService.updateUserPointForWsClient(sessionMap.get(wsSession.getId()));
         } catch (RecordNotFoundException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
 
         sessionMap.remove(wsSession.getId());

@@ -127,7 +127,7 @@ public class UserService {
     }
 
     // associate a confirmation code and send it to email
-    public void sendConfirmationCode(User user) throws EmailSendingException {
+    public void sendConfirmationCode(User user) {
         int code = new Random().nextInt(9000) + 1000; // 4 digit code
         user.setConfirmationCode(code);
         userRepository.save(user);
