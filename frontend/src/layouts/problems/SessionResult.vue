@@ -6,9 +6,10 @@
         @click="showProblem(problem.id)"
       >
 
-        <div class="alert alert-primary alert-dismissible fade show" role="alert" v-if="session.pointsGained > 0">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
           <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
-          <span class="alert-inner--text"><strong>Congratulations</strong> You have gained {{session.pointsGained}} points!</span>
+          <span class="alert-inner--text" v-if="session.pointsGained > 0"><strong>Congratulations</strong> You have gained {{session.pointsGained}} points!</span>
+          <span class="alert-inner--text" v-else> No points were gained for this session.</span>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-4">
