@@ -29,7 +29,7 @@ import java.io.IOException;
 @Slf4j
 public class EmailService {
 
-    Mail prepareVerificationEmail(String email, int confirmationCode) throws EmailSendingException {
+    Mail prepareVerificationEmail(String email, int confirmationCode) {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(email);
 
@@ -41,7 +41,7 @@ public class EmailService {
         return new Mail(from, subject, to, content);
     }
 
-    void sendSupportEmail(String email, Contact contact) throws EmailSendingException {
+    void sendSupportEmail(String email, Contact contact)  {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(email);
 
@@ -72,7 +72,7 @@ public class EmailService {
         }
     }
 
-    void replySupportEmail(Contact contact) throws EmailSendingException {
+    void replySupportEmail(Contact contact)  {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(contact.getEmail());
 

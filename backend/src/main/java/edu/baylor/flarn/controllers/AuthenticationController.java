@@ -65,7 +65,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody @Valid UserRegistration data) throws EmailSendingException {
+    public User register(@RequestBody @Valid UserRegistration data) {
         User user = userService.registerUser(data);
         userService.sendConfirmationCode(user);
         return user;
