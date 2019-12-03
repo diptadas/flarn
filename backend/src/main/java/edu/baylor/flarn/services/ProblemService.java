@@ -109,7 +109,7 @@ public class ProblemService {
     // returns null if all problems are solved by the user
     public Problem getRandomProblem(User user) {
         List<Long> problemIds = getSolvedProblemsIdsForUser(user);
-        if(problemIds.size() > 1) {
+        if(problemIds.size() > 0) {
             return problemRepository.findUnsolvedRandom(problemIds);
         } else {
             return problemRepository.findRandom();
