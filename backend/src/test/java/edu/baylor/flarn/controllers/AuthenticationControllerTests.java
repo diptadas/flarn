@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,22 +26,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser(username = "admin@gm.com", roles = {"ADMIN"})
 public class AuthenticationControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testLoginFailed() throws Exception {
+    public void testRegisterInvalid() throws Exception {
+        mockMvc.perform(
+                post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content("") // invalid content
+        ).andExpect(status().isBadRequest());
+    }
 
+    @Test
+    public void testLoginFailed() throws Exception {
         AuthenticationRequest authRequest = new AuthenticationRequest();
         authRequest.setUsername("admin@gm.com");
         authRequest.setPassword("wrongPass");
 
-        mockMvc.perform(post("auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(authRequest)))
-                .andExpect(status().isForbidden());
+        mockMvc.perform(
+                post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(asJsonString(authRequest))
+        ).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testLoginPassed() throws Exception {
+        AuthenticationRequest authRequest = new AuthenticationRequest();
+        authRequest.setUsername("admin@gm.com");
+        authRequest.setPassword("admin");
+
+        mockMvc.perform(
+                post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(asJsonString(authRequest))
+        ).andExpect(status().isOk());
     }
 
     private static String asJsonString(final Object obj) {
@@ -50,5 +77,4 @@ public class AuthenticationControllerTests {
             throw new RuntimeException(e);
         }
     }
-
 }
