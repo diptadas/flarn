@@ -105,7 +105,8 @@ export default {
       if(this.problem.id) {
         return this.$router.push({
           name: 'problem-detail',
-          params: { id: this.$hash.encode(this.problem.id) }});
+          params: {id: this.$hash.encode(this.problem.id)}
+        });
       } else {
         return this.$router.push({name: 'home'});
       }

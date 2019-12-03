@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <div class="position-fixed d-flex flex-column" style="top: 5rem; right: 3rem;" v-if="submitting">
+        <div class="position-fixed d-flex flex-column" style="top: 5rem; right: 3rem;" v-if="updating">
             <div class="spinner-grow text-primary" style="width: 2rem; height: 2rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -133,37 +133,33 @@
                 problem: {},
                 timeleft: "_ _:_ _",
                 timer: null,
-                submitting: false,
+                updating: false,
                 timeSmall: false,
                 editing: true,
                 socket: null,
-                sessionId: ''
+                submitting: false,
+                submitted: false,
             };
         },
         methods: {
             submit() {
-                this.update((res) => {
-                    this.socket.close();
+                if (this.submitting || this.submitted) return false;
+                this.submitting = true;
 
+                this.update((res) => {
+                    this.submitted = true;
                     this.editing = false;
-                    if (this.sessionId) {
-                        this.$router.replace({
-                            name: "session-result",
-                            params: {id: this.$hash.encode(this.sessionId)}
-                        });
-                    }
                 });
             },
             update(cb) {
-                if (this.submitting) return false;
-                this.submitting = true;
-
+                if (this.updating || this.submitted) return false;
+                this.updating = true;
                 this.session.dateSubmitted = new Date().toISOString();
 
                 if (this.socket.OPEN) {
                     this.socket.send(JSON.stringify(this.session));
                 }
-                this.submitting = false;
+                this.updating = false;
                 cb(true);
             },
             getProblem(id) {
@@ -220,18 +216,32 @@
                 cb(true);
             },
             connectionOpened($event) {
-                console.log('connected');
                 this.authenticate(() => this.startTimer(fiveMinutes));
             },
             connectionClosed($event) {
-                console.log('closed')
+                return this.$router.push({
+                    name: 'problem-detail',
+                    params: {id: this.$hash.encode(this.problem.id)}
+                });
             },
             connectionMessage($event) {
-                this.sessionId = $event.data;
-                this.socket.removeEventListener('message', this.connectionMessage);
+                if(this.submitted) {
+                    const sessionId = $event.data;
+
+                    this.socket.removeEventListener('message', this.connectionMessage);
+                    this.socket.close();
+
+                    this.$router.replace({
+                        name: "session-result",
+                        params: {id: this.$hash.encode(sessionId)}
+                    });
+                }
             },
             connectionError($event) {
-                console.log('error')
+                return this.$router.push({
+                    name: 'problem-detail',
+                    params: {id: this.$hash.encode(this.problem.id)}
+                });
             },
             connect() {
                 this.socket = new WebSocket(baseSocketURL);
@@ -298,7 +308,7 @@
         watch: {
             'session': {
                 handler: function (value) {
-                    if (value.dateStarted && !this.arrayEqual(previousAnswer, value.answers)) {
+                    if (!this.arrayEqual(previousAnswer, value.answers)) {
                         previousAnswer = this.copyArray(value.answers);
                         this.update(() => {});
                     }
