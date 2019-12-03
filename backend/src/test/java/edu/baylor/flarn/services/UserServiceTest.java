@@ -53,7 +53,7 @@ class UserServiceTest {
     @Test
     void findById() throws RecordNotFoundException {
         User user = userService.findById(1L);
-        assertEquals(user.getFullName(), "Admin Mock","admin expected");
+        assertEquals(user.getFullName(), "Admin Mock", "admin expected");
     }
 
     /***
@@ -82,8 +82,8 @@ class UserServiceTest {
 
         User updatedUser = userService.updateUser(userUpdate, oldUser);
 
-        assertEquals(updatedUser.getFullName(), "newName",updatedUser.getFullName()+ "expected");
-        assertEquals(updatedUser.getState(), "NY","NY expected");
+        assertEquals(updatedUser.getFullName(), "newName", updatedUser.getFullName() + "expected");
+        assertEquals(updatedUser.getState(), "NY", "NY expected");
     }
 
     /***
@@ -97,7 +97,7 @@ class UserServiceTest {
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
         user.setEnabled(true);
         User saved = userService.saveUser(user);
-        assertTrue(saved.equals(user),user.getUsername()+ " expected");
+        assertTrue(saved.equals(user), user.getUsername() + " expected");
     }
 
     /***
@@ -132,9 +132,9 @@ class UserServiceTest {
         User saved = userService.saveUser(user);
 
         //Test record
-        assertEquals(saved, user,"saved user should be equal to created user");
-        assertNotNull(userService.getUserByUsernameActive(user.getUsername()),"Should not be null");
-        assertTrue(userService.exists(user.getUsername()),"User should exist in database");
+        assertEquals(saved, user, "saved user should be equal to created user");
+        assertNotNull(userService.getUserByUsernameActive(user.getUsername()), "Should not be null");
+        assertTrue(userService.exists(user.getUsername()), "User should exist in database");
 
 
         //deactivate user
@@ -155,7 +155,7 @@ class UserServiceTest {
 
         subscriber = userService.follow(subscriber, subscribed.getId());
 
-        assertThat("Subscriber is in subscription",subscriber.getSubscriptions(), contains(subscribed));
+        assertThat("Subscriber is in subscription", subscriber.getSubscriptions(), contains(subscribed));
     }
 
     //lazy loading issue needs to be resolved
@@ -174,9 +174,9 @@ class UserServiceTest {
 
         subscribed = userService.findById(1L);
 
-        assertFalse(subscriber.getSubscriptions().contains(subscribed),"should be false");
+        assertFalse(subscriber.getSubscriptions().contains(subscribed), "should be false");
 
-        assertFalse(subscribed.getSubscribers().contains(subscriber),"should be false");
+        assertFalse(subscribed.getSubscribers().contains(subscriber), "should be false");
     }
 
     /***
@@ -191,15 +191,15 @@ class UserServiceTest {
 
         subscriber = userService.follow(subscriber, subscribed.getId());
 
-        assertTrue(subscriber.getSubscriptions().contains(subscribed),"should be True");
+        assertTrue(subscriber.getSubscriptions().contains(subscribed), "should be True");
 
-        assertTrue(subscribed.getSubscribers().contains(subscriber),"should be True");
+        assertTrue(subscribed.getSubscribers().contains(subscriber), "should be True");
 
         subscriber = userService.unfollow(subscriber, subscribed.getId());
 
-        assertFalse(subscriber.getSubscriptions().contains(subscribed),"should be false");
+        assertFalse(subscriber.getSubscriptions().contains(subscribed), "should be false");
 
-        assertFalse(subscribed.getSubscribers().contains(subscriber),"should be false");
+        assertFalse(subscribed.getSubscribers().contains(subscriber), "should be false");
 
     }
 
@@ -218,7 +218,7 @@ class UserServiceTest {
         userService.registerUser(user);
 
         //User record exist in database
-        assertTrue(userService.exists(user.getUsername()),"Should be true");
+        assertTrue(userService.exists(user.getUsername()), "Should be true");
 
         //User is not active/enabled
         assertThatThrownBy(() -> userService.getUserByUsernameActive(user.getUsername())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("User not found with username " + user.getUsername());
@@ -240,7 +240,7 @@ class UserServiceTest {
         userService.registerUser(registration);
 
         //User record exist in database
-        assertTrue(userService.exists(registration.getUsername()),"User repository should contain user");
+        assertTrue(userService.exists(registration.getUsername()), "User repository should contain user");
         User user = userService.getUserByUsernameAll(registration.getUsername());
 
         //User is not active/enabled
@@ -262,7 +262,7 @@ class UserServiceTest {
         confirmUserRequest.setConfirmationCode(9090);
         userService.confirmUser(confirmUserRequest);
         //user now enabled
-        assertNotNull(userService.getUserByUsernameActive(user.getUsername()),"Should not be null");
+        assertNotNull(userService.getUserByUsernameActive(user.getUsername()), "Should not be null");
 
     }
 
@@ -289,12 +289,12 @@ class UserServiceTest {
                 "temple", "AZ", "0000", "my story", null, null, UserType.LEARNER);
 
         //confirm usertype
-        assertThat("User is a learner",user.getUserType(), Is.is(UserType.LEARNER));
+        assertThat("User is a learner", user.getUserType(), Is.is(UserType.LEARNER));
 
         user.setUserType(UserType.MODERATOR);
 
         //confirm change
-        assertThat("User is moderator",user.getUserType(), Is.is(UserType.MODERATOR));
+        assertThat("User is moderator", user.getUserType(), Is.is(UserType.MODERATOR));
 
     }
 

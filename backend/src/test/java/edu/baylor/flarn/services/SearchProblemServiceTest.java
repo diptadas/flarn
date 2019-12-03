@@ -45,7 +45,7 @@ class SearchProblemServiceTest {
 
         List<Problem> problems = searchProblemService.searchProblem(problemSearchRequest);
         // using title "", so it should not return null
-        assertNotNull(problems,"problem should not be null");
+        assertNotNull(problems, "problem should not be null");
         problems.forEach(problem -> Assert.assertThat(problem.getCategory(), Is.is(Category.DEFAULT_CATEGORY_NAME)));
         problems.forEach(problem -> Assert.assertThat(problem.getDifficulty(), Is.is(Difficulty.HARD.name())));
     }
