@@ -1,6 +1,6 @@
 package edu.baylor.flarn.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import edu.baylor.flarn.resources.AuthenticationRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +31,10 @@ public class AuthenticationControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    public static String asJsonString(Object obj) {
+        return new Gson().toJson(obj);
+    }
 
     @Test
     public void testRegisterInvalid() throws Exception {
@@ -68,13 +72,5 @@ public class AuthenticationControllerTests {
                         .characterEncoding("utf-8")
                         .content(asJsonString(authRequest))
         ).andExpect(status().isOk());
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

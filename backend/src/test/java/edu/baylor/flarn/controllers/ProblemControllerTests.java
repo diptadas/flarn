@@ -1,6 +1,5 @@
 package edu.baylor.flarn.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.baylor.flarn.resources.ProblemSearchRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static edu.baylor.flarn.controllers.AuthenticationControllerTests.asJsonString;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -64,13 +64,5 @@ public class ProblemControllerTests {
                 .andExpect(content().string(
                         containsString("problem-2")
                 ));
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
