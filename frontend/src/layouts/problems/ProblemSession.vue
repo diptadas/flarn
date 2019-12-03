@@ -9,17 +9,17 @@
 
         <div v-if="problem.id">
             <div
-                    class="d-flex-column justify-content-start p-4"
                     @click="showProblem(problem.id)"
+                    class="d-flex-column justify-content-start p-4"
             >
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="text-primary">
                         {{ problem.title }}
                     </h4>
                     <a
-                            href="#"
-                            class="badge badge-primary text-right"
                             @click.stop="getProlemsInCategory(problem.category.id)"
+                            class="badge badge-primary text-right"
+                            href="#"
                     >
                         {{ problem.category.name }}
                     </a>
@@ -45,28 +45,28 @@
                     <h4 class="mb-4 text-primary">Questions:</h4>
 
                     <div
-                            v-for="(que, qi) in problem.questions"
                             :key="que.id"
                             class="mb-4"
+                            v-for="(que, qi) in problem.questions"
                     >
                         {{ qi + 1 }}. {{ que.content }}
 
                         <div
+                                :key="i"
                                 class="custom-control custom-radio my-3 ml-4"
                                 v-for="(opt, i) in que.options"
-                                :key="i"
                         >
                             <input
-                                    :name="`radio-${qi}`"
-                                    class="custom-control-input"
                                     :id="`category-radio-${qi}-${i}`"
+                                    :name="`radio-${qi}`"
+                                    :value="i"
+                                    class="custom-control-input"
                                     type="radio"
                                     v-model="session.answers[qi]"
-                                    :value="i"
                             />
                             <label
-                                    class="custom-control-label"
                                     :for="`category-radio-${qi}-${i}`"
+                                    class="custom-control-label"
                             >
                                 {{ opt }}
                             </label>
@@ -78,15 +78,15 @@
             <hr class="my-4"/>
             <div class="text-right mt-4">
                 <button
-                        type="submit"
-                        class="btn btn-primary"
-                        @click="submit"
                         :disabled="submitting"
+                        @click="submit"
+                        class="btn btn-primary"
+                        type="submit"
                 >
           <span
+                  aria-hidden="true"
                   class="spinner-grow spinner-grow-sm"
                   role="status"
-                  aria-hidden="true"
                   v-if="submitting"
           ></span>
                     Submit Session
@@ -95,7 +95,7 @@
         </div>
 
         <div class="position-fixed d-flex flex-column" style="top: 5rem; right: 3rem;" v-if="updating">
-            <div class="spinner-grow text-primary" style="width: 2rem; height: 2rem;" role="status">
+            <div class="spinner-grow text-primary" role="status" style="width: 2rem; height: 2rem;">
                 <span class="sr-only">Loading...</span>
             </div>
             <p class="text-primary"><strong>Saving...</strong></p>
@@ -225,7 +225,7 @@
                 });
             },
             connectionMessage($event) {
-                if(this.submitted) {
+                if (this.submitted) {
                     const sessionId = $event.data;
 
                     this.socket.removeEventListener('message', this.connectionMessage);
@@ -310,7 +310,8 @@
                 handler: function (value) {
                     if (!this.arrayEqual(previousAnswer, value.answers)) {
                         previousAnswer = this.copyArray(value.answers);
-                        this.update(() => {});
+                        this.update(() => {
+                        });
                     }
                 },
                 deep: true
