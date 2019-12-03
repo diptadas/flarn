@@ -1,7 +1,7 @@
 package edu.baylor.flarn.controllers;
 
 import edu.baylor.flarn.models.Category;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,7 +11,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static edu.baylor.flarn.controllers.AuthenticationControllerTests.asJsonString;
+import static edu.baylor.flarn.controllers.AuthenticationControllerTest.asJsonString;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * The {@link CategoryControllerTests} contains the tests for the {@link CategoryController}.
+ * The {@link CategoryControllerTest} contains the tests for the {@link CategoryController}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "admin@gm.com", roles = {"ADMIN"})
-public class CategoryControllerTests {
+public class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

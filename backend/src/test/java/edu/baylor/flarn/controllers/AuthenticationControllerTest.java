@@ -2,7 +2,7 @@ package edu.baylor.flarn.controllers;
 
 import com.google.gson.Gson;
 import edu.baylor.flarn.resources.AuthenticationRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * The {@link AuthenticationControllerTests} contains the tests for the {@link AuthenticationController}.
+ * The {@link AuthenticationControllerTest} contains the tests for the {@link AuthenticationController}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "admin@gm.com", roles = {"ADMIN"})
-public class AuthenticationControllerTests {
+public class AuthenticationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

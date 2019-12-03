@@ -1,6 +1,6 @@
 package edu.baylor.flarn.controllers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * The {@link HomeControllerTests} contains the tests for the {@link HomeController}.
+ * The {@link HomeControllerTest} contains the tests for the {@link HomeController}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HomeControllerTests {
+public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

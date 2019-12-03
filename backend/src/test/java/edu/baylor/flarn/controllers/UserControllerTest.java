@@ -1,6 +1,6 @@
 package edu.baylor.flarn.controllers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * The {@link UserControllerTests} contains the tests for the {@link UserController}.
+ * The {@link UserControllerTest} contains the tests for the {@link UserController}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "admin@gm.com", roles = {"ADMIN"})
-public class UserControllerTests {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
