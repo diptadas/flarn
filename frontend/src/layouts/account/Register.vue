@@ -182,7 +182,7 @@
                                 for="customCheckRegister"
                                 ><span
                                   >I agree with the
-                                  <a href="#">Privacy Policy</a></span
+                                  <a target="_blank" href="https://github.com/diptadas/flarn/blob/master/docs/LICENSE">Privacy Policy</a></span
                                 ></label
                               >
                             </div>
@@ -249,8 +249,13 @@ export default {
     }
   },
   watch: {
-    password(old, value) {
-      this.checkPassStrength(value);
+    reg: {
+      handler: function (val, oldVal) {
+        if(val.password) {
+          this.checkPassStrength(val.password);
+        }
+      },
+      deep: true
     }
   },
   methods: {
