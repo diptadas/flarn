@@ -101,8 +101,14 @@ export default {
     };
   },
   methods: {
-    submit(cb) {
-      this.$router.push({name: 'home'});
+    submit() {
+      if(this.problem.id) {
+        return this.$router.push({
+          name: 'problem-detail',
+          params: { id: this.$hash.encode(this.problem.id) }});
+      } else {
+        return this.$router.push({name: 'home'});
+      }
     },
     getSession(id) {
       const url = `sessions/${id}`;
