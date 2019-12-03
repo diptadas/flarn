@@ -8,9 +8,14 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
-/***
- * Database configuration class.
+/**
+ * {@link DBConfig} class configures the database using the values from application.properties.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
+
 @Configuration
 public class DBConfig {
     @Value("${spring.datasource.url}")

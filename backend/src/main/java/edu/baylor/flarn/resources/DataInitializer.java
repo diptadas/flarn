@@ -12,11 +12,15 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/***
- * Data Initializer class is used to generate data for testing and debuging.
- * @Field entityManager
+/**
+ * {@link DataInitializer} class populates the initial data for the dev environment.
+ * It won't populate data in the prod environment.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
+
 @Profile("!prod")
 @Component
 @Slf4j
@@ -27,7 +31,7 @@ public class DataInitializer implements CommandLineRunner {
     private final String image = "https://i.ibb.co/kgLYxgp/default-profile.png";
 
     /**
-     * @param entityManager entity manager
+     * @param entityManager   entity manager
      * @param passwordEncoder used to encode the password
      */
     public DataInitializer(final EntityManager entityManager, final PasswordEncoder passwordEncoder) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * The {@link AlreadyStaredException}.
- * class indicates a specific data not found in the database.
+ * class indicates user already stared the problem.
  *
  * @author Dipta Das
  */
@@ -20,6 +20,7 @@ public class AlreadyStaredException extends Exception {
 
     /**
      * Constructor AlreadyStaredException.
+     *
      * @param message exception message.
      */
     public AlreadyStaredException(final String message) {

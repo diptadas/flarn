@@ -10,6 +10,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * Contact class defines the contact info of a user for sending emails.
+ * It is used to forward support emails.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Data
 @Entity
 public class Contact {
@@ -19,11 +28,11 @@ public class Contact {
 
     @NotNull
     private String name;
-    
+
     @Email
     @NotNull
     private String email;
-    
+
     @NotNull
     private String message;
 

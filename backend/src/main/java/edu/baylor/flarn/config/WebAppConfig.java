@@ -15,8 +15,13 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * WebApp configuration class.
+ * {@link WebAppConfig} class configures the web security for the application.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
+
 @Configuration
 @EnableWebSecurity
 public class WebAppConfig extends WebSecurityConfigurerAdapter {
@@ -24,6 +29,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Constructor.
+     *
      * @param jwtTokenProvider
      */
     public WebAppConfig(JwtTokenProvider jwtTokenProvider) {
@@ -32,6 +38,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Authentication manager method.
+     *
      * @return
      * @throws Exception
      */
@@ -43,6 +50,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Method overidess default http configuration.
+     *
      * @param http
      * @throws Exception
      */
@@ -71,6 +79,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * .
+     *
      * @return
      */
     @Bean
@@ -90,6 +99,7 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * .
+     *
      * @return
      */
     @Bean

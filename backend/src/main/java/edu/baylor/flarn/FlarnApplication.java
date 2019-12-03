@@ -5,8 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * Application start class.
+ * {@link FlarnApplication} class is the bootstrapper for the application.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
  */
+
 @SpringBootApplication
 @EnableAsync
 public class FlarnApplication {

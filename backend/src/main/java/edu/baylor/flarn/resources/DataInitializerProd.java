@@ -12,12 +12,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * {@link DataInitializerProd} class populates the initial data for the prod environment.
+ * It creates an admin user and a default category.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Profile("prod")
 @Component
 @Slf4j
-/***
- *
- */
 public class DataInitializerProd implements CommandLineRunner {
     private final UserService userService;
     private final CategoryService categoryService;

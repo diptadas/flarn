@@ -11,6 +11,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
+/**
+ * {@link DataJpaConfig} class configures configure auditing for JPA.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 @Configuration
 @EnableJpaAuditing
 class DataJpaConfig {

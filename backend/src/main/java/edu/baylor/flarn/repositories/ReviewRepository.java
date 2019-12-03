@@ -9,6 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * {@link ReviewRepository} class defines the DB operations for {@link Review} model.
+ *
+ * @author Dipta Das
+ * @author Clinton Yeboah
+ * @author Frimpong Boadu
+ */
+
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Transactional
     void deleteByReviewTypeAndUserAndProblem(ReviewType reviewType, User user, Problem problem);
