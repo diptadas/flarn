@@ -51,19 +51,19 @@ class ProblemServiceTest {
      */
     void createProblem() throws RecordNotFoundException {
 
-        //get Users; learner and moderator
+        // get Users: learner and moderator
         User moderator = userService.getUserByUsernameActive("moderator1@gm.com");
-        assertThat("User has moderator role",moderator.getUserType(), Is.is(UserType.MODERATOR));
+        assertThat("User has moderator role", moderator.getUserType(), Is.is(UserType.MODERATOR));
         User reviewer = userService.getUserByUsernameActive("admin@gm.com");
 
-        //Knowledge Source
+        // Knowledge Source
         KnowledgeSource knowledgeSource = new KnowledgeSource();
         knowledgeSource.setContent("Test Knowledge source");
 
-        //Category
+        // Category
         Category category = categoryService.getDefaultCategory();
 
-        //Question
+        // Question
         Question question = new Question();
         question.setContent("Which of these is not a programming language");
         List<String> options = new ArrayList<>();
@@ -98,16 +98,16 @@ class ProblemServiceTest {
 
         Problem saved = problemService.createProblem(problem, moderator);
 
-        assertEquals(saved, problem,saved.getTitle()+" Expected");
-        assertNotNull(problemService.getProblemById(saved.getId()),"Should not be null");
+        assertEquals(saved, problem, saved.getTitle() + " Expected");
+        assertNotNull(problemService.getProblemById(saved.getId()), "Should not be null");
 
-        assertEquals(knowledgeSource.getProblem(), saved,"");
-        assertEquals(saved,question.getProblem(),saved.getTitle()+ " expected");
+        assertEquals(knowledgeSource.getProblem(), saved, "");
+        assertEquals(saved, question.getProblem(), saved.getTitle() + " expected");
     }
 
     @Test
     void getAllProblems() {
-        assertNotNull(problemService.getAllProblems(),"Should not be null");
+        assertNotNull(problemService.getAllProblems(), "Should not be null");
     }
 
     @Test
@@ -119,25 +119,23 @@ class ProblemServiceTest {
 
     @Test
     void archiveProblem() throws RecordNotFoundException {
-        Problem problem = problemService.getProblemById(1L);
+        List<Problem> problems = problemService.getAllUnarchivedProblems();
+        Problem problem = problems.get(0);
 
-        //deactivate user
+        // archive problem
         problemService.archiveProblem(problem.getId());
+
+        // it should throw record not found exception
         assertThatThrownBy(() -> problemService.getProblemById(problem.getId())).isInstanceOf(RecordNotFoundException.class).hasMessageContaining("Problem not found with id: " + problem.getId());
-
-    }
-
-    @Test
-    void updateProblem() {
     }
 
     @Test
     void getRandomProblem() throws RecordNotFoundException {
-        //get User
+        // get User
         User user = userService.getUserByUsernameActive("moderator1@gm.com");
 
         Problem problem = problemService.getRandomProblem(user);
-        assertNotNull(problem,"Should not be null");
-        assertFalse(problem.isArchived(),"Should return false");
+        assertNotNull(problem, "Should not be null");
+        assertFalse(problem.isArchived(), "Should return false");
     }
 }
