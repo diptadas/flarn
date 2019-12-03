@@ -201,7 +201,7 @@ export default {
     }
   },
   created() {
-    this.email = this.$store.state.username;
+    this.conf.username = this.$store.state.username;
   }
 };
 </script>
