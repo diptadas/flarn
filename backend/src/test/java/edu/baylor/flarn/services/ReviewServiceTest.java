@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,13 +43,16 @@ class ReviewServiceTest {
     @Test
     void starProblem() throws RecordNotFoundException, AlreadyStaredException {
         // get problem
-        Problem problem = problemService.getProblemById(1L);
+        List<Problem> problems = problemService.getAllUnarchivedProblems();
+        Problem problem = problems.get(0);
+
         User user = userService.findById(1L);
 
         Review review = reviewService.starProblem(problem.getId(), user);
 
-        assertNotNull(review, " review object should not be null");
+        assertNotNull(review, "review object should not be null");
 
+        // if we try to star the problem again, it should throw record not found exception
         assertThatThrownBy(() -> reviewService.starProblem(problem.getId(), user)).isInstanceOf(AlreadyStaredException.class).hasMessageContaining("Already stared problem " + problem.getId());
     }
 
