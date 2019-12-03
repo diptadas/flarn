@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -49,7 +49,6 @@ class ReviewServiceTest {
         User user = userService.findById(1L);
 
         Review review = reviewService.starProblem(problem.getId(), user);
-
         assertNotNull(review, "review object should not be null");
 
         // if we try to star the problem again, it should throw record not found exception
@@ -57,12 +56,20 @@ class ReviewServiceTest {
     }
 
     @Test
-    void unstarProblem() throws RecordNotFoundException {
+    void unstarProblem() throws RecordNotFoundException, AlreadyStaredException {
         // get problem
-        Problem problem = problemService.getProblemById(1L);
+        List<Problem> problems = problemService.getAllUnarchivedProblems();
+        Problem problem = problems.get(0);
+
         User user = userService.findById(1L);
 
+        Review review = reviewService.starProblem(problem.getId(), user);
+        assertNotNull(review, "review object should not be null");
+
+        assertTrue(reviewService.hasStared(problem.getId(), user));
+
         reviewService.unstarProblem(problem.getId(), user);
+        assertFalse(reviewService.hasStared(problem.getId(), user));
     }
 
 }
