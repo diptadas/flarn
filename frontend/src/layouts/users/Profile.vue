@@ -39,8 +39,8 @@
                 </div>
               </div>
             </div>
-            <div class="card-body pt-0 pt-md-8">
-              <div class="row">
+            <div class="card-body mt-6">
+              <div class="row mt-6">
                 <div class="col">
                   <div
                     class="card-profile-stats d-flex justify-content-center "
@@ -59,9 +59,9 @@
                     </div>
                     <div>
                       <span class="heading">
-                        {{ user.subscriptions.length }}
+                        {{ user.points }}
                       </span>
-                      <span class="description">User Rank</span>
+                      <span class="description">User Points</span>
                     </div>
                   </div>
                 </div>
