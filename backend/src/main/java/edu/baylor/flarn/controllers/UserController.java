@@ -24,6 +24,12 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * The {@link UserController} class defines REST endpoints for {@link User} model.
+ *
+ * @author Dipta Das
+ */
+
 @RestController
 @RequestMapping("/users")
 public class UserController {

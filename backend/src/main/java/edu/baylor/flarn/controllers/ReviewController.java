@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The {@link ReviewController} class defines REST endpoints for {@link Review} model.
+ *
+ * @author Dipta Das
+ */
+
 @RestController
 @RequestMapping("/reviews")
 @Slf4j

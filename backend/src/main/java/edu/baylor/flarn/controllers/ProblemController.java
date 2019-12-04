@@ -19,10 +19,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
+/**
+ * The {@link ProblemController} class defines REST endpoints for {@link Problem} model.
+ *
+ * @author Dipta Das
+ */
+
 @RestController
 @RequestMapping("/problems")
 @Slf4j
-
 public class ProblemController {
 
     private final ProblemService problemService;
