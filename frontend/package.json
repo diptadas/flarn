@@ -7,6 +7,23 @@
     "name": "Clinton Yeboah",
     "url": "https://github.com/clintonyeb"
   },
+  "contributors": [
+    {
+      "email": "clintonyeb@gmail.com",
+      "name": "Dipta Das",
+      "url": "https://github.com/clintonyeb"
+    },
+    {
+      "email": "clintonyeb@gmail.com",
+      "name": "Frimpong Boadu",
+      "url": "https://github.com/clintonyeb"
+    },
+    {
+      "email": "clintonyeb@gmail.com",
+      "name": "Clinton Yeboah",
+      "url": "https://github.com/clintonyeb"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/diptadas/flarn"

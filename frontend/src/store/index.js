@@ -55,7 +55,6 @@ export default new Vuex.Store({
     },
     actions: {
         getCurrentUser(context) {
-            console.log('action')
             const url = "users/current";
 
             axios.get(url)

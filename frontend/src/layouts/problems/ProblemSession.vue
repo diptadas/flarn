@@ -219,10 +219,12 @@
                 this.authenticate(() => this.startTimer(fiveMinutes));
             },
             connectionClosed($event) {
-                return this.$router.push({
-                    name: 'problem-detail',
-                    params: {id: this.$hash.encode(this.problem.id)}
-                });
+                if (!this.submitted) {
+                    this.$router.push({
+                        name: 'problem-detail',
+                        params: {id: this.$hash.encode(this.problem.id)}
+                    });
+                }
             },
             connectionMessage($event) {
                 if (this.submitted) {
@@ -238,10 +240,12 @@
                 }
             },
             connectionError($event) {
-                return this.$router.push({
-                    name: 'problem-detail',
-                    params: {id: this.$hash.encode(this.problem.id)}
-                });
+                if (!this.submitted) {
+                    this.$router.push({
+                        name: 'problem-detail',
+                        params: {id: this.$hash.encode(this.problem.id)}
+                    });
+                }
             },
             connect() {
                 this.socket = new WebSocket(baseSocketURL);
