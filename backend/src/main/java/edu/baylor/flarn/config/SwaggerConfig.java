@@ -6,6 +6,8 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -26,5 +28,12 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
+    }
+
+    // disable try-it-out
+    @Bean
+    public UiConfiguration tryItOutConfig() {
+        final String[] methodsWithTryItOutButton = {};
+        return UiConfigurationBuilder.builder().supportedSubmitMethods(methodsWithTryItOutButton).build();
     }
 }
