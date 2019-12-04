@@ -1,11 +1,13 @@
 package edu.baylor.flarn.controllers;
 
-import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Contact;
 import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.resources.*;
+import edu.baylor.flarn.resources.AuthenticationRequest;
+import edu.baylor.flarn.resources.ConfirmUserRequest;
+import edu.baylor.flarn.resources.UpdatePasswordRequest;
+import edu.baylor.flarn.resources.UserRegistration;
 import edu.baylor.flarn.security.JwtTokenProvider;
 import edu.baylor.flarn.services.UserService;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.ok;
+
+/**
+ * The {@link AuthenticationController} class defines REST endpoints for user authentication.
+ *
+ * @author Dipta Das
+ */
 
 @RestController
 @RequestMapping("/auth")

@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The {@link CategoryController} class defines REST endpoints for {@link Category} model.
+ *
+ * @author Dipta Das
+ */
 
 @RestController
 @RequestMapping("/category")

@@ -1,0 +1,12 @@
+edu.baylor.flarn
+edu.baylor.flarn.config
+edu.baylor.flarn.controllers
+edu.baylor.flarn.e2e
+edu.baylor.flarn.exceptions
+edu.baylor.flarn.jms
+edu.baylor.flarn.models
+edu.baylor.flarn.repositories
+edu.baylor.flarn.resources
+edu.baylor.flarn.security
+edu.baylor.flarn.services
+edu.baylor.flarn.ws

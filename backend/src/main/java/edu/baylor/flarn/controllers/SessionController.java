@@ -7,6 +7,12 @@ import edu.baylor.flarn.services.SessionService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The {@link SessionController} class defines REST endpoints for {@link Session} model.
+ *
+ * @author Dipta Das
+ */
+
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {
