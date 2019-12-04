@@ -27,33 +27,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebAppConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
 
-    /**
-     * Constructor.
-     *
-     * @param jwtTokenProvider
-     */
     public WebAppConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    /**
-     * Authentication manager method.
-     *
-     * @return
-     * @throws Exception
-     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    /**
-     * Method overidess default http configuration.
-     *
-     * @param http
-     * @throws Exception
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -77,11 +60,6 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable();
     }
 
-    /**
-     * .
-     *
-     * @return
-     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -97,11 +75,6 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-    /**
-     * .
-     *
-     * @return
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
