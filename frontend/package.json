@@ -1,7 +1,20 @@
 {
-  "name": "frontend",
+  "name": "flarn",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "email": "clintonyeb@gmail.com",
+    "name": "Clinton Yeboah",
+    "url": "https://github.com/clintonyeb"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diptadas/flarn"
+  },
+  "keywords": [],
+  "license": "Apache",
+  "homepage": "https://flarn.netlify.com",
+  "description": "Flarn Application: Fun Learning",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

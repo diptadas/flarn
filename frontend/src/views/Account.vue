@@ -9,8 +9,8 @@
                     <router-link :to="{ name: 'home' }" class="navbar-brand mr-lg-5">
                         <img
                                 alt="brand"
-                                src="../assets/img/brand/logo-white.png"
-                                style="transform: scale(5, 5);"
+                                src="../assets/img/brand/whiteFlarn.svg"
+                                style="transform: scale(4, 4);"
                         />
                     </router-link>
                     <button
@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-6 collapse-brand">
                                     <router-link :to="{name: 'home'}">
-                                        <img alt="brand" src="../assets/img/brand/blue.png"/>
+                                        <img alt="brand" src="../assets/img/brand/Flarn.svg"/>
                                     </router-link>
                                 </div>
                                 <div class="col-6 collapse-close">

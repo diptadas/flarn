@@ -18,12 +18,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Brand -->
-                <router-link :to="{ name: 'home' }" class="navbar-brand pt-0">
+                <router-link :to="{ name: 'home' }" class="navbar-brand">
                     <img
                             alt="brand"
                             class="navbar-brand-img"
-                            src="../assets/img/brand/logo.png"
-                            style="transform: scale(5, 5);"
+                            src="../assets/img/brand/Flarn.svg"
+                            style="transform: scale(4, 4);"
                     />
                 </router-link>
                 <!-- User -->
@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-6 collapse-brand">
                                 <a href="./index.html">
-                                    <img src="../assets/img/brand/blue.png"/>
+                                    <img src="../assets/img/brand/Flarn.svg"/>
                                 </a>
                             </div>
                             <div class="col-6 collapse-close">
