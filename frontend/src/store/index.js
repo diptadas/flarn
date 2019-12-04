@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "../utils/http";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,11 @@ export default new Vuex.Store({
         error: {
             state: false,
             text: ""
+        },
+        user: {
+            fullName: "Loading...",
+            userType: "LEARNER",
+            avatarLink: "https://i.ibb.co/kgLYxgp/default-profile.png"
         }
     },
     mutations: {
@@ -19,6 +25,11 @@ export default new Vuex.Store({
             state.username = auth.username;
             state.token = auth.token;
             state.userId = auth.userId;
+        },
+        SET_USER(state, data) {
+            state.user.fullName = data.fullName;
+            state.user.userType = data.userType;
+            state.user.avatarLink = data.avatarLink;
         },
         SET_USERNAME(state, username) {
             state.username = username;
@@ -42,6 +53,20 @@ export default new Vuex.Store({
             state.error.state = true;
         }
     },
-    actions: {},
+    actions: {
+        getCurrentUser(context) {
+            console.log('action')
+            const url = "users/current";
+
+            axios.get(url)
+                .then(res => {
+                    context.commit('SET_AUTH', res.data);
+                    context.commit('SET_USER', res.data);
+                })
+                .catch(err => {
+                    this.$router.replace({name: 'login'});
+                });
+        }
+    },
     modules: {}
 });

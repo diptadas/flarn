@@ -319,11 +319,6 @@
         name: "home",
         data() {
             return {
-                user: {
-                    fullName: "Test User",
-                    roles: [],
-                    avatarLink: ""
-                },
                 navs: [
                     {
                         id: 1,
@@ -411,31 +406,21 @@
                 return string.split("-").join(" ");
             }
         },
-        beforeRouteEnter(to, from, next) {
-            next(vm => {
-                const url = "users/current";
-
-                vm.$http
-                    .get(url)
-                    .then(res => {
-                        vm.user = res.data;
-                        vm.$store.commit('SET_AUTH', res.data);
-                        next();
-                    })
-                    .catch(err => {
-                        next({name: 'login'});
-                    });
-            })
+        created() {
+            this.$store.dispatch("getCurrentUser");
         },
         computed: {
             activeHomePage() {
                 return this.formatNavText(this.$route.name);
             },
             isModerator() {
-                return this.user.roles.indexOf("ROLE_MODERATOR") !== -1;
+                return (this.user.userType === 'MODERATOR') || (this.isAdmin) ;
             },
             isAdmin() {
-                return this.user.roles.indexOf("ROLE_ADMIN") !== -1;
+                return this.user.userType === 'ADMIN';
+            },
+            user() {
+                return this.$store.state.user;
             }
         },
         components: {
