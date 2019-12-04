@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * The {@link ProblemControllerTests} contains the tests for the {@link ProblemController}.
+ * The {@link ProblemControllerTest} contains the tests for the {@link ProblemController}.
  *
  * @author Dipta Das
  * @author Clinton Yeboah
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "admin@gm.com", roles = {"ADMIN"})
-public class ProblemControllerTests {
+public class ProblemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

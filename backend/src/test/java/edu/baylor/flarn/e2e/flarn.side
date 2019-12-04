@@ -1,0 +1,240 @@
+{
+  "id": "e2bbba7a-96bd-4a56-89f1-92a53621bb03",
+  "version": "2.0",
+  "name": "flarn",
+  "url": "https://flarn.netlify.com",
+  "tests": [{
+    "id": "4bfa0ef3-6898-43f7-b4b5-65fd80c45dfe",
+    "name": "testAdminLogin",
+    "commands": [{
+      "id": "6efbacfb-e27a-40a9-bcff-f6ea202142ff",
+      "comment": "",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bd9d118f-4dc1-4d82-934e-b92bcdb38f53",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d3e76ab2-d096-485c-9867-ab6acf8f6d98",
+      "comment": "",
+      "command": "click",
+      "target": "css=span:nth-child(1) .form-control",
+      "targets": [
+        ["css=span:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@type='email']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/span/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f986f697-ad5a-4f47-866c-1038f3cc31a9",
+      "comment": "",
+      "command": "type",
+      "target": "css=span:nth-child(1) .form-control",
+      "targets": [
+        ["css=span:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@type='email']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/span/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@flarn.com"
+    }, {
+      "id": "7ec22dc9-6d18-43fb-b2a0-a234ba823d5d",
+      "comment": "",
+      "command": "type",
+      "target": "css=span:nth-child(2) > .form-group .form-control",
+      "targets": [
+        ["css=span:nth-child(2) > .form-group .form-control", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/span[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//span[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "set-manually"
+    }, {
+      "id": "4e25f984-82b1-4ab6-9112-1f050550122f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/div/button", "xpath:idRelative"],
+        ["xpath=//form/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login To Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e6b6851-c83a-414e-aa6a-b850a9e2b749",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Manage Users",
+      "targets": [
+        ["linkText=Manage Users", "linkText"],
+        ["css=.navbar-nav:nth-child(8) > .nav-item:nth-child(1) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Manage Users')]", "xpath:link"],
+        ["xpath=//div[@id='sidenav-collapse-main']/ul[3]/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/manage/users')]", "xpath:href"],
+        ["xpath=//ul[3]/li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Manage Users')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "84c310cc-1c99-4e6c-af4a-a5e560f01b44",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,100)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "573ca379-0b46-43e3-8b99-bcb4f6d364b3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Manage Categories",
+      "targets": [
+        ["linkText=Manage Categories", "linkText"],
+        ["css=.mb-md-3 > .nav-item:nth-child(2) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Manage Categories')]", "xpath:link"],
+        ["xpath=//div[@id='sidenav-collapse-main']/ul[3]/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/manage/categories')]", "xpath:href"],
+        ["xpath=//ul[3]/li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Manage Categories')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d25c35a9-5386-42d7-a424-61478981aa7c",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "9c2497dd-2f4e-4e2e-b0c5-f777beae813b",
+    "name": "testLoginFailed",
+    "commands": [{
+      "id": "47fb5396-c00f-4b9a-940a-0e5b6dbb2c49",
+      "comment": "",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f201d2a0-f3f8-4553-9c01-ecf5b2710cf2",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b1745410-1a68-4567-9cc1-cfb67eef8d09",
+      "comment": "",
+      "command": "click",
+      "target": "css=span:nth-child(1) .form-control",
+      "targets": [
+        ["css=span:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@type='email']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/span/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "41c9e6a1-c336-411b-87b5-086d0dd74e05",
+      "comment": "",
+      "command": "type",
+      "target": "css=span:nth-child(1) .form-control",
+      "targets": [
+        ["css=span:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@type='email']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/span/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@flarn.com"
+    }, {
+      "id": "78e0ebbe-aa43-4fd0-98f8-bc7f9eb0d67d",
+      "comment": "",
+      "command": "type",
+      "target": "css=span:nth-child(2) > .form-group .form-control",
+      "targets": [
+        ["css=span:nth-child(2) > .form-group .form-control", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/span[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//span[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "wrongPass"
+    }, {
+      "id": "85f9fa44-841c-4b16-9d8e-54f8fbda3594",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/div/button", "xpath:idRelative"],
+        ["xpath=//form/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login To Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "10fdd792-322b-47d2-8f51-7c135b0670d8",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/div/button", "xpath:idRelative"],
+        ["xpath=//form/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login To Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "760a809e-5e75-464b-ba9c-18fd36f786fd",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/span/form/div/button", "xpath:idRelative"],
+        ["xpath=//form/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login To Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2456333b-1b1d-4d9e-896c-50af71797b60",
+      "comment": "",
+      "command": "click",
+      "target": "css=.alert-inner--text",
+      "targets": [
+        ["css=.alert-inner--text", "css:finder"],
+        ["xpath=//div[@id='account']/main/section/div[2]/div/div/div/div/div[2]/span[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/span[2]", "xpath:position"],
+        ["xpath=//span[contains(.,'Invalid username and password')]", "xpath:innerText"]
+      ],
+      "value": "Invalid username and password"
+    }, {
+      "id": "41a520a2-7472-47c6-8681-393ebbd7d9a4",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "0c71b566-0e15-4645-88ff-35ed19045762",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://flarn.netlify.com/"],
+  "plugins": []
+}
