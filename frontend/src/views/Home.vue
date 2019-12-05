@@ -138,7 +138,7 @@
                       </div>
                     </form> -->
                     <!-- Navigation -->
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav mt--4">
                         <li :key="nav.id" class="nav-item" v-for="nav in navs">
                             <router-link :to="{ name: nav.value }" class=" nav-link">
                                 <i :class="`fas fa-${nav.icon} text-primary`"></i>
