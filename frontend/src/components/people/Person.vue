@@ -42,19 +42,19 @@
                 </router-link>
             </div>
         </td>
-        <td class="text-right" v-if="action">
+        <td v-if="action">
             <div class="dropdown">
                 <button
                         aria-expanded="false"
                         aria-haspopup="true"
-                        class="btn btn-sm btn-icon-only text-light"
+                        class="btn btn-icon-only btn-info"
                         data-toggle="dropdown"
                         role="button"
                 >
-                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-user-edit"></i>
                 </button>
                 <div
-                        class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                        class="dropdown-menu dropdown-menu-right"
                         style="z-index: 2;"
                 >
                     <a @click="$emit('promote')" class="dropdown-item">Promote User</a>
