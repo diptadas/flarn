@@ -12,7 +12,7 @@
         </th>
         <td @click="goToProfile">
       <span class="badge badge-dot d-inline-block pt-3">
-        <i class="bg-warning"></i> {{ user.userType }}
+        <i :class="userTypeColor"></i> {{ user.userType }}
       </span>
         </td>
         <td @click="goToProfile">
@@ -21,21 +21,23 @@
             </div>
         </td>
         <td>
+            <small class="font-weight-500 text-info">{{followers.length}} followers</small>
             <div class="avatar-group">
                 <router-link :data-original-title="user.fullName" :key="user.id"
                              :title="user.fullName" :to="{name: 'user-profile', params: { id: $hash.encode(user.id)}}"
                              class="avatar avatar-sm"
-                             data-placement="top" data-toggle="tooltip" v-for="user in followers">
+                             data-placement="top" data-toggle="tooltip" v-for="user in followers.slice(0, 5)">
                     <img :src="user.avatarLink" alt="Image placeholder" class="rounded-circle">
                 </router-link>
             </div>
         </td>
         <td>
+            <small class="font-weight-500 text-info">{{following.length}} followers</small>
             <div class="avatar-group">
                 <router-link :data-original-title="user.fullName" :key="user.id"
                              :title="user.fullName" :to="{name: 'user-profile', params: { id: $hash.encode(user.id)}}"
                              class="avatar avatar-sm"
-                             data-placement="top" data-toggle="tooltip" v-for="user in following">
+                             data-placement="top" data-toggle="tooltip" v-for="user in following.slice(0, 5)">
                     <img :src="user.avatarLink" alt="Image placeholder" class="rounded-circle">
                 </router-link>
             </div>
@@ -94,7 +96,7 @@
                 this.$http
                     .get(url)
                     .then(res => {
-                        this.followers = res.data.slice(0, 5);
+                        this.followers = res.data;
                     })
             },
             getFollowing(userId) {
@@ -103,8 +105,21 @@
                 this.$http
                     .get(url)
                     .then(res => {
-                        this.following = res.data.slice(0, 5);
+                        this.following = res.data;
                     })
+            }
+        },
+        computed: {
+            userTypeColor() {
+                const userType = this.user.userType;
+
+                if(userType === 'LEARNER') {
+                    return 'bg-primary';
+                } else if(userType === 'MODERATOR') {
+                    return 'bg-info';
+                } else {
+                    return 'bg-danger';
+                }
             }
         },
         created() {
