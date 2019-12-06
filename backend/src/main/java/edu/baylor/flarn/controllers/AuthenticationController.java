@@ -4,10 +4,7 @@ import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.models.Contact;
 import edu.baylor.flarn.models.User;
-import edu.baylor.flarn.resources.AuthenticationRequest;
-import edu.baylor.flarn.resources.ConfirmUserRequest;
-import edu.baylor.flarn.resources.UpdatePasswordRequest;
-import edu.baylor.flarn.resources.UserRegistration;
+import edu.baylor.flarn.resources.*;
 import edu.baylor.flarn.security.JwtTokenProvider;
 import edu.baylor.flarn.services.UserService;
 import lombok.AllArgsConstructor;
@@ -53,10 +50,12 @@ public class AuthenticationController {
         try {
             String username = data.getUsername();
             String password = data.getPassword();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            String token = jwtTokenProvider.createToken(username, userService.getUserByUsernameAll(username).getRoles());
 
-            User user = userService.getUserByUsernameAll(username);
+            User user = (User) authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password))
+                    .getPrincipal();
+
+            String token = jwtTokenProvider.createToken(username, userService.getUserByUsernameAll(username).getRoles());
 
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);

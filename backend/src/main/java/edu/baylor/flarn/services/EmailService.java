@@ -6,7 +6,7 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
-import edu.baylor.flarn.exceptions.EmailSendingException;
+import edu.baylor.flarn.jms.Sender;
 import edu.baylor.flarn.models.Contact;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,13 +23,16 @@ import java.io.IOException;
  * @author Frimpong Boadu
  */
 
-import java.io.IOException;
-
 @Service
 @Slf4j
 public class EmailService {
+    private final Sender jmsSender;
 
-    Mail prepareVerificationEmail(String email, int confirmationCode) {
+    public EmailService(Sender jmsSender) {
+        this.jmsSender = jmsSender;
+    }
+
+    void sendVerificationEmail(String email, int confirmationCode) {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(email);
 
@@ -37,42 +40,37 @@ public class EmailService {
         Content content = new Content("text/plain", "Your confirmation code is " + confirmationCode);
 
         log.info("Sending verification email to " + email);
-
-        return new Mail(from, subject, to, content);
+        Mail mail = new Mail(from, subject, to, content);
+        jmsSender.send(mail);
     }
 
-    void sendSupportEmail(String email, Contact contact)  {
+    void sendSupportEmail(String email, Contact contact) {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(email);
 
         String subject = "FLARN: Contact Support";
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Contact message from: ");
-        builder.append(contact.getName());
-        builder.append("\n\n");
 
-        builder.append("With Email: ");
-        builder.append(contact.getEmail());
-        builder.append("\n\n");
-
-        builder.append("Message: ");
-        builder.append(contact.getMessage());
-        builder.append("\n\n");
+        builder
+                .append("Contact message from: ")
+                .append(contact.getName())
+                .append("\n\n")
+                .append("With Email: ")
+                .append(contact.getEmail())
+                .append("\n\n")
+                .append("Message: ")
+                .append(contact.getMessage())
+                .append("\n\n");
 
         Content content = new Content("text/plain", builder.toString());
 
         Mail mail = new Mail(from, subject, to, content);
         log.info("Sending support email to " + email);
-
-        try {
-            sendEmail(mail);
-        } catch (IOException e) {
-            throw new EmailSendingException(e);
-        }
+        jmsSender.send(mail);
     }
 
-    void replySupportEmail(Contact contact)  {
+    void replySupportEmail(Contact contact) {
         Email from = new Email("flarn@example.com"); // just a fake sender email
         Email to = new Email(contact.getEmail());
 
@@ -90,11 +88,7 @@ public class EmailService {
         Mail mail = new Mail(from, subject, to, content);
         log.info("Sending support email to " + contact.getEmail());
 
-        try {
-            sendEmail(mail);
-        } catch (IOException e) {
-            throw new EmailSendingException(e);
-        }
+        jmsSender.send(mail);
     }
 
     public void sendEmail(Mail mail) throws IOException {
