@@ -1,14 +1,23 @@
 package edu.baylor.flarn.services;
 
 import com.sendgrid.helpers.mail.Mail;
-import edu.baylor.flarn.exceptions.EmailSendingException;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.jms.Sender;
-import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.Review;
+import edu.baylor.flarn.models.UserType;
+import edu.baylor.flarn.models.Session;
+import edu.baylor.flarn.models.Activity;
+import edu.baylor.flarn.models.Contact;
 import edu.baylor.flarn.repositories.ContactRepository;
 import edu.baylor.flarn.repositories.UserRepository;
-import edu.baylor.flarn.resources.*;
+import edu.baylor.flarn.resources.UserRegistration;
+import edu.baylor.flarn.resources.ConfirmUserRequest;
+import edu.baylor.flarn.resources.UpdatePasswordRequest;
+import edu.baylor.flarn.resources.UserTypeUpdateRequest;
+import edu.baylor.flarn.resources.UserRoles;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,11 @@
 package edu.baylor.flarn.services;
 
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
-import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.models.Category;
+import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.models.Question;
+import edu.baylor.flarn.models.Session;
 import edu.baylor.flarn.repositories.KnowledgeSourceRepository;
 import edu.baylor.flarn.repositories.ProblemRepository;
 import edu.baylor.flarn.repositories.QuestionRepository;

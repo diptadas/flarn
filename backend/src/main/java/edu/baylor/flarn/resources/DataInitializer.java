@@ -1,6 +1,14 @@
 package edu.baylor.flarn.resources;
 
-import edu.baylor.flarn.models.*;
+import edu.baylor.flarn.models.Difficulty;
+import edu.baylor.flarn.models.Category;
+import edu.baylor.flarn.models.Problem;
+import edu.baylor.flarn.models.User;
+import edu.baylor.flarn.models.KnowledgeSource;
+import edu.baylor.flarn.models.Question;
+import edu.baylor.flarn.models.Review;
+import edu.baylor.flarn.models.ReviewType;
+import edu.baylor.flarn.models.UserType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -34,7 +42,7 @@ public class DataInitializer implements CommandLineRunner {
      * @param entityManager   entity manager
      * @param passwordEncoder used to encode the password
      */
-    public DataInitializer(final EntityManager entityManager, final PasswordEncoder passwordEncoder) {
+    public DataInitializer(final EntityManager entityManager, final PasswordEncoder passwordEncoder){
         this.entityManager = entityManager;
         this.passwordEncoder = passwordEncoder;
     }
