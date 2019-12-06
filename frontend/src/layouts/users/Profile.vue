@@ -416,6 +416,8 @@
                     .then(res => {
                         this.user = res.data;
                         this.edit = false;
+
+                        this.$store.dispatch('getCurrentUser');
                     })
                     .finally(() => (this.loading = false));
             },

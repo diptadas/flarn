@@ -53,6 +53,7 @@ public class UserController {
         model.put("fullName", user.getFullName());
         model.put("userId", user.getId());
         model.put("avatarLink", user.getAvatarLink());
+        model.put("userType", user.getUserType());
         return ok(model);
     }
 

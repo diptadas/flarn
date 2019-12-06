@@ -12,19 +12,19 @@
         <i class="bg-warning"></i> {{ cat.problems.length }} problems
       </span>
         </td>
-        <td class="text-right">
+        <td>
             <div class="dropdown">
                 <button
                         aria-expanded="false"
                         aria-haspopup="true"
-                        class="btn btn-sm btn-icon-only text-light"
+                        class="btn btn-icon-only btn-info"
                         data-toggle="dropdown"
                         role="button"
                 >
-                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-edit"></i>
                 </button>
                 <div
-                        class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                        class="dropdown-menu dropdown-menu-right"
                         style="z-index: 2;"
                 >
                     <a @click="$emit('edit')" class="dropdown-item">Edit</a>

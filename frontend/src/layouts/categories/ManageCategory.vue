@@ -16,6 +16,13 @@
                 <div class="card shadow">
                     <div class="table-responsive min-h-full" v-if="categories.length">
                         <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Category Name</th>
+                                <th scope="col"># Problems</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
                             <tbody>
                             <category-item
                                     :cat="cat"
