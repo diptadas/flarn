@@ -1,6 +1,5 @@
 package edu.baylor.flarn.services;
 
-import edu.baylor.flarn.adapter.UserAdapter;
 import edu.baylor.flarn.exceptions.InvalidConfirmationCodeException;
 import edu.baylor.flarn.exceptions.RecordNotFoundException;
 import edu.baylor.flarn.jms.Sender;
