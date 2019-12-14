@@ -1,0 +1,40 @@
+{
+    "title": "Thanksgiving",
+    "description": "Thanksgiving around the world.",
+    "knowledgeSource": {
+        "content": "Thanksgiving Day is a national holiday celebrated on various dates in the United States, Canada, some of the Caribbean islands, and Liberia. It began as a day of giving thanks and sacrifice for the blessing of the harvest and of the preceding year. Similarly named festival holidays occur in Germany and Japan. Thanksgiving is celebrated on the second Monday of October in Canada and on the fourth Thursday of November in the United States and Brazil, and around the same part of the year in other places. Although Thanksgiving has historical roots in religious and cultural traditions, it has long been celebrated as a secular holiday as well. Source: Wikipedia."
+    },
+    "questions": [
+        {
+            "content": "In which month thanksgiving is celebrated in Canada?",
+            "options": [
+                "October",
+                "November",
+                "December"
+            ],
+            "answer": 0
+        },
+        {
+            "content": "In which month thanksgiving is celebrated in Brazil?",
+            "options": [
+                "October",
+                "November",
+                "December"
+            ],
+            "answer": 1
+        },
+        {
+            "content": "Thanksgiving initially began to give thanks for what?",
+            "options": [
+                "Blessing of the harvest",
+                "Ending of a war",
+                "Birthday of the King"
+            ],
+            "answer": 0
+        }
+    ],
+    "difficulty": "MEDIUM",
+    "category": {
+        "name": "Culture"
+    }
+}

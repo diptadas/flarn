@@ -1,0 +1,40 @@
+{
+    "title": "Durga Puja",
+    "description": "Durga Puja in Indian subcontinent.",
+    "knowledgeSource": {
+        "content": "Durga Puja, major festival of Hinduism, traditionally held for 10 days in the month of Ashvina (September–October), the seventh month of the Hindu calendar, and particularly celebrated in Bengal, Assam, and other eastern Indian states. Durga Puja celebrates the victory of the goddess Durga over the demon king Mahishasura. The celebration stars with Mahalaya (first day) and ends with Vijaya Dashami (Tenth Day of Victory). Source: Britannica."
+    },
+    "questions": [
+        {
+            "content": "What is Ashvina?",
+            "options": [
+                "Name of a goddess",
+                "Name of a king",
+                "Name of a calendar month"
+            ],
+            "answer": 2
+        },
+        {
+            "content": "Who was Mahishasura?",
+            "options": [
+                "Demon king",
+                "Goddess",
+                "Hindu priest"
+            ],
+            "answer": 0
+        },
+        {
+            "content": "What is the first day of Durga Puja?",
+            "options": [
+                "Vijaya Dashami",
+                "Mahalaya",
+                "None of this"
+            ],
+            "answer": 1
+        }
+    ],
+    "difficulty": "HARD",
+    "category": {
+        "name": "Culture"
+    }
+}

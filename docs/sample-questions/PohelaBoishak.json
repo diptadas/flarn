@@ -1,0 +1,40 @@
+{
+    "title": "Pohela Boishak",
+    "description": "Pohela Boishak - the first day of Bengali new year",
+    "knowledgeSource": {
+        "content": "Pohela Boishakh or Bengali New Year is the traditional new year day of the Bengali people. It is celebrated on 14 April as a national holiday in Bangladesh, and on 14 or, 15 April in India. In Bengali, Pohela stands for 'first' and Boishakh is first month of Bengali calendar. The festival is celebrated with processions, fairs and family time. The traditional greeting for Bengali New Year is Shubho Nabobarsho which is means Happy New Year. Mughal Emperor Akbar introduced the Bengali calendar in 1556 (Gregorian calendar) to make the collection of land tax easier."
+    },
+    "questions": [
+        {
+            "content": "What is Shubho Nabobarsho?",
+            "options": [
+                "Name of a Bengali month",
+                "A traditional greeting",
+                "Name of a Emperor"
+            ],
+            "answer": 1
+        },
+        {
+            "content": "What does Pohela mean in Bengali?",
+            "options": [
+                "Name of a Bengali month",
+                "First",
+                "A traditional greeting"
+            ],
+            "answer": 1
+        },
+        {
+            "content": "When Pohela Boishakh is celebrated in Bangladesh?",
+            "options": [
+                "14 April",
+                "15 April",
+                "Both"
+            ],
+            "answer": 0
+        }
+    ],
+    "difficulty": "MEDIUM",
+    "category": {
+        "name": "Culture"
+    }
+}
