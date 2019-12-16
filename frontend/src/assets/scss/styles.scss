@@ -34,7 +34,11 @@ table {
 }
 
 .header-back {
-  z-index: -1;
+  z-index: 0;
+}
+
+#sidenav-main, #navbar-main {
+  z-index: 100;
 }
 
 .w-100 {
