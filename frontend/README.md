@@ -1,4 +1,4 @@
-# Flarn Frontend Application
+# Flarn Frontend
 
 ## Project setup
 

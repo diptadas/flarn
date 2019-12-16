@@ -1,35 +1,31 @@
 # Flarn
 
-Flarn is a project submission as part of our course cirriculum for Software Engineering class, Baylor University.
+[![Build Status](https://travis-ci.org/diptadas/flarn-backend.svg?branch=master)](https://travis-ci.org/diptadas/flarn-backend)
 
-It was supervised by Dr. Cerny and developed by 3 people:
+Flarn is a learning  portal  for  people  of  all  ages,  with  different  academic backgrounds. This project is developed as the final project for Software Engineering course at [Baylor University](https://www.baylor.edu/).
 
-- Dipta Das
-- Clinton Yeboah
-- Frimpong Boadu.
+It was supervised by [Dr. Tomas Cerny](http://cs.baylor.edu/~cerny/) and developed by 3 graduate students:
 
-For more information about our team: [About Us Page](https://flarn.netlify.com/account/about).
+- [Dipta Das](https://github.com/diptadas)
+- [Clinton Yeboah](https://github.com/clintonyeb)
+- [Frimpong Boadu](https://github.com/frimpz)
 
-To contact us: [Contact Us Page](https://flarn.netlify.com/account/contact).
+For more information about our team check [About Us](https://flarn.netlify.com/account/about) page.
 
-[Screenshots]
+To contact us visit [Contact Us](https://flarn.netlify.com/account/contact) page.
 
 ## Project Structure
 
-The Project is made up of a Backend Application built with the Spring Boot Framework.
-To learn more about Spring Boot: [link]. `backend`
+The backend of our application is built with the [Spring Boot](https://spring.io/projects/spring-boot) framework. For more information about our backend check its [README](backend/README.md).
 
-For more information about our Backend application: check its [README.md](backend/README.md)
+The frontend is built using [VueJS](https://vuejs.org/). For more information about our frontend check its [README](frontend/README.md).
 
-The Frontend is built using VueJS. To learn more about Spring Boot: [link]. `frontend`
+Documentations and design artifacts are available in the [docs](docs) folder.
 
-For more information about our Backend application: check its [README.md](frontend/README.md)
+## Developer Guide
 
-Documentations are available in the `docs` folder.
+To build and deploy the application check our [Develop Guide](docs/developer.md).
 
-## To Build and Deploy Project, check our developer guide:
-
-[Develop Guide](docs/developer.md)
 
 ## Copyright
 
