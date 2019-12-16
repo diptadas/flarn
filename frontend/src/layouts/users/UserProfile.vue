@@ -10,41 +10,30 @@
         </div>
         <div class="container-fluid mt--7">
             <div class="row">
-                <div class="col-xl-6 mb-5 mb-xl-0 mx-auto">
+                <div class="col col-12 col-md-8 mb-5 mb-xl-0 mx-auto">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
-                            <div class="col-lg-3 order-lg-2">
+                            <div class="col-12 col-lg-3">
                                 <div class="card-profile-image">
-                                    <a href="#">
-                                        <img
+                                    <img
                                                 :src="user.dpLink"
-                                                class="rounded-circle img-fliud"
-                                                style="height: 12rem;"
+                                                class="rounded-circle img-fluid img-thumbnail w-100"
                                         />
-                                    </a>
                                 </div>
                             </div>
                         </div>
                         <div
-                                class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"
+                                class="card-header text-center border-0 pt-8 pb-0"
                         >
-                            <div class="d-flex justify-content-between">
-                                <a
+                             <a
                                         @click="followsUser ? unSubscribeToUser() : subscribeToUser()"
                                         class="btn btn-sm btn-info pointed"
                                 >{{ followsUser ? "Unsuscribe" : "Subscribe" }}</a
                                 >
-                                <a
-                                        class="btn btn-sm btn-default float-right pointed"
-                                        href="#"
-                                        v-show="followsUser"
-                                >Message</a
-                                >
-                            </div>
                         </div>
                         <div class="card-body">
-                            <div class="row mt-6">
-                                <div class="col">
+                            <div class="row">
+                                <div class="col col-12">
                                     <div class="text-center mt-md-5" v-if="userFollowsMe">
                                         <small class="font-weight-light text-muted text-monospace">
                                             This user subscribes to you
@@ -52,21 +41,21 @@
                                     </div>
 
                                     <div
-                                            class="card-profile-stats d-flex justify-content-center "
+                                            class="card-profile-stats row justify-content-center"
                                     >
-                                        <div>
+                                        <div class="col col-6 col-md-3 mr-0">
                       <span class="heading">
                         {{ user.subscriptions.length }}
                       </span>
                                             <span class="description">Subscriptions</span>
                                         </div>
-                                        <div>
+                                        <div class="col col-6 col-md-3 mr-0">
                       <span class="heading">
                         {{ user.subscribers.length }}
                       </span>
                                             <span class="description">Subscribers</span>
                                         </div>
-                                        <div>
+                                        <div class="col col-6 col-md-3 mr-0">
                       <span class="heading">
                         {{ user.points }}
                       </span>
