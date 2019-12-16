@@ -1,31 +1,14 @@
 <template>
-    <div>
-        <!-- Header -->
-        <div
-                class="header d-flex align-items-center header-back header-create rounded mt--3"
-                style="z-index: 1;"
-        >
-            <!-- Mask -->
-            <span class="mask bg-gradient-default opacity-8"></span>
-            <!-- Header container -->
-            <div class="container-fluid d-flex align-items-center">
-                <div class="row w-100">
-                    <div class="col-lg-7 col-md-10">
-                        <h1 class="display-4 text-white">Create New Problems here</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid mt--5">
+        <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-xl-8 order-xl-1">
+                <div class="col-12 col-lg-10 px-0">
                     <div class="card bg-secondary shadow">
                         <div class="card-header bg-white border-0">
                             <div class="row align-items-center">
-                                <div class="col-8">
+                                <div class="col-12 col-lg-8">
                                     <h3 class="mb-0">Problem Details</h3>
                                 </div>
-                                <div class="col-4 text-right">
+                                <div class="col-12 col-lg-4 mt-4 mt-lg-0 text-center">
                                     <a
                                             @click="importMode ? cancelUpload() : showUpload()"
                                             class="btn btn-info"
@@ -172,7 +155,7 @@
                                         <button
                                                 :disabled="loading"
                                                 @click="cancelProblem"
-                                                class="btn btn-warning"
+                                                class="btn btn-warning d-none d-lg-inline-block"
                                                 type="button"
                                         >
                       <span
@@ -187,7 +170,7 @@
                                         <button
                                                 :disabled="loading"
                                                 @click="createProblem"
-                                                class="btn btn-primary"
+                                                class="btn btn-primary text-right"
                                                 type="button"
                                         >
                       <span
@@ -206,7 +189,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>

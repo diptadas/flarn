@@ -1,6 +1,6 @@
 <template>
     <div class="row mt-4">
-        <div class="col col-md-8">
+        <div class="col-12 col-md-8">
             <div v-if="problem.id">
                 <div
                         @click="showProblem(problem.id)"
@@ -141,7 +141,6 @@
                 </div>
             </div>
         </div>
-        <div class="col col-md-4"></div>
     </div>
 </template>
 

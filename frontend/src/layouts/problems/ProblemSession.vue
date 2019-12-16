@@ -1,5 +1,5 @@
 <template>
-    <div class="col col-md-8">
+    <div class="col-12 col-md-8">
         <div>
             <p :class="[{ 'text-warning': timeSmall }]">
                 Time Remaining: {{ timeleft }}
@@ -10,7 +10,7 @@
         <div v-if="problem.id">
             <div
                     @click="showProblem(problem.id)"
-                    class="d-flex-column justify-content-start p-4"
+                    class="d-flex-column justify-content-start p-lg-4"
             >
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="text-primary">
@@ -33,13 +33,13 @@
 
             <hr class="my-2"/>
 
-            <div class="d-flex-column justify-content-start px-4 mt-2">
+            <div class="d-flex-column justify-content-start px-lg-4 mt-2">
                 <p class="text-primary font-weight-500">Reading:</p>
 
                 <p class="mt-2 pl-4">{{problem.knowledgeSource.content}}</p>
             </div>
 
-            <div class="d-flex-column justify-content-start p-4 mt-4  ">
+            <div class="d-flex-column justify-content-start p-lg-4 mt-4">
 
                 <form>
                     <h4 class="mb-4 text-primary">Questions:</h4>

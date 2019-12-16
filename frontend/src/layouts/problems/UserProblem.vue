@@ -27,7 +27,6 @@
                 @category="getProblemsForCategory"
                 @prob="showProblem"
                 @search="problems = $event"
-                v-if="problems.length"
         >
             <div class="text-right">
                 <button @click="getRandomProblem" class="btn btn-info" type="button">
@@ -36,7 +35,6 @@
             </div>
         </Problem>
 
-        <Empty mess="problems" v-else></Empty>
     </div>
 </template>
 
@@ -50,6 +48,7 @@
                 randLoading: false,
                 problems: [],
                 activeTab: 1,
+                init: false,
                 tabs: [
                     {
                         id: 1,
@@ -76,6 +75,7 @@
 
                 this.$http.get(url).then(res => {
                     this.problems = res.data;
+                    this.init = true;
                 });
             },
             getAttemptedProblems() {

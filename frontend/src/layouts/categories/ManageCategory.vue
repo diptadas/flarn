@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <div class="row col-md-8">
-            <div class="col col-12 text-right">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col col-12 col-lg-8 px-0">
+            <div class="col col-12 text-center px-0">
                 <button
                         class="btn btn-info"
                         data-target="#modal-category"
@@ -12,14 +13,14 @@
                 </button>
             </div>
 
-            <div class="col col-12 mt-4">
+            <div class="col col-12 mt-4 px-0">
                 <div class="card shadow">
                     <div class="table-responsive min-h-full" v-if="categories.length">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col">Category Name</th>
-                                <th scope="col"># Problems</th>
+                                <!-- <th scope="col"># Problems</th> -->
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -38,6 +39,7 @@
                     <Empty mess="categories" v-else/>
                 </div>
             </div>
+        </div>
         </div>
 
         <div class="col-md-4">

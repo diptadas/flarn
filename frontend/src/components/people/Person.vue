@@ -10,17 +10,17 @@
                 </div>
             </div>
         </th>
-        <td @click="goToProfile">
+        <td @click="goToProfile" class="d-none d-lg-table-cell">
       <span class="badge badge-dot d-inline-block pt-3">
         <i :class="userTypeColor"></i> {{ user.userType }}
       </span>
         </td>
-        <td @click="goToProfile">
+        <td @click="goToProfile"  class="d-none d-lg-table-cell">
             <div class="d-flex align-items-center">
                 <span class="">{{user.points}} points</span>
             </div>
         </td>
-        <td>
+        <td  class="d-none d-lg-table-cell">
             <small class="font-weight-500 text-info">{{followers.length}} followers</small>
             <div class="avatar-group">
                 <router-link :data-original-title="user.fullName" :key="user.id"
@@ -31,7 +31,7 @@
                 </router-link>
             </div>
         </td>
-        <td>
+        <td  class="d-none d-lg-table-cell">
             <small class="font-weight-500 text-info">{{following.length}} followers</small>
             <div class="avatar-group">
                 <router-link :data-original-title="user.fullName" :key="user.id"

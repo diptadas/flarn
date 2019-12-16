@@ -10,54 +10,58 @@
             <div class="container-fluid d-flex align-items-center">
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
-                        <h1 class="display-2 text-white">Hello {{ user.fullName }}</h1>
-                        <p class="text-white mt-0 mb-5">
+                        <h1 class="display-2 text-white  d-none d-lg-block">Hello {{ user.fullName }}</h1>
+                        <p class="text-white mt-0 mb-5 d-none d-lg-block">
                             This is your profile page. You can edit your account here
                         </p>
+                        <p class="text-white d-lg-none font-weight-bolder mt-6">Hello {{ user.fullName }}</p>
+                         <button @click="edit = true" class="btn btn-sm btn-info" v-if="!edit">
+          <span class="btn-inner--icon mr-1">
+            <i class="fas fa-edit" style="top: 0;"></i>
+          </span>
+                    Edit profile
+                </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid mt--7">
-            <div class="row d-flex align-items-start">
+        <div class="container-fluid mt--5">
+            <div class="row d-flex align-items-center">
                 <div
-                        :class="edit ? 'col-xl-4' : 'col-xl-6'"
-                        class="order-2 mb-5 mb-xl-0 mx-auto"
+                        class="order-2 mb-5 mb-xl-0 mx-auto col col-12 col-md-8"
+                        v-if="!edit"
                 >
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
-                            <div class="col-lg-3 order-lg-2">
+                            <div class="col-lg-3 order-lg-2 col-12">
                                 <div class="card-profile-image">
-                                    <a href="#">
                                         <img
                                                 :src="user.dpLink"
-                                                alt="Profile Picture"
-                                                class="rounded-circle"
-                                                style="height: 12rem;"
+                                                class="rounded-circle img-fluid img-thumbnail w-100"
                                         />
-                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body mt-6">
-                            <div class="row mt-6">
+                 
+                        <div class="card-body pt-7">
+                            <div class="row">
                                 <div class="col">
                                     <div
-                                            class="card-profile-stats d-flex justify-content-center "
+                                            class="card-profile-stats row justify-content-center"
                                     >
-                                        <div>
+                                        <div class="col col-6 col-md-3 mr-0">
                       <span class="heading">
                         {{ user.subscriptions.length }}
                       </span>
                                             <span class="description">Subscriptions</span>
                                         </div>
-                                        <div>
+                                        <div class="col col-6 col-md-3 mr-0">
                       <span class="heading">
                         {{ user.subscribers.length }}
                       </span>
                                             <span class="description">Subscribers</span>
                                         </div>
-                                        <div>
+                                        <div class="col col-6 col-md-3 mr-0">
                       <span class="heading">
                         {{ user.points }}
                       </span>
@@ -87,14 +91,7 @@
                     </div>
                 </div>
 
-                <button @click="edit = true" class="btn btn-info" v-if="!edit">
-          <span class="btn-inner--icon mr-1">
-            <i class="fas fa-edit" style="top: 0;"></i>
-          </span>
-                    Edit profile
-                </button>
-
-                <div class="col-xl-8 order-xl-1" v-if="edit">
+                <div class="col-12 order-xl-1" v-if="edit">
                     <div class="card bg-secondary shadow">
                         <div class="card-header bg-white border-0">
                             <div class="row align-items-center">
@@ -136,20 +133,6 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label class="form-control-label" for="input-email"
-                                                >Email address</label
-                                                >
-                                                <input
-                                                        class="form-control form-control-alternative"
-                                                        id="input-email"
-                                                        placeholder="jesse@example.com"
-                                                        type="email"
-                                                        v-model="user.username"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
                                                 <label class="form-control-label" for="input-username"
                                                 >Phone Number</label
                                                 >
@@ -162,8 +145,7 @@
                                                 />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
+
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="input-first-name"
@@ -180,7 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="my-4"/>
+
                                 <!-- Address -->
                                 <h6 class="heading-small text-muted mb-4">
                                     Contact information
@@ -247,7 +229,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="my-4"/>
+
                                 <!-- Description -->
                                 <h6 class="heading-small text-muted mb-4">About me</h6>
                                 <div class="pl-lg-4">
@@ -267,7 +249,7 @@
                                         <button
                                                 :disabled="delLoading"
                                                 @click="deleteAccount"
-                                                class="btn btn-danger"
+                                                class="btn btn-danger d-none"
                                                 type="button"
                                         >
                       <span

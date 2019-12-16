@@ -1,20 +1,52 @@
 <template>
-    <div class="row mt-4">
-        <div class="col col-md-8">
-            <prob
+    <div class="row mt-lg-4">
+        <div class="col-12 d-lg-none">
+            <p class="mt-4 m-md-0"> 
+                <slot>Button</slot>
+            </p>
+
+            <div class="form-group mt-4 ">
+                <div class="input-group input-group-alternative mb-4">
+                    <input
+                            @keyup.enter="searchProblem"
+                            class="form-control"
+                            placeholder="Search for Problem"
+                            type="text"
+                            v-model="title"
+                    />
+                    <div class="input-group-append">
+            <span class="input-group-text"
+            ><i class="ni ni-zoom-split-in"></i
+            ></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-8" >
+            <div v-if="problems.length">
+                <prob
                     :key="prob.id"
                     :p="prob"
                     @cat="$emit('category', $event)"
                     @prob="$emit('prob', $event)"
                     v-for="prob in problems"
+
             />
+            </div>
+            <div v-else>
+                <Empty mess="problems"></Empty>
+            </div>
         </div>
-        <div class="col col-md-4">
-            <slot>Button</slot>
+     
+        <div class="col col-md-4 d-none d-lg-block">
+            <p class="mt-4 m-md-0"> 
+                <slot>Button</slot>
+            </p>
 
             <hr/>
 
-            <div class="form-group mt-4">
+            <div class="form-group mt-4 ">
                 <div class="input-group input-group-alternative mb-4">
                     <input
                             @keyup.enter="searchProblem"
@@ -103,6 +135,7 @@
 
 <script>
     import Prob from "@/components/problem/ProblemItem.vue";
+    
 
     const defaultCategory = {
         id: 0,

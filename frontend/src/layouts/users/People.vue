@@ -29,7 +29,7 @@
                     <input
                             @keyup.enter="searchUser"
                             class="form-control"
-                            placeholder="Search for User"
+                            placeholder="Search for Users"
                             type="text"
                             v-model="name"
                     />
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 d-none d-lg-block">
                 <button
                         :disabled="searchLoading"
                         @click="searchUser"
@@ -60,17 +60,17 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col">
+            <div class="col px-0">
                 <div class="card shadow">
                     <div class="table-responsive min-h-full" v-if="users.length">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col">FullName</th>
-                                <th scope="col">ROLE</th>
-                                <th scope="col">POINTS</th>
-                                <th scope="col">FOLLOWERS</th>
-                                <th scope="col">FOLLOWING</th>
+                                <th scope="col" class="d-none d-lg-table-cell">ROLE</th>
+                                <th scope="col" class="d-none d-lg-table-cell">POINTS</th>
+                                <th scope="col" class="d-none d-lg-table-cell">FOLLOWERS</th>
+                                <th scope="col" class="d-none d-lg-table-cell">FOLLOWING</th>
                             </tr>
                             </thead>
                             <tbody>

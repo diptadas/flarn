@@ -1,13 +1,13 @@
 <template>
-    <div class="col col-md-8">
+    <div class="col-12 col-md-8">
         <div v-if="problem.id">
             <div
                     @click="showProblem(problem.id)"
-                    class="d-flex-column justify-content-start p-4"
+                    class="d-flex-column justify-content-start p-lg-4"
             >
 
                 <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                    <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
+                    <span class="alert-inner--icon d-none d-lg-inline-block"><i class="ni ni-like-2"></i></span>
                     <span class="alert-inner--text" v-if="session.pointsGained > 0"><strong>Congratulations</strong> You have gained {{session.pointsGained}} points!</span>
                     <span class="alert-inner--text" v-else> No points were gained for this session.</span>
                 </div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="d-flex-column justify-content-start px-4">
+            <div class="d-flex-column justify-content-start px-lg-4">
                 <div>
                     <h4 class="mb-4">Questions:</h4>
 

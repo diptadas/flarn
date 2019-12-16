@@ -47,7 +47,7 @@
 
             <div class="ml-4 text-right">
                 <small style="color: #4385b1;">{{
-                    attempted === true ? "Attempted" : "Non Attempted"
+                    attempted === true ? "Review" : "Attempt"
                     }}</small>
             </div>
         </div>

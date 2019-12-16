@@ -7,7 +7,7 @@
                 </div>
             </div>
         </th>
-        <td @click="goToProblems">
+        <td @click="goToProblems"  class="d-none d-lg-table-cell">
       <span class="badge badge-dot d-inline-block pt-3">
         <i class="bg-warning"></i> {{ cat.problems.length }} problems
       </span>
