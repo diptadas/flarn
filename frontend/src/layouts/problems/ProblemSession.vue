@@ -172,6 +172,7 @@ export default {
 
       if (this.socket.OPEN) {
         this.socket.send(JSON.stringify(this.session));
+        this.updating = false;
         cb(true);
       } else {
         this.updating = false;
