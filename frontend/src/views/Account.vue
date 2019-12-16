@@ -6,7 +6,7 @@
                     id="navbar-main"
             >
                 <div class="container">
-                    <router-link :to="{ name: 'home' }" class="navbar-brand mr-lg-5">
+                    <router-link :to="{ name: 'home' }" class="navbar-brand mr-lg-8 d-none d-lg-block">
                         <img
                                 alt="brand"
                                 src="../assets/img/brand/whiteFlarn.svg"
@@ -24,6 +24,14 @@
                     >
                         <span class="navbar-toggler-icon"></span>
                     </button>
+                
+                    <ul class="navbar-nav align-items-lg-center ml-lg-auto d-lg-none">
+                            <li class="nav-item ml-lg-4">
+                                <button class="btn btn-secondary" type="button" @click="$router.push({name: button.value})">
+                                    {{button.text}}
+                                </button>
+                            </li>
+                        </ul>
                     <div class="navbar-collapse collapse" id="navbar_global">
                         <div class="navbar-collapse-header">
                             <div class="row">
@@ -85,13 +93,9 @@
                                 </a>
                             </li>
                             <li class="nav-item d-none d-lg-block ml-lg-4">
-                                <router-link
-                                        :to="{ name: button.value }"
-                                        class="nav-link nav-link-icon"
-                                >
-                                    <i class="fab fa-cloud-download mr-2"></i>
-                                    <span class="nav-link-inner--text">{{ button.text }}</span>
-                                </router-link>
+                                <button class="btn btn-secondary" type="button" @click="$router.push({name: button.value})">
+                                    {{button.text}}
+                                </button>
                             </li>
                         </ul>
                     </div>
