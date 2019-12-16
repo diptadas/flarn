@@ -85,11 +85,6 @@ const routes = [
                 component: () => import("../layouts/users/UserProfile.vue")
             },
             {
-                path: "contact",
-                name: "contact",
-                component: () => import("../layouts/utils/Contact.vue")
-            },
-            {
                 path: "manage/problems",
                 name: "manage-problems",
                 component: () => import("../layouts/problems/ManageProblem.vue")
@@ -122,11 +117,6 @@ const routes = [
                 component: () => import("../layouts/categories/ManageCategory.vue")
             },
             {
-                path: "/about",
-                name: "about",
-                component: () => import("../layouts/utils/About.vue")
-            },
-            {
                 path: "/",
                 name: "home",
                 redirect: {name: "stories"}
@@ -136,6 +126,12 @@ const routes = [
     {
         path: "/account",
         name: "account",
+        beforeEnter: (_to, _from, next) => {
+            if (authenticated()) {
+                return next({name: "home"});
+            }
+            next();
+        },
         component: () => import("../views/Account.vue"),
         children: [
             {
@@ -143,6 +139,28 @@ const routes = [
                 name: "login",
                 component: () => import("../layouts/account/Login.vue"),
                 props: true
+            }
+        ]
+    },
+    {
+        path: "/pages",
+        name: "pages",
+        component: () => import("../views/Account.vue"),
+        children: [
+            {
+                path: "/404",
+                name: "404",
+                component: () => import("../layouts/utils/404.vue")
+            },
+            {
+                path: "/contact",
+                name: "contact",
+                component: () => import("../layouts/utils/Contact.vue")
+            },
+            {
+                path: "/about",
+                name: "about",
+                component: () => import("../layouts/utils/About.vue")
             },
             {
                 path: "/register",
@@ -163,21 +181,6 @@ const routes = [
                 path: "/recover",
                 name: "recover",
                 component: () => import("../layouts/account/Recover.vue")
-            },
-            {
-                path: "/404",
-                name: "404",
-                component: () => import("../layouts/utils/404.vue")
-            },
-            {
-                path: "contact",
-                name: "acc-contact",
-                component: () => import("../layouts/utils/Contact.vue")
-            },
-            {
-                path: "about",
-                name: "acc-about",
-                component: () => import("../layouts/utils/About.vue")
             }
         ]
     },
@@ -192,7 +195,7 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes,
     linkActiveClass: "active",
-    linkExactActiveClass: "exact-active"
+    linkExactActiveClass: "active"
 });
 
 export default router;
