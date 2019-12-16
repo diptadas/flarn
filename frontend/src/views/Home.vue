@@ -18,7 +18,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Brand -->
-                <router-link :to="{ name: 'home' }" class="navbar-brand">
+                <router-link :to="{ name: 'home' }" class="navbar-brand d-none d-md-block">
                     <img
                             alt="brand"
                             class="navbar-brand-img"
@@ -26,29 +26,12 @@
                             style="transform: scale(4, 4);"
                     />
                 </router-link>
+                <router-link
+                            class="h4 mb-0 text-uppercase d-md-none"
+                            :to="{name: 'home'}"
+                    >{{ activeHomePage }}</router-link>
                 <!-- User -->
                 <ul class="nav align-items-center d-md-none">
-                    <li class="nav-item dropdown">
-                        <a
-                                aria-expanded="false"
-                                aria-haspopup="true"
-                                class="nav-link nav-link-icon"
-                                data-toggle="dropdown"
-                                href="#"
-                                role="button"
-                        >
-                            <i class="ni ni-bell-55"></i>
-                        </a>
-                        <div
-                                aria-labelledby="navbar-default_dropdown_1"
-                                class="dropdown-menu dropdown-menu-arrow dropdown-menu-right"
-                        >
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
                     <li class="nav-item dropdown">
                         <a
                                 aria-expanded="false"
@@ -61,9 +44,9 @@
                             <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
                   <img
-                          alt="Image placeholder"
-                          src="../assets/img/theme/team-1-800x800.jpg"
-                  />
+                            :src="user.avatarLink"
+                            alt="User Avatar"
+                    />
                 </span>
                             </div>
                         </a>
@@ -71,39 +54,29 @@
                             <div class=" dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">Welcome!</h6>
                             </div>
-                            <a class="dropdown-item" href="./examples/profile.html">
-                                <i class="ni ni-single-02"></i>
-                                <span>My profile</span>
-                            </a>
-                            <a class="dropdown-item" href="./examples/profile.html">
-                                <i class="ni ni-settings-gear-65"></i>
-                                <span>Settings</span>
-                            </a>
-                            <a class="dropdown-item" href="./examples/profile.html">
-                                <i class="ni ni-calendar-grid-58"></i>
-                                <span>Activity</span>
-                            </a>
-                            <a class="dropdown-item" href="./examples/profile.html">
-                                <i class="ni ni-support-16"></i>
-                                <span>Contact</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#!">
-                                <i class="ni ni-user-run"></i>
-                                <span>Logout</span>
-                            </a>
+                           <router-link
+                                        :key="nav.id"
+                                        :to="{ name: nav.value }"
+                                        class="dropdown-item"
+                                        v-for="nav in profileNavs"
+                                >
+                                    <i :class="`fas fa-${nav.icon}`"></i>
+                                    <span>{{ nav.text }}</span>
+                                </router-link>
                         </div>
                     </li>
                 </ul>
                 <!-- Collapse -->
-                <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                <div class="collapse navbar-collapse" id="sidenav-collapse-main"
+                data-toggle="collapse" data-target="#sidenav-collapse-main">
                     <!-- Collapse header -->
                     <div class="navbar-collapse-header d-md-none">
                         <div class="row">
                             <div class="col-6 collapse-brand">
-                                <a href="./index.html">
+                                <router-link :to="{name: 'home'}"
+                                >
                                     <img src="../assets/img/brand/Flarn.svg"/>
-                                </a>
+                                </router-link>
                             </div>
                             <div class="col-6 collapse-close">
                                 <button
@@ -114,6 +87,7 @@
                                         data-target="#sidenav-collapse-main"
                                         data-toggle="collapse"
                                         type="button"
+                                        ref="navToggle"
                                 >
                                     <span></span>
                                     <span></span>
@@ -121,26 +95,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Form -->
-                    <!-- <form class="mt-4 mb-3 d-md-none">
-                      <div class="input-group input-group-rounded input-group-merge">
-                        <input
-                          type="search"
-                          class="form-control form-control-rounded form-control-prepended"
-                          placeholder="Search"
-                          aria-label="Search"
-                        />
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <span class="fa fa-search"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </form> -->
                     <!-- Navigation -->
                     <ul class="navbar-nav mt--4">
-                        <li :key="nav.id" class="nav-item" v-for="nav in navs">
-                            <router-link :to="{ name: nav.value }" class=" nav-link">
+                        <li :key="nav.id" class="nav-item" v-for="nav in navs" 
+                        >
+                            <router-link :to="{ name: nav.value }" class="nav-link" >
                                 <i :class="`fas fa-${nav.icon} text-primary`"></i>
                                 {{ nav.text }}
                             </router-link>
@@ -187,26 +146,10 @@
             >
                 <div class="container-fluid">
                     <!-- Brand -->
-                    <a
+                    <router-link
                             class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-                            href="./index.html"
-                    >{{ activeHomePage }}</a
-                    >
-                    <!-- Form -->
-                    <!-- <form
-                      class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto"
-                    >
-                      <div class="form-group mb-0">
-                        <div class="input-group input-group-alternative">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"
-                              ><i class="fas fa-search"></i
-                            ></span>
-                          </div>
-                          <input class="form-control" placeholder="Search" type="text" />
-                        </div>
-                      </div>
-                    </form> -->
+                            :to="{name: 'home'}"
+                    >{{ activeHomePage }}</router-link>
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
                         <li class="nav-item dropdown">
@@ -253,8 +196,8 @@
             <!-- End Navbar -->
             <!-- Header -->
             <div
-                    class="header bg-gradient-primary d-block"
-                    style="height: 4.5rem;"
+                    class="header bg-gradient-primary d-none d-md-block"
+                    style="height: 4.5rem; z-index: 10;"
             ></div>
 
             <div class="container-fluid mt-2">
