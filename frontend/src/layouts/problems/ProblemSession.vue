@@ -145,7 +145,8 @@ export default {
       socket: null,
       submitting: false,
       submitted: false,
-      sessionId: ""
+      sessionId: "",
+      closing: false
     };
   },
   methods: {
@@ -239,15 +240,18 @@ export default {
       });
     },
     connectionClosed($event) {
+      if (this.closing) return;
       this.$router.push({
         name: "problem-detail",
         params: { id: this.$hash.encode(this.problem.id) }
       });
     },
     connectionMessage($event) {
+      if (this.closing) return;
       this.sessionId = $event.data;
     },
     connectionError($event) {
+      if (this.closing) return;
       this.$router.push({
         name: "problem-detail",
         params: { id: this.$hash.encode(this.problem.id) }
@@ -295,7 +299,7 @@ export default {
     }
   },
   beforeDestroy() {
-    console.log("before destroy");
+    this.closing = true;
     this.socket.close();
     clearTimeout(this.timer);
     this.timer = null;
