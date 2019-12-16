@@ -64,6 +64,10 @@
                 <i :class="`fas fa-${nav.icon}`"></i>
                 <span>{{ nav.text }}</span>
               </router-link>
+              <a @click="logout" class="dropdown-item pointed">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>Logout</span>
+                </a>
             </div>
           </li>
         </ul>
