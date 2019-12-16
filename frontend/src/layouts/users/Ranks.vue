@@ -32,7 +32,7 @@
                             <tr>
                                 <th scope="col">FullName</th>
                                 <th scope="col" class="d-none d-lg-table-cell">ROLE</th>
-                                <th scope="col" class="d-none d-lg-table-cell">POINTS</th>
+                                <th scope="col">POINTS</th>
                                 <th scope="col" class="d-none d-lg-table-cell">FOLLOWERS</th>
                                 <th scope="col" class="d-none d-lg-table-cell">FOLLOWING</th>
                             </tr>

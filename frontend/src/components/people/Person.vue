@@ -15,7 +15,7 @@
         <i :class="userTypeColor"></i> {{ user.userType }}
       </span>
         </td>
-        <td @click="goToProfile"  class="d-none d-lg-table-cell">
+        <td @click="goToProfile">
             <div class="d-flex align-items-center">
                 <span class="">{{user.points}} points</span>
             </div>
