@@ -210,8 +210,6 @@ export default {
           this.timeSmall = true;
         }
       }, 1000);
-
-      this.session.dateStarted = new Date().toISOString();
     },
     preventNav(event) {
       if (this.editing) {
@@ -233,6 +231,7 @@ export default {
     },
     connectionOpened($event) {
       this.authenticate(() => {
+        this.session.dateStarted = new Date().toISOString();
         this.update(res => {
           this.$nextTick().then(res => this.startTimer(fiveMinutes));
         });
