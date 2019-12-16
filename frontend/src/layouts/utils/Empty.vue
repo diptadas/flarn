@@ -1,6 +1,6 @@
 <template>
     <div
-            class="d-flex-col justify-content-center align-items-center mt-8"
+            class="d-flex-col justify-content-center align-items-center mt-4 mt-lg-8"
     >
             <p class="text-muted font-italic text-center">
                 No {{ mess }} yet, your {{ mess }} will appear here...
