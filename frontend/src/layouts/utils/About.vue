@@ -22,7 +22,6 @@
                         <p class="lead text-muted mt-4">
                             Supervised by:
                         <p class="display-4 text-white">Dr. Tomas Cerny</p>
-                        </p>
                     </div>
                 </div>
                 <div class="row">
