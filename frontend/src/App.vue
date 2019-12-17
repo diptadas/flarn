@@ -13,7 +13,6 @@
 <style lang="scss">
     @import "./assets/vendor/nucleo/css/nucleo.css";
     @import "./assets/scss/argon";
-    @import "./assets/scss/styles";
     @import "./assets/scss/fontawesome/fontawesome";
     @import "./assets/scss/fontawesome/solid";
     @import "./assets/scss/fontawesome/brands";
@@ -23,4 +22,7 @@
     /* Filepond */
     @import "~filepond/dist/filepond.min.css";
     @import "~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
+    // Custom styles
+    @import "./assets/scss/styles";
 </style>
