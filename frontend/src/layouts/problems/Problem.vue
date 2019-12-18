@@ -1,11 +1,11 @@
 <template>
     <div class="row mt-lg-4">
         <div class="col-12 d-lg-none">
-            <p class="mt-4 m-md-0"> 
+            <p class="mt-lg-4 m-md-0"> 
                 <slot>Button</slot>
             </p>
 
-            <div class="form-group mt-4 ">
+            <div class="form-group mt-lg-4 ">
                 <div class="input-group input-group-alternative mb-4">
                     <input
                             @keyup.enter="searchProblem"
@@ -40,13 +40,13 @@
         </div>
      
         <div class="col col-md-4 d-none d-lg-block">
-            <p class="mt-4 m-md-0"> 
+            <p class="mt-lg-4 m-md-0"> 
                 <slot>Button</slot>
             </p>
 
             <hr/>
 
-            <div class="form-group mt-4 ">
+            <div class="form-group mt-lg-4 ">
                 <div class="input-group input-group-alternative mb-4">
                     <input
                             @keyup.enter="searchProblem"
@@ -65,7 +65,7 @@
 
             <small class="text-muted">Select Category:</small>
 
-            <div class="mt-4">
+            <div class="mt-lg-4">
                 <div
                         :key="cat.id"
                         class="custom-control custom-radio mb-3"

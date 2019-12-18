@@ -2,7 +2,7 @@
     <div>
         <div class="mt-2">
             <ul
-                    class="nav nav-pills nav-fill flex-column flex-sm-row"
+                    class="nav nav-pills nav-fill"
                     id="tabs-text"
                     role="tablist"
             >

@@ -2,7 +2,7 @@
     <div class="column">
         <div class="mt-2">
             <ul
-                    class="nav nav-pills nav-fill flex-column flex-sm-row"
+                    class="nav nav-pills nav-fill"
                     id="tabs-text"
                     role="tablist"
             >
@@ -12,7 +12,7 @@
                             @click="changeTabView(tab.id)"
                             aria-controls="tabs-text-1"
                             aria-selected="true"
-                            class="nav-link mb-sm-3 mb-md-0"
+                            class="col-12 nav-link mb-sm-3 mb-md-0"
                             data-toggle="tab"
                             href="#tabs-text-1"
                             id="tabs-text-1-tab"
@@ -23,16 +23,17 @@
             </ul>
         </div>
 
-        <div class="row mt-4">
+        <div class="row mt-lg-4">
             <div class="col px-0">
                 <div class="card shadow">
                     <div class="table-responsive min-h-full" v-if="users.length">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col">FullName</th>
+                                <th scope="col" class="d-none d-lg-table-cell">FullName</th>
+                                <th scope="col" class="d-lg-none">Users</th>
                                 <th scope="col" class="d-none d-lg-table-cell">ROLE</th>
-                                <th scope="col">POINTS</th>
+                                <th scope="col" class="d-none d-lg-table-cell">POINTS</th>
                                 <th scope="col" class="d-none d-lg-table-cell">FOLLOWERS</th>
                                 <th scope="col" class="d-none d-lg-table-cell">FOLLOWING</th>
                             </tr>

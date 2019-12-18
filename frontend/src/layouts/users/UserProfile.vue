@@ -13,17 +13,18 @@
                 <div class="col col-12 col-md-8 mb-5 mb-xl-0 mx-auto">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
-                            <div class="col-12 col-lg-3">
-                                <div class="card-profile-image">
-                                    <img
+                            <div class="col-12 col-lg-3  d-flex justify-content-center">
+                                <div class="card-profile-image" style="width: 10rem; height: 10rem;">
+                                        <img
                                                 :src="user.dpLink"
-                                                class="rounded-circle img-fluid img-thumbnail w-100"
+                                                class="rounded-circle img-fluid img-thumbnail h-100"
+                                                style="height: 100%;"
                                         />
                                 </div>
                             </div>
                         </div>
                         <div
-                                class="card-header text-center border-0 pt-8 pb-0"
+                                class="card-header text-center border-0  mt--5 pb-0"
                         >
                              <a
                                         @click="followsUser ? unSubscribeToUser() : subscribeToUser()"
@@ -31,7 +32,7 @@
                                 >{{ followsUser ? "Unsuscribe" : "Subscribe" }}</a
                                 >
                         </div>
-                        <div class="card-body">
+                        <div class="card-body mt--2">
                             <div class="row">
                                 <div class="col col-12">
                                     <div class="text-center mt-md-5" v-if="userFollowsMe">

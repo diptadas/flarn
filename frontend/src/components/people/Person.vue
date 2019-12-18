@@ -6,7 +6,8 @@
                     <img :src="user.avatarLink" alt="Image placeholder"/>
                 </a>
                 <div class="media-body">
-                    <span class="mb-0 text-sm">{{ user.fullName }}</span>
+                    <span class="mb-0 text-sm">{{ user.fullName }}</span> <br>
+                    <small class="d-lg-none">{{user.points}} points</small>
                 </div>
             </div>
         </th>
@@ -15,7 +16,7 @@
         <i :class="userTypeColor"></i> {{ user.userType }}
       </span>
         </td>
-        <td @click="goToProfile">
+        <td @click="goToProfile" class="d-none d-lg-table-cell"> 
             <div class="d-flex align-items-center">
                 <span class="">{{user.points}} points</span>
             </div>

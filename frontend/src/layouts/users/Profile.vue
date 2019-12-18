@@ -33,17 +33,18 @@
                 >
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
-                            <div class="col-lg-3 order-lg-2 col-12">
-                                <div class="card-profile-image">
+                            <div class="col-lg-3 order-lg-2 col-12 d-flex justify-content-center">
+                                <div class="card-profile-image" style="width: 10rem; height: 10rem;">
                                         <img
                                                 :src="user.dpLink"
-                                                class="rounded-circle img-fluid img-thumbnail w-100"
+                                                class="rounded-circle img-fluid img-thumbnail h-100"
+                                                style="height: 100%;"
                                         />
                                 </div>
                             </div>
                         </div>
                  
-                        <div class="card-body pt-7">
+                        <div class="card-body mt--6">
                             <div class="row">
                                 <div class="col">
                                     <div

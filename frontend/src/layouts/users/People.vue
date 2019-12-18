@@ -2,7 +2,7 @@
     <div class="column">
         <div class="mt-2">
             <ul
-                    class="nav nav-pills nav-fill flex-column flex-sm-row"
+                    class="nav nav-pills nav-fill"
                     id="tabs-text"
                     role="tablist"
             >
@@ -23,7 +23,7 @@
             </ul>
         </div>
 
-        <div class="row d-flex align-items-start justify-content-center  mt-4">
+        <div class="row d-flex align-items-start justify-content-center mt-lg-4">
             <div class="form-group col-md-6 mb-0">
                 <div class="input-group input-group-alternative mb-4">
                     <input
@@ -59,16 +59,17 @@
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div class="row mt-lg-4">
             <div class="col px-0">
                 <div class="card shadow">
                     <div class="table-responsive min-h-full" v-if="users.length">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col">FullName</th>
+                                <th scope="col" class="d-none d-lg-table-cell">FullName</th>
+                                <th scope="col" class="d-lg-none">Users</th>
                                 <th scope="col" class="d-none d-lg-table-cell">ROLE</th>
-                                <th scope="col">POINTS</th>
+                                <th scope="col" class="d-none d-lg-table-cell">POINTS</th>
                                 <th scope="col" class="d-none d-lg-table-cell">FOLLOWERS</th>
                                 <th scope="col" class="d-none d-lg-table-cell">FOLLOWING</th>
                             </tr>
